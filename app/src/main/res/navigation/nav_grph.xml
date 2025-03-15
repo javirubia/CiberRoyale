@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_grph"
+    app:startDestination="@id/inicioFragment">
+
+    <fragment
+        android:id="@+id/inicioFragment"
+        android:name="com.ldm.ciberroyale.InicioFragment"
+        android:label="fragment_inicio"
+        tools:layout="@layout/fragment_inicio" >
+        <action
+            android:id="@+id/action_inicioFragment_to_bienvenidaFragment"
+            app:destination="@id/bienvenidaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bienvenidaFragment"
+        android:name="com.ldm.ciberroyale.BienvenidaFragment"
+        android:label="fragment_bienvenida"
+        tools:layout="@layout/fragment_bienvenida" >
+        <action
+            android:id="@+id/action_bienvenidaFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.ldm.ciberroyale.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_menuFragment_to_juegoFragment"
+            app:destination="@id/juegoFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_temarioFragment"
+            app:destination="@id/temarioFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_logrosFragment"
+            app:destination="@id/logrosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/juegoFragment"
+        android:name="com.ldm.ciberroyale.JuegoFragment"
+        android:label="fragment_juego"
+        tools:layout="@layout/fragment_juego" >
+        <action
+            android:id="@+id/action_juegoFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/temarioFragment"
+        android:name="com.ldm.ciberroyale.TemarioFragment"
+        android:label="fragment_temario"
+        tools:layout="@layout/fragment_temario" >
+        <action
+            android:id="@+id/action_temarioFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/logrosFragment"
+        android:name="com.ldm.ciberroyale.LogrosFragment"
+        android:label="fragment_logros"
+        tools:layout="@layout/fragment_logros" >
+        <action
+            android:id="@+id/action_logrosFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+</navigation>
