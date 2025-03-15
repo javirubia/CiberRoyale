@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuFragment">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="@drawable/background_menu">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <!-- Botón Jugar -->
 
-</FrameLayout>
+    <!-- Botón Temario -->
+
+    <Button
+        android:id="@+id/btnJugar"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/btn_rounded_black"
+        android:text="JUGAR"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnTemario"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:text="TEMARIO"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_rounded_black"
+        android:layout_marginBottom="60dp"/>
+
+    <!-- Botón Logros -->
+    <Button
+        android:id="@+id/btnLogros"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:text="LOGROS"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_rounded_black"
+        android:layout_marginBottom="60dp"/>
+
+</LinearLayout>

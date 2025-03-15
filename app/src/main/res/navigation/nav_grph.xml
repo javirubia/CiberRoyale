@@ -55,6 +55,18 @@
         <action
             android:id="@+id/action_temarioFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_temarioFragment_to_temaContraFragment"
+            app:destination="@id/temaContraFragment" />
+        <action
+            android:id="@+id/action_temarioFragment_to_temaPhishingFragment"
+            app:destination="@id/temaPhishingFragment" />
+        <action
+            android:id="@+id/action_temarioFragment_to_temaRRSSFragment"
+            app:destination="@id/temaRRSSFragment" />
+        <action
+            android:id="@+id/action_temarioFragment_to_temaSeguridadmovFragment"
+            app:destination="@id/temaSeguridadmovFragment" />
     </fragment>
     <fragment
         android:id="@+id/logrosFragment"
@@ -64,5 +76,41 @@
         <action
             android:id="@+id/action_logrosFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/temaContraFragment"
+        android:name="com.ldm.ciberroyale.TemaContraFragment"
+        android:label="fragment_tema_contra"
+        tools:layout="@layout/fragment_tema_contra" >
+        <action
+            android:id="@+id/action_temaContraFragment_to_temarioFragment"
+            app:destination="@id/temarioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/temaPhishingFragment"
+        android:name="com.ldm.ciberroyale.TemaPhishingFragment"
+        android:label="fragment_tema_phishing"
+        tools:layout="@layout/fragment_tema_phishing" >
+        <action
+            android:id="@+id/action_temaPhishingFragment_to_temarioFragment"
+            app:destination="@id/temarioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/temaRRSSFragment"
+        android:name="com.ldm.ciberroyale.TemaRRSSFragment"
+        android:label="fragment_tema_r_r_s_s"
+        tools:layout="@layout/fragment_tema_r_r_s_s" >
+        <action
+            android:id="@+id/action_temaRRSSFragment_to_temarioFragment"
+            app:destination="@id/temarioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/temaSeguridadmovFragment"
+        android:name="com.ldm.ciberroyale.TemaSeguridadmovFragment"
+        android:label="fragment_tema_seguridadmov"
+        tools:layout="@layout/fragment_tema_seguridadmov" >
+        <action
+            android:id="@+id/action_temaSeguridadmovFragment_to_temarioFragment"
+            app:destination="@id/temarioFragment" />
     </fragment>
 </navigation>
