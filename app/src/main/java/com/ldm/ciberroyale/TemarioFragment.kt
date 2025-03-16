@@ -24,6 +24,10 @@ class TemarioFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnBack.setOnClickListener {
+            findNavController().navigate(R.id.action_temarioFragment_to_menuFragment)
+        }
+
         binding.opcionContrasenas.setOnClickListener {
             findNavController().navigate(R.id.action_temarioFragment_to_temaContraFragment)
         }

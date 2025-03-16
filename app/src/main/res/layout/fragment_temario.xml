@@ -1,136 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/white"
     android:padding="16dp">
 
+    <!-- Barra superior con la flecha y el título -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp">
 
-        <!-- Título -->
+        <!-- Botón de regreso al menú -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Volver al menú"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/return_icon"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <!-- Texto fijo -->
         <TextView
             android:id="@+id/tvTituloTemario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="¿Qué quieres repasar?"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:fontFamily="sans-serif-black"
-            android:gravity="center"
-            android:layout_marginBottom="20dp" />
-
-        <!-- Opción 1: Contraseñas Seguras -->
-        <LinearLayout
-            android:id="@+id/opcion_contrasenas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginBottom="20dp">
-
-            <ImageView
-                android:layout_width="300dp"
-                android:layout_height="150dp"
-                android:src="@drawable/img_contrasenas"
-                android:scaleType="fitXY" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CONTRASEÑAS SEGURAS"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:layout_marginTop="8dp"/>
-        </LinearLayout>
-
-        <!-- Opción 2: Phishing e Ingeniería Social -->
-        <LinearLayout
-            android:id="@+id/opcion_phishing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginBottom="20dp">
-
-            <ImageView
-                android:layout_width="300dp"
-                android:layout_height="150dp"
-                android:src="@drawable/img_phishing"
-                android:scaleType="fitXY" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PHISHING E INGENIERÍA SOCIAL"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:layout_marginTop="8dp"/>
-        </LinearLayout>
-
-        <!-- Opción 3: Privacidad en Redes Sociales -->
-        <LinearLayout
-            android:id="@+id/opcion_privacidad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginBottom="20dp">
-
-            <ImageView
-                android:layout_width="300dp"
-                android:layout_height="150dp"
-                android:src="@drawable/img_privacidad_redes"
-                android:scaleType="fitXY" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PRIVACIDAD EN REDES SOCIALES"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:layout_marginTop="8dp"/>
-        </LinearLayout>
-
-        <!-- Opción 4: Seguridad en Dispositivos Móviles -->
-        <LinearLayout
-            android:id="@+id/opcion_seguridad_mov"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginBottom="20dp">
-
-            <ImageView
-                android:layout_width="300dp"
-                android:layout_height="150dp"
-                android:src="@drawable/img_seguridad_movil"
-                android:scaleType="fitXY" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SEGURIDAD EN DISPOSITIVOS MÓVILES"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:layout_marginTop="8dp"/>
-        </LinearLayout>
-
+            android:layout_marginStart="12dp"/>
     </LinearLayout>
-</ScrollView>
+
+    <!-- Contenido con Scroll -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <!-- Opción 1: Contraseñas Seguras -->
+            <LinearLayout
+                android:id="@+id/opcion_contrasenas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/img_contrasenas"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CONTRASEÑAS SEGURAS"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <!-- Opción 2: Phishing e Ingeniería Social -->
+            <LinearLayout
+                android:id="@+id/opcion_phishing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/img_phishing"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PHISHING E INGENIERÍA SOCIAL"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <!-- Opción 3: Privacidad en Redes Sociales -->
+            <LinearLayout
+                android:id="@+id/opcion_privacidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/img_privacidad_redes"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PRIVACIDAD EN REDES SOCIALES"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <!-- Opción 4: Seguridad en Dispositivos Móviles -->
+            <LinearLayout
+                android:id="@+id/opcion_seguridad_mov"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/img_seguridad_movil"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SEGURIDAD EN DISPOSITIVOS MÓVILES"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
