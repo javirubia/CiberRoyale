@@ -5,55 +5,59 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TemaSeguridadmovFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TemaSeguridadmovFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tema_seguridadmov, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TemaSeguridadmovFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TemaSeguridadmovFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val containerLayout = view.findViewById<LinearLayout>(R.id.containerLayout)
+        val btnVolver = view.findViewById<ImageButton>(R.id.btnBack)
+        btnVolver.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        val temas = listOf(
+            Triple(
+                "Cuida tu dispositivo como un tesoro",
+                "Tu móvil o tablet tiene fotos, juegos, cuentas... ¡es muy valioso! 💎\n\nSi alguien lo coge sin permiso, puede hacer daño.",
+                R.drawable.ic_mobile_lock
+            ),
+            Triple(
+                "Pon una contraseña o patrón de bloqueo",
+                "🔒 Usa un patrón, PIN o huella para proteger tu dispositivo.\n📱 Así nadie podrá usarlo sin permiso.",
+                R.drawable.ic_pattern_lock
+            ),
+            Triple(
+                "¡Cuidado con lo que instalas!",
+                "📥 Solo descarga apps de sitios seguros (como Google Play).\n🧟 Algunas apps falsas pueden tener virus o espiar lo que haces.",
+                R.drawable.ic_alerta
+            ),
+            Triple(
+                "WiFi gratis... ¿seguro?",
+                "📶 No te conectes a redes WiFi abiertas sin saber si son confiables.\n👀 Alguien podría espiar lo que haces o robar información.",
+                R.drawable.ic_wifi_alert
+            )
+        )
+
+        for ((titulo, descripcion, icono) in temas) {
+            val cardView = layoutInflater.inflate(R.layout.item_tarjeta_tema, containerLayout, false)
+            cardView.findViewById<TextView>(R.id.tituloTarjeta).text = titulo
+            cardView.findViewById<TextView>(R.id.descripcionTarjeta).text = descripcion
+            cardView.findViewById<ImageView>(R.id.imagenIcono).setImageResource(icono)
+
+            containerLayout.addView(cardView)
+        }
     }
 }

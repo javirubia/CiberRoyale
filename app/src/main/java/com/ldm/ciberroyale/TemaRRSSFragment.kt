@@ -5,55 +5,59 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TemaRRSSFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TemaRRSSFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tema_r_r_s_s, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TemaRRSSFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TemaRRSSFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val containerLayout = view.findViewById<LinearLayout>(R.id.containerLayout)
+        val btnVolver = view.findViewById<ImageButton>(R.id.btnBack)
+        btnVolver.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        val temas = listOf(
+            Triple(
+                "¿Por qué es importante cuidar tu privacidad?",
+                "Cuando subes fotos o información, muchas personas pueden verla. Algunos podrían usar eso para hacerte daño o molestarte. 😟\n\n¡Protege tus cosas personales!",
+                R.drawable.ic_privacidad
+            ),
+            Triple(
+                "Cosas que nunca deberías compartir",
+                "❌ Tu dirección o colegio\n📸 Fotos con tu ubicación\n🧾 Fotos de documentos\n👨‍👩‍👧 Información de tu familia\n\n¡Piénsalo antes de publicar!",
+                R.drawable.ic_no_compartir
+            ),
+            Triple(
+                "Cómo configurar tu perfil para estar seguro",
+                "🔒 Haz tu cuenta privada\n👀 Elige quién puede ver tus cosas\n🚫 Bloquea a desconocidos\n📲 Activa alertas de inicio de sesión",
+                R.drawable.ic_candado
+            ),
+            Triple(
+                "¡Sé un héroe digital!",
+                "🤖 Ayuda a tus amigos a configurar su privacidad\n🔍 Revisa tus publicaciones antiguas\n💬 Habla con un adulto si algo te parece raro",
+                R.drawable.ic_heroe
+            )
+        )
+
+        for ((titulo, descripcion, icono) in temas) {
+            val cardView = layoutInflater.inflate(R.layout.item_tarjeta_tema, containerLayout, false)
+            cardView.findViewById<TextView>(R.id.tituloTarjeta).text = titulo
+            cardView.findViewById<TextView>(R.id.descripcionTarjeta).text = descripcion
+            cardView.findViewById<ImageView>(R.id.imagenIcono).setImageResource(icono)
+
+            containerLayout.addView(cardView)
+        }
     }
 }

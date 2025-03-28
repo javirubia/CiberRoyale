@@ -5,55 +5,61 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TemaPhishingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TemaPhishingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tema_phishing, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TemaPhishingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TemaPhishingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val containerLayout = view.findViewById<LinearLayout>(R.id.containerLayout)
+        val btnVolver = view.findViewById<ImageButton>(R.id.btnBack)
+        btnVolver.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        val temas = listOf(
+            Triple(
+                "¿Qué es el Phishing?",
+                "Es cuando alguien intenta engañarte con un mensaje falso para que des tu contraseña o tus datos. ¡Parece real, pero es una trampa! 🪝",
+                R.drawable.ic_phishing
+            ),
+            Triple(
+                "¿Cómo Reconocer un Mensaje Sospechoso?",
+                "🚨 Usa frases como: \"¡Tu cuenta será bloqueada!\"\n📝 Tiene errores o enlaces raros como www.banco-falso123.com\n❌ Pide tu contraseña o número de tarjeta.",
+                R.drawable.ic_warning_email
+            ),
+            Triple(
+                "¿Qué Hacer si Recibes un Mensaje Raro?",
+                "📵 No hagas clic si no estás seguro\n👨‍👩‍👧 Díselo a un adulto de confianza\n📧 Revisa siempre quién lo envía",
+                R.drawable.ic_shield
+            ),
+            Triple(
+                "¿Qué es la Ingeniería Social?",
+                "Es cuando alguien intenta ganarse tu confianza para que le des información sin que te des cuenta.\n\nPuede hacerse pasar por un amigo, maestro o técnico. ¡Pero es un engaño! 🎭",
+                R.drawable.ic_actor
+            )
+
+        )
+
+        for ((titulo, descripcion, icono) in temas) {
+            val cardView = layoutInflater.inflate(R.layout.item_tarjeta_tema, containerLayout, false)
+            cardView.findViewById<TextView>(R.id.tituloTarjeta).text = titulo
+            cardView.findViewById<TextView>(R.id.descripcionTarjeta).text = descripcion
+            cardView.findViewById<ImageView>(R.id.imagenIcono).setImageResource(icono)
+
+            containerLayout.addView(cardView)
+        }
     }
 }
