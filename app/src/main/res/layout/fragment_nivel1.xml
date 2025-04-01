@@ -1,0 +1,295 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contenedor_nivel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <!-- Pantalla 1: Animación ViperWare -->
+    <LinearLayout
+        android:id="@+id/pantalla_ataque"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <!-- Aquí va la animación de ViperWare -->
+        <ImageView
+            android:id="@+id/imgViper"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/viper" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡El mundo ha sido atacado por ViperWare!"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnSiguienteAtaque"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continuar"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+
+    <!-- Pantalla 2: Byte se presenta -->
+    <LinearLayout
+        android:id="@+id/pantalla_byte"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/robot" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Te unes a los CiberDefensores?"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnUnirse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="✅ ¡Sí, quiero ayudar!" />
+
+        <Button
+            android:id="@+id/btnRechazar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="❌ No"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <!-- Pantalla 3: Contexto del nivel -->
+    <LinearLayout
+        android:id="@+id/pantalla_contexto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/robot"
+            android:contentDescription="Byte" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ViperWare está robando contraseñas débiles. ¡Debemos detenerlo!"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnContextoListo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estoy listo"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+
+    <!-- Agrega más pantallas: preguntas, mejora contraseñas, combate... -->
+    <!-- Pantalla 4: Quiz de contraseñas seguras -->
+    <LinearLayout
+        android:id="@+id/pantalla_quiz"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Cuáles de estas contraseñas son seguras?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <CheckBox
+            android:id="@+id/check1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123456" />
+
+        <CheckBox
+            android:id="@+id/check2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PeRr0AzUl!85" />
+
+        <CheckBox
+            android:id="@+id/check3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="miNombre2020" />
+
+        <CheckBox
+            android:id="@+id/check4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="G@t0Estrella_82" />
+
+        <Button
+            android:id="@+id/btnComprobarRespuestas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comprobar"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+    <!-- Pantalla 5: Mejora contraseñas -->
+    <ScrollView
+        android:id="@+id/pantalla_mejora"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Elige una mejor versión de cada contraseña:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Pregunta 1 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. juanito2009" />
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Pregunta 2 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2. contraseña" />
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Pregunta 3 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3. pepe123" />
+            <Spinner
+                android:id="@+id/spinner3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnValidarMejora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Validar respuestas"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+    </ScrollView>
+    <!-- Pantalla 6: Combate final -->
+    <LinearLayout
+        android:id="@+id/pantalla_combate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp"
+        android:visibility="gone">
+
+        <!-- Enemigo -->
+        <TextView
+            android:id="@+id/label_enemigo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🐍 CobraX"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/barraVidaEnemigo"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="250dp"
+            android:layout_height="20dp"
+            android:progress="100"
+            android:max="80"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Jugador -->
+        <TextView
+            android:id="@+id/label_jugador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🤖 Byte"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/barraVidaJugador"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="250dp"
+            android:layout_height="20dp"
+            android:progress="100"
+            android:max="100"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Entrada de contraseña -->
+        <EditText
+            android:id="@+id/inputContrasena"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Escribe una contraseña fuerte"
+            android:inputType="textPassword"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btnAtacar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Atacar!"
+            android:layout_marginTop="12dp" />
+
+        <!-- Narración del combate -->
+        <TextView
+            android:id="@+id/textoNarracion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="El combate comienza..."
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+
+
+
+</FrameLayout>
