@@ -110,51 +110,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:visibility="gone"
         android:padding="24dp">
 
         <TextView
+            android:id="@+id/tvPregunta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¿Cuáles de estas contraseñas son seguras?"
-            android:textSize="18sp"
+            android:text="¿Pregunta?"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:gravity="center"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="24dp" />
 
-        <CheckBox
-            android:id="@+id/check1"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/rgOpciones"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="123456" />
-
-        <CheckBox
-            android:id="@+id/check2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PeRr0AzUl!85" />
-
-        <CheckBox
-            android:id="@+id/check3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="miNombre2020" />
-
-        <CheckBox
-            android:id="@+id/check4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="G@t0Estrella_82" />
+            android:orientation="vertical" />
 
         <Button
-            android:id="@+id/btnComprobarRespuestas"
+            android:id="@+id/btnSiguiente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Comprobar"
-            android:layout_marginTop="20dp" />
+            android:text="Siguiente"
+            android:enabled="false"
+            android:layout_marginTop="32dp" />
     </LinearLayout>
+
+
     <!-- Pantalla 5: Mejora contraseñas -->
     <ScrollView
         android:id="@+id/pantalla_mejora"

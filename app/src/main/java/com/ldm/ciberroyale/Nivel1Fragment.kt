@@ -11,6 +11,8 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -36,6 +38,37 @@ class Nivel1Fragment : Fragment() {
     private val contrasenasUsadas = mutableSetOf<String>()
     private val danoSecuaz = 10
 
+    private lateinit var tvPregunta: TextView
+    private lateinit var rgOpciones: RadioGroup
+    private lateinit var btnSiguiente: Button
+    private val preguntasOriginal = listOf(
+        QuizQuestion(
+            "¿Cuál de estas contraseñas es más segura?",
+            listOf("123456", "GatoRojo\$42", "abcd", "password"),
+            opcionCorrecta = 1
+        ),
+        QuizQuestion(
+            "¿Cuál de estas es más segura?",
+            listOf("maria2004", "M@ri4_2004", "Maria04", "maría"),
+            opcionCorrecta = 1
+        ),
+        QuizQuestion(
+            "¿Cuál de estas es más segura?",
+            listOf("pepepepe", "P3pe\$Rock!", "PePePePe", "pepe1234"),
+            opcionCorrecta = 1
+        ),
+        QuizQuestion(
+            "¿Cuál de estas contraseñas es más segura?",
+            listOf("contraseña", "C0ntr@s3ñ4!", "1234", "contra"),
+            opcionCorrecta = 1
+        )
+    )
+
+    // Al empezar, barajamos el orden de las preguntas
+    private val preguntas = preguntasOriginal.shuffled().toMutableList()
+    private var idxPregunta = 0
+    private var puntuacionQuiz = 0
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,7 +93,13 @@ class Nivel1Fragment : Fragment() {
         textoNarracion = view.findViewById(R.id.textoNarracion)
         inputContrasena = view.findViewById(R.id.inputContrasena)
         botonAtacar = view.findViewById(R.id.btnAtacar)
+        tvPregunta = view.findViewById(R.id.tvPregunta)
+        rgOpciones    = view.findViewById(R.id.rgOpciones)
+        btnSiguiente  = view.findViewById(R.id.btnSiguiente)
 
+        rgOpciones.setOnCheckedChangeListener { _, _ ->
+            btnSiguiente.isEnabled = true
+        }
 
 
         view.findViewById<Button>(R.id.btnSiguienteAtaque).setOnClickListener {
@@ -71,40 +110,39 @@ class Nivel1Fragment : Fragment() {
             mostrarPantalla(pantallaContexto)
         }
         view.findViewById<Button>(R.id.btnContextoListo).setOnClickListener {
+            puntuacionQuiz = 0
+            idxPregunta = 0
             mostrarPantalla(pantallaQuiz)
+            cargarPregunta()
         }
-
-
 
         view.findViewById<Button>(R.id.btnRechazar).setOnClickListener {
             Toast.makeText(requireContext(), "¡Vamos, el mundo te necesita!", Toast.LENGTH_SHORT).show()
         }
-        val check1 = view.findViewById<CheckBox>(R.id.check1)
-        val check2 = view.findViewById<CheckBox>(R.id.check2)
-        val check3 = view.findViewById<CheckBox>(R.id.check3)
-        val check4 = view.findViewById<CheckBox>(R.id.check4)
-
-        view.findViewById<Button>(R.id.btnComprobarRespuestas).setOnClickListener {
-            val aciertos = listOf(
-                check2.isChecked, // correcta
-                check4.isChecked  // correcta
-            ).count { it }
-
-            val errores = listOf(
-                check1.isChecked, // incorrecta
-                check3.isChecked  // incorrecta
-            ).count { it }
-
-            if (aciertos == 2 && errores == 0) {
-                Toast.makeText(requireContext(), "¡Perfecto! Vamos al siguiente paso", Toast.LENGTH_SHORT).show()
-                // aquí pasarías al paso 5
-                // En tu btnComprobarRespuestas (si aciertan)
-                mostrarPantalla(pantallaMejora)
-
-            } else {
-                Toast.makeText(requireContext(), "Revisa bien las opciones 😅", Toast.LENGTH_SHORT).show()
+        btnSiguiente.setOnClickListener {
+            // 1) comprobar si la opción elegida es correcta
+            val seleccionadoId = rgOpciones.checkedRadioButtonId
+            val radio = rgOpciones.findViewById<RadioButton>(seleccionadoId)
+            if (radio?.tag == true) {
+                puntuacionQuiz += preguntas[idxPregunta].puntos
             }
+
+            // 2) pasar a la siguiente pregunta o terminar
+            idxPregunta++
+            if (idxPregunta < preguntas.size) {
+                cargarPregunta()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Quiz completado: $puntuacionQuiz/${preguntas.size*5} puntos",
+                    Toast.LENGTH_SHORT
+                ).show()
+                // avanza al siguiente bloque (pantalla_mejora)
+                mostrarPantalla(pantallaMejora)
+            }
+            btnSiguiente.isEnabled = false
         }
+
         val spinner1 = view.findViewById<Spinner>(R.id.spinner1)
         val spinner2 = view.findViewById<Spinner>(R.id.spinner2)
         val spinner3 = view.findViewById<Spinner>(R.id.spinner3)
@@ -218,6 +256,35 @@ class Nivel1Fragment : Fragment() {
         return score.coerceAtMost(30) // máximo daño por turno
     }
 
+    private fun cargarPregunta() {
+        val q = preguntas[idxPregunta]
+        tvPregunta.text = q.texto
 
+        // mezclamos opciones con flag de correctness
+        val opcionesBarajadas = q.opciones
+            .mapIndexed { i, txt -> txt to (i == q.opcionCorrecta) }
+            .shuffled()
+
+        rgOpciones.removeAllViews()
+        opcionesBarajadas.forEach { (textoOpcion, esCorrecta) ->
+            val radio = RadioButton(requireContext()).apply {
+                text = textoOpcion
+                tag = esCorrecta       // guardamos en tag
+                textSize = 16f
+                setPadding(8,16,8,16)
+                id = View.generateViewId()
+            }
+            rgOpciones.addView(radio)
+        }
+        rgOpciones.clearCheck()
+        btnSiguiente.isEnabled = false
+    }
 
 }
+
+data class QuizQuestion(
+    val texto: String,
+    val opciones: List<String>,
+    val opcionCorrecta: Int,   // índice en opciones[]
+    val puntos: Int = 5        // 5 puntos cada una
+)
