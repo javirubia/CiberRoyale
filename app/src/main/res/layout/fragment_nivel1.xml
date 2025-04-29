@@ -140,139 +140,193 @@
 
 
     <!-- Pantalla 5: Mejora contraseñas -->
-    <ScrollView
-        android:id="@+id/pantalla_mejora"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:padding="24dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Elige una mejor versión de cada contraseña:"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp" />
-
-            <!-- Pregunta 1 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1. juanito2009" />
-            <Spinner
-                android:id="@+id/spinner1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Pregunta 2 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2. contraseña" />
-            <Spinner
-                android:id="@+id/spinner2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Pregunta 3 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3. pepe123" />
-            <Spinner
-                android:id="@+id/spinner3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp" />
-
-            <Button
-                android:id="@+id/btnValidarMejora"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Validar respuestas"
-                android:layout_marginTop="16dp" />
-        </LinearLayout>
-    </ScrollView>
-    <!-- Pantalla 6: Combate final -->
+    <!-- Pantalla 5.1: Mejora contraseñas — Bloque 1 -->
     <LinearLayout
-        android:id="@+id/pantalla_combate"
+        android:id="@+id/pantalla_mejora1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="24dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:padding="24dp">
 
-        <!-- Enemigo -->
         <TextView
-            android:id="@+id/label_enemigo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🐍 CobraX"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="Mejora estas contraseñas (1/2):"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
 
+        <!-- Primera contraseña -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="1. juanito2009" />
+        <Spinner
+            android:id="@+id/spinner_m1_p1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Segunda contraseña -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="2. contraseña" />
+        <Spinner
+            android:id="@+id/spinner_m1_p2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnMejora1Next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siguiente"
+            android:enabled="false"/>
+    </LinearLayout>
+    <!-- Pantalla 5.2: Mejora contraseñas — Bloque 2 -->
+    <LinearLayout
+        android:id="@+id/pantalla_mejora2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mejora estas contraseñas (2/2):"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Tercera contraseña -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="3. pepe123" />
+        <Spinner
+            android:id="@+id/spinner_m2_p1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Cuarta contraseña -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="4. primavera" />
+        <Spinner
+            android:id="@+id/spinner_m2_p2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnMejora2Next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continuar"
+            android:enabled="false"/>
+    </LinearLayout>
+
+    <!-- Pantalla 6: Combate final -->
+    <!-- reemplaza tu <LinearLayout id="pantalla_combate"> por esto -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pantalla_combate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/white">
+
+        <!-- Enemigo arriba a la derecha -->
+        <ImageView
+            android:id="@+id/imgEnemigo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/viper"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <!-- Barra de vida enemigo -->
         <ProgressBar
             android:id="@+id/barraVidaEnemigo"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="250dp"
-            android:layout_height="20dp"
-            android:progress="100"
+            android:layout_width="150dp"
+            android:layout_height="16dp"
             android:max="80"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Jugador -->
-        <TextView
-            android:id="@+id/label_jugador"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🤖 Byte"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <ProgressBar
-            android:id="@+id/barraVidaJugador"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="250dp"
-            android:layout_height="20dp"
-            android:progress="100"
-            android:max="100"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Entrada de contraseña -->
-        <EditText
-            android:id="@+id/inputContrasena"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Escribe una contraseña fuerte"
-            android:inputType="textPassword"
-            android:layout_marginTop="12dp" />
-
-        <Button
-            android:id="@+id/btnAtacar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¡Atacar!"
-            android:layout_marginTop="12dp" />
+            android:progress="80"
+            app:layout_constraintEnd_toEndOf="@id/imgEnemigo"
+            app:layout_constraintTop_toBottomOf="@id/imgEnemigo"
+            android:layout_marginTop="4dp"/>
 
         <!-- Narración del combate -->
         <TextView
             android:id="@+id/textoNarracion"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="El combate comienza..."
             android:textAlignment="center"
             android:textSize="16sp"
-            android:layout_marginTop="24dp" />
-    </LinearLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/imgJugador"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Tu personaje, más elevado -->
+        <ImageView
+            android:id="@+id/imgJugador"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/robot"
+            app:layout_constraintBottom_toTopOf="@+id/panelAtaque"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="96dp"/>
+
+        <!-- Barra de vida jugador -->
+        <ProgressBar
+            android:id="@+id/barraVidaJugador"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="150dp"
+            android:layout_height="16dp"
+            android:max="100"
+            android:progress="100"
+            app:layout_constraintStart_toStartOf="@id/imgJugador"
+            app:layout_constraintBottom_toTopOf="@id/imgJugador"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- Panel inferior elevado 80dp -->
+        <LinearLayout
+            android:id="@+id/panelAtaque"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="@drawable/rounded_panel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="80dp">
+
+            <EditText
+                android:id="@+id/inputContrasena"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Escribe contraseña..."
+                android:inputType="textPassword"
+                android:layout_weight="1"
+                android:padding="8dp"/>
+
+            <Button
+                android:id="@+id/btnAtacar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¡Atacar!"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 
