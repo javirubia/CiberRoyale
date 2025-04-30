@@ -1,0 +1,250 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contenedor_phishing"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- Pantalla 1: Introducción de Byte -->
+    <LinearLayout
+        android:id="@+id/pantalla_intro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/imgByteIntro"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/robot"/>
+        <TextView
+            android:id="@+id/tvIntroPhishing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Hola! Soy Byte. En este nivel vas a aprender a detectar phishing interactuando con varios escenarios."
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_marginTop="16dp"/>
+        <Button
+            android:id="@+id/btnIntroSiguiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Empezar!"
+            android:layout_marginTop="24dp"/>
+    </LinearLayout>
+
+    <!-- Pantalla 2: Detección de señales -->
+    <LinearLayout
+        android:id="@+id/pantalla_detec"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- Texto explicativo -->
+        <TextView
+            android:id="@+id/tvDetecInstruccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fase 2: Detecta si esto es seguro o phishing"
+            android:textSize="18sp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Mensaje actual -->
+        <TextView
+            android:id="@+id/tvDetecMensaje"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mensaje de ejemplo"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:background="@drawable/bg_message_box"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Botones de elección -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSeguro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seguro" />
+
+            <Button
+                android:id="@+id/btnPhishing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phishing"
+                android:layout_marginStart="16dp" />
+        </LinearLayout>
+
+        <!-- Texto de progreso/puntuación -->
+        <TextView
+            android:id="@+id/tvDetecProgreso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/5"
+            android:textSize="14sp"
+            android:layout_marginTop="24dp" />
+
+        <!-- Botón “Siguiente” (deshabilitado hasta terminar) -->
+        <Button
+            android:id="@+id/btnDetecSiguiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siguiente"
+            android:enabled="false"
+            android:layout_marginTop="32dp"/>
+    </LinearLayout>
+
+    <!-- Pantalla 3: Simulación guiada -->
+    <LinearLayout
+        android:id="@+id/pantalla_simul"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fase 3: ¿Haces clic en este enlace?"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Botones de elección -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <Button
+                android:id="@+id/btnSimulClick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hacer clic"/>
+
+            <Button
+                android:id="@+id/btnSimulNoClick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No hago clic"
+                android:layout_marginStart="16dp"/>
+        </LinearLayout>
+
+        <!-- Feedback tras elegir -->
+        <TextView
+            android:id="@+id/tvSimulFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Botón para pasar a la siguiente fase -->
+        <Button
+            android:id="@+id/btnSimulSiguiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siguiente"
+            android:enabled="false"/>
+    </LinearLayout>
+
+    <!-- Pantalla 4: Creación de mensaje seguro -->
+    <LinearLayout
+        android:id="@+id/pantalla_crear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="24dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fase 4: Redacta un mensaje legítimo."
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp"/>
+        <EditText
+            android:id="@+id/etAsunto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Asunto"/>
+        <EditText
+            android:id="@+id/etCuerpo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:hint="Cuerpo del mensaje"
+            android:gravity="top"
+            android:inputType="textMultiLine"/>
+        <Button
+            android:id="@+id/btnCrearSiguiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siguiente"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+
+    <!-- Pantalla 5: Mini-quiz final -->
+    <LinearLayout
+        android:id="@+id/pantalla_quiz"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="24dp">
+        <TextView
+            android:id="@+id/tvQuizPregunta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fase 5: Quiz final"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp"/>
+        <RadioGroup
+            android:id="@+id/rgQuizOpciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btnQuizSiguiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Terminar"
+            android:enabled="false"
+            android:layout_marginTop="24dp"/>
+    </LinearLayout>
+
+    <!-- Pantalla 6: Recompensas -->
+    <LinearLayout
+        android:id="@+id/pantalla_recomp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="24dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Nivel completado! 🎉"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/btnRecompContinuar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continuar"
+            android:layout_marginTop="24dp"/>
+    </LinearLayout>
+
+</FrameLayout>

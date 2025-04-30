@@ -26,7 +26,11 @@ class JuegoFragment : Fragment() {
         cardNivel1.setOnClickListener {
             findNavController().navigate(R.id.action_juegoFragment_to_nivel1Fragment)
         }
-
+        // Navegación a Nivel 2
+        val cardNivel2 = view.findViewById<CardView>(R.id.nivel2_card)
+        cardNivel2.setOnClickListener {
+            findNavController().navigate(R.id.action_juegoFragment_to_nivel2Fragment)
+        }
         // Botón atrás
         view.findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()

@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_juegoFragment_to_nivel1Fragment"
             app:destination="@id/nivel1Fragment" />
+        <action
+            android:id="@+id/action_juegoFragment_to_nivel2Fragment"
+            app:destination="@id/nivel2Fragment" />
     </fragment>
     <fragment
         android:id="@+id/temarioFragment"
@@ -123,6 +126,15 @@
         tools:layout="@layout/fragment_nivel1" >
         <action
             android:id="@+id/action_nivel1Fragment_to_juegoFragment"
+            app:destination="@id/juegoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nivel2Fragment"
+        android:name="com.ldm.ciberroyale.Nivel2Fragment"
+        android:label="fragment_nivel2"
+        tools:layout="@layout/fragment_nivel2" >
+        <action
+            android:id="@+id/action_nivel2Fragment_to_juegoFragment"
             app:destination="@id/juegoFragment" />
     </fragment>
 </navigation>

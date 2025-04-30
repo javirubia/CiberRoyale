@@ -23,7 +23,8 @@
 
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Volver"
-            android:src="@drawable/return_icon" />
+            android:src="@drawable/return_icon"
+            tools:ignore="TouchTargetSizeCheck" />
 
 
         <TextView
