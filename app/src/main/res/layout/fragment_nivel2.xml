@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/contenedor_phishing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,197 +35,241 @@
             android:text="¡Empezar!"
             android:layout_marginTop="24dp"/>
     </LinearLayout>
-
-    <!-- Pantalla 2: Detección de señales -->
-    <LinearLayout
+    <!-- Pantalla 2: Clasifica el mensaje -->
+    <FrameLayout
         android:id="@+id/pantalla_detec"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:visibility="gone"
-        android:padding="24dp"
-        android:gravity="center_horizontal">
+        android:padding="24dp">
 
-        <!-- Texto explicativo -->
-        <TextView
-            android:id="@+id/tvDetecInstruccion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fase 2: Detecta si esto es seguro o phishing"
-            android:textSize="18sp"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Mensaje actual -->
-        <TextView
-            android:id="@+id/tvDetecMensaje"
+        <!-- Card con el mensaje draggable -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMensaje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mensaje de ejemplo"
-            android:textSize="16sp"
-            android:padding="16dp"
-            android:background="@drawable/bg_message_box"
-            android:layout_marginBottom="32dp" />
+            android:layout_gravity="top"
+            android:layout_marginBottom="32dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
 
-        <!-- Botones de elección -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnSeguro"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tvMensaje"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Seguro" />
+                android:padding="16dp"
+                android:text="Mensaje de ejemplo…"
+                android:textSize="16sp"/>
+        </androidx.cardview.widget.CardView>
 
-            <Button
-                android:id="@+id/btnPhishing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phishing"
-                android:layout_marginStart="16dp" />
-        </LinearLayout>
-
-        <!-- Texto de progreso/puntuación -->
-        <TextView
-            android:id="@+id/tvDetecProgreso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0/5"
-            android:textSize="14sp"
-            android:layout_marginTop="24dp" />
-
-        <!-- Botón “Siguiente” (deshabilitado hasta terminar) -->
-        <Button
-            android:id="@+id/btnDetecSiguiente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Siguiente"
-            android:enabled="false"
-            android:layout_marginTop="32dp"/>
-    </LinearLayout>
-
-    <!-- Pantalla 3: Simulación guiada -->
-    <LinearLayout
-        android:id="@+id/pantalla_simul"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:padding="24dp"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fase 3: ¿Haces clic en este enlace?"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Botones de elección -->
+        <!-- Contenedor de drop targets -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:orientation="horizontal"
-            android:layout_marginBottom="24dp">
+            android:weightSum="2">
 
-            <Button
-                android:id="@+id/btnSimulClick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hacer clic"/>
+            <LinearLayout
+                android:id="@+id/targetSeguro"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/bg_drop_target"
+                android:layout_marginEnd="8dp">
 
-            <Button
-                android:id="@+id/btnSimulNoClick"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_candado"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seguro"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/targetPhishing"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/bg_drop_target"
+                android:layout_marginStart="8dp">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_alerta"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phishing"/>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- Pantalla 3: Inspecciona la URL -->
+    <FrameLayout
+        android:id="@+id/pantalla_url"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="24dp">
+
+        <!-- Card con la URL draggable -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="32dp">
+
+            <TextView
+                android:id="@+id/tvUrl"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="No hago clic"
-                android:layout_marginStart="16dp"/>
+                android:padding="16dp"
+                android:text="https://banco-oficial.com/actualizar"
+                android:textSize="16sp"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Drop targets para URLs válidas/incorrectas -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:id="@+id/targetValida"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/bg_drop_target"
+                android:layout_marginEnd="8dp">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_candado"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Válida"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/targetInvalida"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/bg_drop_target"
+                android:layout_marginStart="8dp">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_alerta"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Invalida"/>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- Pantalla COMBATE -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pantalla_combate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="16dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <!-- Barra vida enemigo -->
+        <ProgressBar
+            android:id="@+id/pbVidaEnemigo"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:max="100"
+            android:progress="100"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Imagen enemigo -->
+        <ImageView
+            android:id="@+id/imgEnemigo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/viper"
+            app:layout_constraintTop_toBottomOf="@id/pbVidaEnemigo"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Pregunta de combate -->
+        <TextView
+            android:id="@+id/tvCombatePregunta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Pregunta…"
+            android:textSize="18sp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/imgEnemigo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Opciones -->
+        <LinearLayout
+            android:id="@+id/llOpciones"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/tvCombatePregunta"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp">
+            <Button
+                android:id="@+id/btnOpcion0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/btnOpcion1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+            <Button
+                android:id="@+id/btnOpcion2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
         </LinearLayout>
 
-        <!-- Feedback tras elegir -->
-        <TextView
-            android:id="@+id/tvSimulFeedback"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:visibility="gone"
-            android:gravity="center"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Botón para pasar a la siguiente fase -->
-        <Button
-            android:id="@+id/btnSimulSiguiente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Siguiente"
-            android:enabled="false"/>
-    </LinearLayout>
-
-    <!-- Pantalla 4: Creación de mensaje seguro -->
-    <LinearLayout
-        android:id="@+id/pantalla_crear"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:padding="24dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fase 4: Redacta un mensaje legítimo."
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp"/>
-        <EditText
-            android:id="@+id/etAsunto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Asunto"/>
-        <EditText
-            android:id="@+id/etCuerpo"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:hint="Cuerpo del mensaje"
-            android:gravity="top"
-            android:inputType="textMultiLine"/>
-        <Button
-            android:id="@+id/btnCrearSiguiente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Siguiente"
-            android:layout_marginTop="16dp"/>
-    </LinearLayout>
-
-    <!-- Pantalla 5: Mini-quiz final -->
-    <LinearLayout
-        android:id="@+id/pantalla_quiz"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:padding="24dp">
-        <TextView
-            android:id="@+id/tvQuizPregunta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fase 5: Quiz final"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp"/>
-        <RadioGroup
-            android:id="@+id/rgQuizOpciones"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btnQuizSiguiente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Terminar"
-            android:enabled="false"
-            android:layout_marginTop="24dp"/>
-    </LinearLayout>
-
-    <!-- Pantalla 6: Recompensas -->
+        <!-- Barra vida jugador -->
+        <ProgressBar
+            android:id="@+id/pbVidaJugador"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:max="100"
+            android:progress="100"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Pantalla 6: Recompensa -->
     <LinearLayout
         android:id="@+id/pantalla_recomp"
         android:layout_width="match_parent"
@@ -232,19 +277,43 @@
         android:orientation="vertical"
         android:gravity="center"
         android:visibility="gone"
-        android:padding="24dp">
+        android:padding="24dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <!-- Texto de felicitación -->
         <TextView
+            android:id="@+id/tvRecompensaTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¡Nivel completado! 🎉"
+            android:text="🎉 ¡Enhorabuena!"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/tvRecompensaSubtitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Has superado el nivel de phishing"
+            android:textSize="16sp"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- Aquí podrías añadir una imagen o animación de confeti -->
+        <ImageView
+            android:id="@+id/imgConfeti"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_actor"
+            android:contentDescription="Confeti"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- Botón para continuar -->
         <Button
             android:id="@+id/btnRecompContinuar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Continuar"
-            android:layout_marginTop="24dp"/>
+            android:textAllCaps="false"/>
     </LinearLayout>
 
 </FrameLayout>

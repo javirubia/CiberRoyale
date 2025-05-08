@@ -1,33 +1,46 @@
 package com.ldm.ciberroyale
 
-import android.graphics.Color
+import android.content.ClipData
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.os.Handler
+import android.os.Looper
+import android.view.DragEvent
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
 class Nivel2Fragment : Fragment(R.layout.fragment_nivel2) {
 
-    // Views de cada fase
-    private lateinit var pantallaIntro: View
-    private lateinit var pantallaDetec: View
-    private lateinit var pantallaSimul: View
-    private lateinit var pantallaCrear: View
-    private lateinit var pantallaQuiz: View
-    private lateinit var pantallaRecomp: View
+    // Etapas del flujo
+    private enum class Etapa { INTRO, DETECT, URL, COMBATE, RECOMPENSA }
 
-    // Fase 2 – Detección
-    private lateinit var tvDetecMensaje: TextView
-    private lateinit var tvDetecProgreso: TextView
-    private lateinit var btnSeguro: Button
-    private lateinit var btnPhishing: Button
+    // Data class para preguntas de combate
+    private data class CombateQuestion(
+        val texto: String,
+        val opciones: List<String>,
+        val correcta: Int
+    )
+
+    // Vistas principales
+    private lateinit var pantallaIntro   : View
+    private lateinit var pantallaDetec   : View
+    private lateinit var pantallaUrl     : View
+    private lateinit var pantallaCombate : View
+    private lateinit var pantallaRecomp  : View
+
+    // INTRO
+    private lateinit var btnIntroSiguiente: Button
+
+    // Fase DETECT (clasifica mensaje)
+    private lateinit var cardMensaje    : CardView
+    private lateinit var tvMensaje      : TextView
+    private lateinit var targetSeguro   : View
+    private lateinit var targetPhishing : View
     private val ejemplos = listOf(
         "Tu banco te envía un correo solicitando que confirmes tu PIN" to true,
         "Un mensaje de WhatsApp dice que has ganado un móvil, pide tus datos" to false,
@@ -35,193 +48,226 @@ class Nivel2Fragment : Fragment(R.layout.fragment_nivel2) {
         "Notificación de tu UPS: tu paquete está en camino. Con enlace a tracking oficial" to true,
         "SMS de tu operadora con enlace raro y faltas de ortografía" to false
     )
-    private var idxDetec = 0
-    private var puntosDetec = 0
+    private var idxMensaje = 0
 
-    // Fase 3 – Simulación
-    private lateinit var btnSimulClick: Button
-    private lateinit var btnSimulNoClick: Button
-    private lateinit var tvSimulFeedback: TextView
-    private lateinit var btnSimulSiguiente: Button
-    private var simulElegido = false
+    // Fase URL (clasifica URL)
+    private lateinit var cardUrl        : CardView
+    private lateinit var tvUrl          : TextView
+    private lateinit var targetValida   : View
+    private lateinit var targetInvalida : View
+    private val listaUrls = listOf(
+        "https://mi-banco.com/login" to true,
+        "http://secure-mi-banco.net/confirmar" to false,
+        "https://www.faceboook.com" to false,
+        "https://support.google.com" to true
+    )
+    private var idxUrl = 0
 
-    // Fase 4 – Creación de mensaje seguro
-    private lateinit var etAsunto: EditText
-    private lateinit var etCuerpo: EditText
-    private lateinit var btnCrearSiguiente: Button
-    private lateinit var tvCrearFeedback: TextView
+    // Fase COMBATE (Q&A RPG)
+    private lateinit var pbVidaJugador : ProgressBar
+    private lateinit var pbVidaEnemigo : ProgressBar
+    private lateinit var tvCombatePreg : TextView
+    private lateinit var btnOpcion0    : Button
+    private lateinit var btnOpcion1    : Button
+    private lateinit var btnOpcion2    : Button
+
+    private var vidaJugador = 100
+    private var vidaEnemigo = 100
+    private var idxCombate  = 0
+
+    // Preguntas de combate
+    private val preguntasCombate = listOf(
+        CombateQuestion(
+            "Recibes un correo que te pide confirmar tu contraseña haciendo clic en un enlace. ¿Qué haces?",
+            listOf("Hago clic y escribo mi contraseña", "Ignoro y reporto al soporte", "Reenvío a un amigo"),
+            1
+        ),
+        CombateQuestion(
+            "Un SMS de tu banco te pide enviar tu PIN. ¿Cuál es la mejor acción?",
+            listOf("Responder con mi PIN", "Ignorar y llamar al número oficial", "Guardar el SMS"),
+            1
+        ),
+        CombateQuestion(
+            "Recibes un mensaje de Facebook que dice que alguien accedió a tu cuenta. Te pide tu contraseña. ¿Qué haces?",
+            listOf("Confirmo mi contraseña", "Voy a la app de Facebook directamente y reviso notificaciones", "Compartir mensaje con mis amigos"),
+            1
+        )
+    )
+
+    // Fase RECOMPENSA
+    private lateinit var btnRecompContinuar: Button
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 1) Bind de pantallas
-        pantallaIntro  = view.findViewById(R.id.pantalla_intro)
-        pantallaDetec  = view.findViewById(R.id.pantalla_detec)
-        pantallaSimul  = view.findViewById(R.id.pantalla_simul)
-        pantallaCrear  = view.findViewById(R.id.pantalla_crear)
-        pantallaQuiz   = view.findViewById(R.id.pantalla_quiz)
-        pantallaRecomp = view.findViewById(R.id.pantalla_recomp)
+        // Bind pantallas
+        pantallaIntro   = view.findViewById(R.id.pantalla_intro)
+        pantallaDetec   = view.findViewById(R.id.pantalla_detec)
+        pantallaUrl     = view.findViewById(R.id.pantalla_url)
+        pantallaCombate = view.findViewById(R.id.pantalla_combate)
+        pantallaRecomp  = view.findViewById(R.id.pantalla_recomp)
 
-        // 2) Bind Fase 2 – Detección
-        tvDetecMensaje  = view.findViewById(R.id.tvDetecMensaje)
-        tvDetecProgreso = view.findViewById(R.id.tvDetecProgreso)
-        btnSeguro       = view.findViewById(R.id.btnSeguro)
-        btnPhishing     = view.findViewById(R.id.btnPhishing)
-        actualizarDetec()
-        btnSeguro.setOnClickListener   { evaluarDetec(true) }
-        btnPhishing.setOnClickListener { evaluarDetec(false) }
-
-        // 3) Bind Fase 3 – Simulación
-        btnSimulClick     = view.findViewById(R.id.btnSimulClick)
-        btnSimulNoClick   = view.findViewById(R.id.btnSimulNoClick)
-        tvSimulFeedback   = view.findViewById(R.id.tvSimulFeedback)
-        btnSimulSiguiente = view.findViewById(R.id.btnSimulSiguiente)
-
-        btnSimulClick.setOnClickListener {
-            if (!simulElegido) mostrarFeedbackSimul(clicked = true)
-        }
-        btnSimulNoClick.setOnClickListener {
-            if (!simulElegido) mostrarFeedbackSimul(clicked = false)
-        }
-        btnSimulSiguiente.setOnClickListener {
-            mostrarPaso(PasoPhishing.CREAR)
+        // INTRO
+        btnIntroSiguiente = view.findViewById(R.id.btnIntroSiguiente)
+        btnIntroSiguiente.setOnClickListener {
+            mostrarEtapa(Etapa.DETECT)
+            iniciarDetect()
         }
 
-        // 4) Bind Fase 4 – Creación de mensaje
-        etAsunto          = view.findViewById(R.id.etAsunto)
-        etCuerpo          = view.findViewById(R.id.etCuerpo)
-        btnCrearSiguiente = view.findViewById(R.id.btnCrearSiguiente)
-        // Creamos dinámicamente el TextView de feedback
-        tvCrearFeedback = TextView(requireContext()).apply {
-            textSize = 14f
-            setTextColor(Color.RED)
-            visibility = View.GONE
+        // DETECT
+        cardMensaje    = view.findViewById(R.id.cardMensaje)
+        tvMensaje      = view.findViewById(R.id.tvMensaje)
+        targetSeguro   = view.findViewById(R.id.targetSeguro)
+        targetPhishing = view.findViewById(R.id.targetPhishing)
+        cardMensaje.setOnLongClickListener { v ->
+            v.startDragAndDrop(ClipData.newPlainText("", ""), View.DragShadowBuilder(v), v, 0)
+            true
         }
-        // Lo insertamos justo después del cuerpo en el layout de la fase 4
-        (view.findViewById<LinearLayout>(R.id.pantalla_crear))
-            .addView(tvCrearFeedback, 3)
-
-        btnCrearSiguiente.isEnabled = false
-
-        val watcher = object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) = validarCrear()
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        val detectListener = View.OnDragListener { v, event ->
+            if (event.action == DragEvent.ACTION_DROP) handleDetectDrop(v.id)
+            true
         }
-        etAsunto.addTextChangedListener(watcher)
-        etCuerpo.addTextChangedListener(watcher)
-        btnCrearSiguiente.setOnClickListener {
-            mostrarPaso(PasoPhishing.QUIZ)
+        targetSeguro.setOnDragListener(detectListener)
+        targetPhishing.setOnDragListener(detectListener)
+
+        // URL
+        cardUrl        = view.findViewById(R.id.cardUrl)
+        tvUrl          = view.findViewById(R.id.tvUrl)
+        targetValida   = view.findViewById(R.id.targetValida)
+        targetInvalida = view.findViewById(R.id.targetInvalida)
+        cardUrl.setOnLongClickListener { v ->
+            v.startDragAndDrop(ClipData.newPlainText("", ""), View.DragShadowBuilder(v), v, 0)
+            true
         }
+        val urlListener = View.OnDragListener { v, event ->
+            if (event.action == DragEvent.ACTION_DROP) handleUrlDrop(v.id)
+            true
+        }
+        targetValida.setOnDragListener(urlListener)
+        targetInvalida.setOnDragListener(urlListener)
 
-        // 5) Arrancamos en la intro
-        mostrarPaso(PasoPhishing.INTRO)
-
-        // 6) Listeners de avance genérico
-        view.findViewById<Button>(R.id.btnIntroSiguiente)
-            .setOnClickListener { mostrarPaso(PasoPhishing.DETEC) }
-        view.findViewById<Button>(R.id.btnDetecSiguiente)
-            .setOnClickListener { mostrarPaso(PasoPhishing.SIMUL) }
-        view.findViewById<Button>(R.id.btnQuizSiguiente)
-            .setOnClickListener { mostrarPaso(PasoPhishing.RECOMP) }
-        view.findViewById<Button>(R.id.btnRecompContinuar)
-            .setOnClickListener {
-                findNavController().navigate(R.id.action_nivel2Fragment_to_juegoFragment)
+        // COMBATE
+        pbVidaJugador = view.findViewById(R.id.pbVidaJugador)
+        pbVidaEnemigo = view.findViewById(R.id.pbVidaEnemigo)
+        tvCombatePreg = view.findViewById(R.id.tvCombatePregunta)
+        btnOpcion0    = view.findViewById(R.id.btnOpcion0)
+        btnOpcion1    = view.findViewById(R.id.btnOpcion1)
+        btnOpcion2    = view.findViewById(R.id.btnOpcion2)
+        val combateListener = View.OnClickListener { btn ->
+            val opcion = when (btn.id) {
+                R.id.btnOpcion0 -> 0
+                R.id.btnOpcion1 -> 1
+                else            -> 2
             }
+            evaluarCombate(opcion)
+        }
+        btnOpcion0.setOnClickListener(combateListener)
+        btnOpcion1.setOnClickListener(combateListener)
+        btnOpcion2.setOnClickListener(combateListener)
+
+        // RECOMPENSA
+        btnRecompContinuar = view.findViewById(R.id.btnRecompContinuar)
+        btnRecompContinuar.setOnClickListener {
+            findNavController().navigate(R.id.action_nivel2Fragment_to_juegoFragment)
+        }
+
+        // Mostrar pantalla inicial
+        mostrarEtapa(Etapa.INTRO)
     }
 
-    /** Enum con las fases del nivel */
-    private enum class PasoPhishing {
-        INTRO, DETEC, SIMUL, CREAR, QUIZ, RECOMP
+    // DETECT handlers
+    private fun iniciarDetect() {
+        idxMensaje = 0
+        tvMensaje.text = ejemplos[idxMensaje].first
     }
 
-    /** Fase 2: actualiza el mensaje y progreso */
-    private fun actualizarDetec() {
-        val (texto, _) = ejemplos[idxDetec]
-        tvDetecMensaje.text  = texto
-        tvDetecProgreso.text = "${idxDetec + 1}/${ejemplos.size}"
+    private fun handleDetectDrop(targetId: Int) {
+        val correctoId = if (ejemplos[idxMensaje].second) R.id.targetSeguro else R.id.targetPhishing
+        Toast.makeText(requireContext(), if (targetId == correctoId) "¡Correcto!" else "Incorrecto…", Toast.LENGTH_SHORT).show()
+        idxMensaje++
+        if (idxMensaje < ejemplos.size) tvMensaje.text = ejemplos[idxMensaje].first
+        else {
+            Toast.makeText(requireContext(), "Fase DETECT completada", Toast.LENGTH_SHORT).show()
+            mostrarEtapa(Etapa.URL)
+            iniciarUrl()
+        }
     }
 
-    /** Fase 2: evalúa y avanza o habilita botón “Siguiente” */
-    private fun evaluarDetec(seleccionSeguro: Boolean) {
-        if (seleccionSeguro == ejemplos[idxDetec].second) puntosDetec++
-        idxDetec++
-        if (idxDetec < ejemplos.size) {
-            actualizarDetec()
+    // URL handlers
+    private fun iniciarUrl() {
+        idxUrl = 0
+        tvUrl.text = listaUrls[idxUrl].first
+    }
+
+    private fun handleUrlDrop(targetId: Int) {
+        val correctoId = if (listaUrls[idxUrl].second) R.id.targetValida else R.id.targetInvalida
+        Toast.makeText(requireContext(), if (targetId == correctoId) "¡Correcto!" else "Incorrecto…", Toast.LENGTH_SHORT).show()
+        idxUrl++
+        if (idxUrl < listaUrls.size) tvUrl.text = listaUrls[idxUrl].first
+        else {
+            Toast.makeText(requireContext(), "Fase URL completada", Toast.LENGTH_SHORT).show()
+            mostrarEtapa(Etapa.COMBATE)
+            iniciarCombate()
+        }
+    }
+
+    // COMBATE logic
+    private fun iniciarCombate() {
+        vidaJugador = 100; vidaEnemigo = 100; idxCombate = 0
+        pbVidaJugador.progress = vidaJugador
+        pbVidaEnemigo.progress = vidaEnemigo
+        cargarPreguntaCombate()
+    }
+
+    private fun cargarPreguntaCombate() {
+        val q = preguntasCombate[idxCombate]
+        tvCombatePreg.text = q.texto
+        btnOpcion0.text = q.opciones[0]
+        btnOpcion1.text = q.opciones[1]
+        btnOpcion2.text = q.opciones[2]
+    }
+
+    private fun evaluarCombate(seleccion: Int) {
+        val q = preguntasCombate[idxCombate]
+        if (seleccion == q.correcta) {
+            vidaEnemigo = (vidaEnemigo - 20).coerceAtLeast(0)
+            Toast.makeText(context, "¡Buen ataque! -20 HP", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(
-                requireContext(),
-                "Has acertado $puntosDetec de ${ejemplos.size}",
-                Toast.LENGTH_SHORT
-            ).show()
-            view?.findViewById<Button>(R.id.btnDetecSiguiente)?.isEnabled = true
+            vidaJugador = (vidaJugador - 15).coerceAtLeast(0)
+            Toast.makeText(context, "Fallaste… -15 HP", Toast.LENGTH_SHORT).show()
         }
+        idxCombate++
+        pbVidaEnemigo.progress = vidaEnemigo
+        pbVidaJugador.progress = vidaJugador
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (vidaJugador == 0 || idxCombate >= preguntasCombate.size) terminarCombate()
+            else cargarPreguntaCombate()
+        }, 500)
     }
 
-    /** Fase 3: muestra feedback y habilita botón “Siguiente” */
-    private fun mostrarFeedbackSimul(clicked: Boolean) {
-        simulElegido = true
-        tvSimulFeedback.visibility = View.VISIBLE
-        if (clicked) {
-            tvSimulFeedback.text = "¡Ay! Era phishing: han intentado robarte datos."
+    private fun terminarCombate() {
+        if (vidaEnemigo == 0) {
+            Toast.makeText(context, "¡Has derrotado al secuaz!", Toast.LENGTH_LONG).show()
+            mostrarEtapa(Etapa.RECOMPENSA)
         } else {
-            tvSimulFeedback.text = "¡Bien! Has evitado un posible robo de datos."
-        }
-        btnSimulClick.isEnabled     = false
-        btnSimulNoClick.isEnabled   = false
-        btnSimulSiguiente.isEnabled = true
-    }
-
-    /** Fase 4: mini-linter para asunto y cuerpo */
-    private fun validarCrear() {
-        val asunto = etAsunto.text.toString().trim()
-        val cuerpo = etCuerpo.text.toString().trim()
-
-        if (asunto.isEmpty() || cuerpo.isEmpty()) {
-            tvCrearFeedback.visibility = View.GONE
-            btnCrearSiguiente.isEnabled = false
-            return
-        }
-
-        val linkPattern = Regex("http[s]?://[^\\s]+")
-        val todoMayus = asunto == asunto.uppercase() || cuerpo == cuerpo.uppercase()
-
-        when {
-            linkPattern.containsMatchIn(asunto) || linkPattern.containsMatchIn(cuerpo) -> {
-                tvCrearFeedback.text = "⚠️ No incluyas enlaces directos."
-                tvCrearFeedback.visibility = View.VISIBLE
-                btnCrearSiguiente.isEnabled = false
-            }
-            todoMayus -> {
-                tvCrearFeedback.text = "⚠️ Evita escribir todo en mayúsculas."
-                tvCrearFeedback.visibility = View.VISIBLE
-                btnCrearSiguiente.isEnabled = false
-            }
-            else -> {
-                tvCrearFeedback.visibility = View.GONE
-                btnCrearSiguiente.isEnabled = true
-            }
+            Toast.makeText(context, "Has sido derrotado… inténtalo otra vez.", Toast.LENGTH_LONG).show()
         }
     }
 
-    /** Oculta todas las pantallas y muestra solo la actual */
-    private fun mostrarPaso(paso: PasoPhishing) {
-        listOf(
-            pantallaIntro,
-            pantallaDetec,
-            pantallaSimul,
-            pantallaCrear,
-            pantallaQuiz,
-            pantallaRecomp
-        ).forEach { it.visibility = View.GONE }
+    // Muestra solo la pantalla actual
+    private fun mostrarEtapa(etapa: Etapa) {
+        pantallaIntro.visibility   = View.GONE
+        pantallaDetec.visibility   = View.GONE
+        pantallaUrl.visibility     = View.GONE
+        pantallaCombate.visibility = View.GONE
+        pantallaRecomp.visibility  = View.GONE
 
-        when (paso) {
-            PasoPhishing.INTRO  -> pantallaIntro.visibility  = View.VISIBLE
-            PasoPhishing.DETEC  -> pantallaDetec.visibility  = View.VISIBLE
-            PasoPhishing.SIMUL  -> pantallaSimul.visibility  = View.VISIBLE
-            PasoPhishing.CREAR  -> pantallaCrear.visibility  = View.VISIBLE
-            PasoPhishing.QUIZ   -> pantallaQuiz.visibility   = View.VISIBLE
-            PasoPhishing.RECOMP -> pantallaRecomp.visibility = View.VISIBLE
+        when (etapa) {
+            Etapa.INTRO      -> pantallaIntro.visibility   = View.VISIBLE
+            Etapa.DETECT     -> pantallaDetec.visibility   = View.VISIBLE
+            Etapa.URL        -> pantallaUrl.visibility     = View.VISIBLE
+            Etapa.COMBATE    -> pantallaCombate.visibility = View.VISIBLE
+            Etapa.RECOMPENSA -> pantallaRecomp.visibility  = View.VISIBLE
         }
     }
 }
