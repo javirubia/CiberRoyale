@@ -132,7 +132,6 @@
     </FrameLayout>
 
     <!-- 3. Juego “Ajusta tu privacidad” -->
-    <!-- 3. Juego “Ajusta tu privacidad” -->
     <FrameLayout
         android:id="@+id/pantalla_ajustes"
         android:layout_width="match_parent"
@@ -297,6 +296,86 @@
                 android:enabled="false"/>
         </LinearLayout>
     </FrameLayout>
+    <!-- 5. Combate Match-3 “Conecta tu Privacidad” -->
+    <FrameLayout
+        android:id="@+id/pantalla_combate_match3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="16dp">
+
+        <!-- Contenedor vertical -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Vida enemigo -->
+            <ProgressBar
+                android:id="@+id/pbVidaEnemigo"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:progress="100"
+                android:max="100"/>
+
+            <!-- Escudo jugador -->
+            <ProgressBar
+                android:id="@+id/pbEscudoJugador"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="4dp"
+                android:progress="100"
+                android:max="100"/>
+
+            <!-- Objetivo y movimientos restantes -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tvObjetivoCombate"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Inflige 100 HP en ≤ 20 movimientos"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tvMovimientosRestantes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mov: 20"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <!-- Tablero Match-3: ocupa todo el espacio restante -->
+            <GridView
+                android:id="@+id/gvTablero"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:numColumns="8"
+                android:verticalSpacing="4dp"
+                android:horizontalSpacing="4dp"
+                android:stretchMode="columnWidth"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Botón pista -->
+            <Button
+                android:id="@+id/btnPista"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pista (–5 escudo)"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"/>
+        </LinearLayout>
+    </FrameLayout>
+
 
 
 

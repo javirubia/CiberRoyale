@@ -111,7 +111,7 @@
                     <ImageView
                         android:layout_width="280dp"
                         android:layout_height="150dp"
-                        android:src="@drawable/img_phishing"
+                        android:src="@drawable/img_pshng"
                         android:scaleType="centerCrop" />
 
                     <TextView
