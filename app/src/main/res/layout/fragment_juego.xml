@@ -123,9 +123,81 @@
                         android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+            <!-- Nivel 3 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/nivel3_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/red_card_bg"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
 
-            <!-- Agrega más niveles cuando estén listos -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center_horizontal">
 
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_contrasenas" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🎣 Nivel 3: Privacidad en Redes Sociales"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="sans-serif-medium" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Nivel 4 -->
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/nivel4_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/red_card_bg"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_contrasenas" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🎣 Nivel 4: Seguridad en Dispositivos Móviles"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="sans-serif-medium" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -11,35 +11,35 @@
 
     <!-- Botón Temario -->
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnJugar"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_marginBottom="60dp"
-        android:background="@drawable/btn_rounded_black"
+        android:background="@drawable/btn_rounded"
         android:text="JUGAR"
         android:textColor="@color/white"
         android:textSize="18sp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnTemario"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:text="TEMARIO"
         android:textSize="18sp"
         android:textColor="@color/white"
-        android:background="@drawable/btn_rounded_black"
+        android:background="@drawable/btn_rounded"
         android:layout_marginBottom="60dp"/>
 
     <!-- Botón Logros -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogros"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:text="LOGROS"
         android:textSize="18sp"
         android:textColor="@color/white"
-        android:background="@drawable/btn_rounded_black"
+        android:background="@drawable/btn_rounded"
         android:layout_marginBottom="60dp"/>
 
 </LinearLayout>
