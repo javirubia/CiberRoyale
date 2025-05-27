@@ -1,14 +1,21 @@
 package com.ldm.ciberroyale
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.ClipData
+import android.graphics.Point
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.DragEvent
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +23,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.ldm.ciberroyale.R
+import com.ldm.ciberroyale.R.drawable
+import androidx.gridlayout.widget.GridLayout
+
+typealias Pos = Pair<Int, Int>
 
 class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
 
@@ -29,71 +41,27 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
         RECOMPENSA
     }
 
-    // --- Modelo Detecta oversharing ---
-    private data class Post(
-        val texto: String,
-        val imagenRes: Int?,
-        val esPublico: Boolean,
-        val explicacion: String
-    )
+    // --- Datos para oversharing, ajustes y solicitudes (sin cambios) ---
+    private data class Post(val texto: String, val imagenRes: Int?, val esPublico: Boolean, val explicacion: String)
     private val posts = listOf(
-        Post(
-            "Foto de mis vacaciones con geolocalización",
-            R.drawable.ic_heroe,
-            false,
-            "Incluye geolocalización en los metadatos de la imagen."
-        ),
-        Post(
-            "Foto de mi mascota jugando",
-            R.drawable.ic_heroe,
-            true,
-            "No revela información personal ni ubicación."
-        ),
-        Post(
-            "Texto: Mi hermana cumple hoy 10 años y está sola en casa",
-            null,
-            false,
-            "Revela ubicación y situación familiar vulnerable."
-        ),
-        Post(
-            "Publicación: Fui al parque y fue muy divertido",
-            null,
-            true,
-            "No contiene datos sensibles."
-        )
+        Post("Foto de mis vacaciones con geolocalización", R.drawable.ic_heroe, false, "Incluye geolocalización en los metadatos de la imagen."),
+        Post("Foto de mi mascota jugando", R.drawable.ic_heroe, true, "No revela información personal ni ubicación."),
+        Post("Texto: Mi hermana cumple hoy 10 años y está sola en casa", null, false, "Revela ubicación y situación familiar vulnerable."),
+        Post("Publicación: Fui al parque y fue muy divertido", null, true, "No contiene datos sensibles.")
     )
-
-    // --- Modelo Ajusta tu privacidad ---
-    private val ajustesEsperados = mapOf(
-        "Fotos"     to false,
-        "Ubicacion" to false,
-        "Lista"     to true
-    )
+    private val ajustesEsperados = mapOf("Fotos" to false, "Ubicacion" to false, "Lista" to true)
     private val explicacionesAjustes = mapOf(
-        "Fotos"     to "Si dejas las fotos públicas, cualquier persona verá tus imágenes sin control.",
+        "Fotos" to "Si dejas las fotos públicas, cualquier persona verá tus imágenes sin control.",
         "Ubicacion" to "Compartir ubicación en tiempo real puede poner en riesgo tu privacidad.",
-        "Lista"     to "Mostrar tu lista de amigos ayuda a verificar solicitudes de personas conocidas."
+        "Lista" to "Mostrar tu lista de amigos ayuda a verificar solicitudes de personas conocidas."
     )
-
-    // --- Modelo Filtra solicitudes ---
-    private data class Solicitud(
-        val nombre: String,
-        val avatarRes: Int,
-        val esConocido: Boolean
-    )
+    private data class Solicitud(val nombre: String, val avatarRes: Int, val esConocido: Boolean)
     private val solicitudes = listOf(
         Solicitud("Ana Pérez", R.drawable.ic_heroe, true),
         Solicitud("Carlos Gómez", R.drawable.ic_heroe, false),
         Solicitud("María Ruiz", R.drawable.ic_heroe, true),
         Solicitud("Desconocido123", R.drawable.ic_actor, false)
     )
-
-    // --- Modelo Match-3 ---
-    private enum class Tile { CANDADO, GLOBO, ENGRANAJE;
-        companion object {
-            fun random() = values().random()
-        }
-    }
 
     // --- Vistas ---
     private lateinit var pantallaIntro: View
@@ -102,10 +70,8 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
     private lateinit var pantallaFiltrar: View
     private lateinit var pantallaCombate: View
 
-    // Intro
-    private lateinit var btnIntro: Button
-
     // Detect oversharing
+    private lateinit var btnIntro: View
     private lateinit var cardPost: CardView
     private lateinit var imgPost: ImageView
     private lateinit var tvPost: TextView
@@ -113,473 +79,391 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
     private lateinit var targetPrivado: View
     private var idxPost = 0
 
-    // Ajusta tu privacidad
+    // Ajustes
     private lateinit var switchFotos: SwitchMaterial
     private lateinit var switchUbicacion: SwitchMaterial
     private lateinit var switchLista: SwitchMaterial
-    private lateinit var btnInfoFotos: ImageView
-    private lateinit var btnInfoUbicacion: ImageView
-    private lateinit var btnInfoLista: ImageView
-    private lateinit var btnVerificarAjustes: Button
+    private lateinit var btnInfoFotos: View
+    private lateinit var btnInfoUbicacion: View
+    private lateinit var btnInfoLista: View
+    private lateinit var btnVerificarAjustes: View
 
-    // Filtra solicitudes
+    // Filtrar solicitudes
     private lateinit var rvSolicitudes: RecyclerView
     private lateinit var pbTimer: ProgressBar
-    private lateinit var btnFinalizar: Button
+    private lateinit var btnFinalizar: View
     private var idxSolicitud = 0
     private var puntosFiltrar = 0
     private lateinit var timer: CountDownTimer
 
-    // Combate Match-3
+    // Match-3
+    private lateinit var gridLayout: GridLayout
     private lateinit var pbVidaEnemigo: ProgressBar
     private lateinit var pbEscudoJugador: ProgressBar
     private lateinit var tvObjetivo: TextView
     private lateinit var tvMovsRest: TextView
-    private lateinit var gvTablero: GridView
-    private lateinit var btnPista: Button
-    private var firstSelectedPos: Int? = null
-    private var vidaEnemigo = 100
-    private var escudoJugador = 100
-    private var movRestantes = 20
-    private val tamañoTablero = 8 * 8
-    private val tablero = mutableListOf<Tile>()
+    private lateinit var btnPista: View
+
+    private val filas = 8
+    private val cols = 8
     private val objetivoHP = 100
+    private val movimientosIniciales = 20
+
+    private val engine = Match3Engine(filas, cols)
+    private var primeraPos: Pos? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // Bind pantallas
-        pantallaIntro   = view.findViewById(R.id.pantalla_intro)
-        pantallaDetect  = view.findViewById(R.id.pantalla_detect_oversharing)
+        pantallaIntro = view.findViewById(R.id.pantalla_intro)
+        pantallaDetect = view.findViewById(R.id.pantalla_detect_oversharing)
         pantallaAjustes = view.findViewById(R.id.pantalla_ajustes)
         pantallaFiltrar = view.findViewById(R.id.pantalla_filtrar_solicitudes)
         pantallaCombate = view.findViewById(R.id.pantalla_combate_match3)
 
-        // INTRO
-        btnIntro = view.findViewById(R.id.btnIntro3Siguiente)
-        btnIntro.setOnClickListener {
-            mostrarEtapa(Etapa.DETECT_OVERSHARING)
-            iniciarDetect()
-        }
+        setupIntro(view)
+        setupDetect(view)
+        setupAjustes(view)
+        setupFiltrar(view)
+        setupCombate(view)
 
-        // DETECT OVERSHARING
-        cardPost      = view.findViewById(R.id.cardPost)
-        imgPost       = view.findViewById(R.id.imgPost)
-        tvPost        = view.findViewById(R.id.tvPost)
-        targetPublico = view.findViewById(R.id.targetPublico)
-        targetPrivado = view.findViewById(R.id.targetPrivado)
-
-        cardPost.setOnLongClickListener { v ->
-            v.startDragAndDrop(
-                ClipData.newPlainText("", ""),
-                View.DragShadowBuilder(v),
-                v,
-                0
-            )
-            true
-        }
-        val detectListener = View.OnDragListener { v, event ->
-            if (event.action == DragEvent.ACTION_DROP) handleDetectDrop(v.id)
-            true
-        }
-        targetPublico.setOnDragListener(detectListener)
-        targetPrivado.setOnDragListener(detectListener)
-
-        // AJUSTES
-        switchFotos         = view.findViewById(R.id.switchFotos)
-        switchUbicacion     = view.findViewById(R.id.switchUbicacion)
-        switchLista         = view.findViewById(R.id.switchLista)
-        btnInfoFotos        = view.findViewById(R.id.btnInfoFotos)
-        btnInfoUbicacion    = view.findViewById(R.id.btnInfoUbicacion)
-        btnInfoLista        = view.findViewById(R.id.btnInfoLista)
-        btnVerificarAjustes = view.findViewById(R.id.btnVerificarAjustes)
-
-        btnInfoFotos.setOnClickListener {
-            mostrarDialogo("Fotos", explicacionesAjustes["Fotos"]!!)
-        }
-        btnInfoUbicacion.setOnClickListener {
-            mostrarDialogo("Ubicación", explicacionesAjustes["Ubicacion"]!!)
-        }
-        btnInfoLista.setOnClickListener {
-            mostrarDialogo("Lista de amigos", explicacionesAjustes["Lista"]!!)
-        }
-        btnVerificarAjustes.setOnClickListener {
-            evaluarAjustes()
-        }
-
-        // FILTRAR SOLICITUDES
-        rvSolicitudes = view.findViewById(R.id.rvSolicitudes)
-        pbTimer       = view.findViewById(R.id.pbTimerFiltrar)
-        btnFinalizar  = view.findViewById(R.id.btnFinalizarFiltrar)
-
-        rvSolicitudes.setHasFixedSize(true)
-        rvSolicitudes.layoutManager = LinearLayoutManager(requireContext())
-        rvSolicitudes.adapter = SolicitudAdapter(solicitudes) { aceptada ->
-            evaluarSolicitud(aceptada)
-        }
-        btnFinalizar.setOnClickListener {
-            timer.cancel()
-            Snackbar.make(
-                requireView(),
-                "Filtrado: $puntosFiltrar/${solicitudes.size} correctas",
-                Snackbar.LENGTH_LONG
-            ).setAction("Continuar") {
-                iniciarCombateMatch3()
-            }.show()
-        }
-
-        // COMBATE MATCH-3
-        pbVidaEnemigo   = view.findViewById(R.id.pbVidaEnemigo)
-        pbEscudoJugador = view.findViewById(R.id.pbEscudoJugador)
-        tvObjetivo      = view.findViewById(R.id.tvObjetivoCombate)
-        tvMovsRest      = view.findViewById(R.id.tvMovimientosRestantes)
-        gvTablero       = view.findViewById(R.id.gvTablero)
-        btnPista        = view.findViewById(R.id.btnPista)
-        btnPista.setOnClickListener { usarPista() }
-        gvTablero.adapter = TableroAdapter(tablero) { pos -> onTileSelected(pos) }
-
-
-        // Arrancamos en INTRO
         mostrarEtapa(Etapa.INTRO)
     }
 
-    // --- Detect oversharing ---
+    // --- Intro ---
+    private fun setupIntro(view: View) {
+        btnIntro = view.findViewById(R.id.btnIntro3Siguiente)
+        btnIntro.setOnClickListener {
+            iniciarDetect()
+        }
+    }
+
+    // --- Detect oversharing (igual que antes) ---
+    private fun setupDetect(view: View) {
+        cardPost = view.findViewById(R.id.cardPost)
+        imgPost = view.findViewById(R.id.imgPost)
+        tvPost = view.findViewById(R.id.tvPost)
+        targetPublico = view.findViewById(R.id.targetPublico)
+        targetPrivado = view.findViewById(R.id.targetPrivado)
+        cardPost.setOnLongClickListener { v ->
+            v.startDragAndDrop(ClipData.newPlainText("", ""), View.DragShadowBuilder(v), v, 0)
+            true
+        }
+        val listener = View.OnDragListener { v, event ->
+            if (event.action == DragEvent.ACTION_DROP) handleDetectDrop(v.id)
+            true
+        }
+        targetPublico.setOnDragListener(listener)
+        targetPrivado.setOnDragListener(listener)
+    }
+
     private fun iniciarDetect() {
         idxPost = 0
         mostrarPost()
+        mostrarEtapa(Etapa.DETECT_OVERSHARING)
     }
-
     private fun mostrarPost() {
         val post = posts[idxPost]
         tvPost.text = post.texto
-        if (post.imagenRes != null) {
-            imgPost.visibility = View.VISIBLE
-            imgPost.setImageResource(post.imagenRes)
-        } else {
-            imgPost.visibility = View.GONE
-        }
+        imgPost.visibility = if (post.imagenRes != null) View.VISIBLE else View.GONE
+        post.imagenRes?.let { imgPost.setImageResource(it) }
     }
-
     private fun handleDetectDrop(targetId: Int) {
-        val post       = posts[idxPost]
-        val correctoId = if (post.esPublico) R.id.targetPublico else R.id.targetPrivado
-        val acierto    = (targetId == correctoId)
-
-        Snackbar.make(
-            requireView(),
-            if (acierto) "¡Correcto!" else "Incorrecto…",
-            Snackbar.LENGTH_SHORT
-        ).setAction("¿Por qué?") {
-            mostrarDialogo("Explicación", post.explicacion)
-        }.show()
-
+        val post = posts[idxPost]
+        val correcto = (targetId == if (post.esPublico) R.id.targetPublico else R.id.targetPrivado)
+        Snackbar.make(requireView(), if (correcto) "¡Correcto!" else "Incorrecto…", Snackbar.LENGTH_SHORT)
+            .setAction("¿Por qué?") { mostrarDialogo("Explicación", post.explicacion) }
+            .show()
         idxPost++
-        if (idxPost < posts.size) {
-            mostrarPost()
-        } else {
-            Snackbar.make(requireView(), "Fase oversharing completada", Snackbar.LENGTH_LONG).show()
-            mostrarEtapa(Etapa.AJUSTES)
-            iniciarAjustes()
-        }
+        if (idxPost < posts.size) mostrarPost()
+        else iniciarAjustes()
     }
 
-    // --- Ajusta tu privacidad ---
+    // --- Ajustes ---
+    private fun setupAjustes(view: View) {
+        switchFotos = view.findViewById(R.id.switchFotos)
+        switchUbicacion = view.findViewById(R.id.switchUbicacion)
+        switchLista = view.findViewById(R.id.switchLista)
+        btnInfoFotos = view.findViewById(R.id.btnInfoFotos)
+        btnInfoUbicacion = view.findViewById(R.id.btnInfoUbicacion)
+        btnInfoLista = view.findViewById(R.id.btnInfoLista)
+        btnVerificarAjustes = view.findViewById(R.id.btnVerificarAjustes)
+        btnInfoFotos.setOnClickListener { mostrarDialogo("Fotos", explicacionesAjustes["Fotos"]!!) }
+        btnInfoUbicacion.setOnClickListener { mostrarDialogo("Ubicación", explicacionesAjustes["Ubicacion"]!!) }
+        btnInfoLista.setOnClickListener { mostrarDialogo("Lista de amigos", explicacionesAjustes["Lista"]!!) }
+        btnVerificarAjustes.setOnClickListener { evaluarAjustes() }
+    }
     private fun iniciarAjustes() {
-        switchFotos.isChecked     = !ajustesEsperados["Fotos"]!!
+        switchFotos.isChecked = !ajustesEsperados["Fotos"]!!
         switchUbicacion.isChecked = !ajustesEsperados["Ubicacion"]!!
-        switchLista.isChecked     = !ajustesEsperados["Lista"]!!
+        switchLista.isChecked = !ajustesEsperados["Lista"]!!
         mostrarEtapa(Etapa.AJUSTES)
     }
-
     private fun evaluarAjustes() {
-        val okFotos     = switchFotos.isChecked     == ajustesEsperados["Fotos"]
-        val okUbicacion = switchUbicacion.isChecked == ajustesEsperados["Ubicacion"]
-        val okLista     = switchLista.isChecked     == ajustesEsperados["Lista"]
-        val todoBien    = listOf(okFotos, okUbicacion, okLista).all { it }
-
-        Snackbar.make(
-            requireView(),
-            if (todoBien) "¡Muy bien!" else "Corrige los ajustes…",
-            Snackbar.LENGTH_LONG
-        ).setAction(if (todoBien) "Continuar" else "¿Por qué?") {
-            if (todoBien) {
-                mostrarEtapa(Etapa.FILTRAR_SOLICITUDES)
-                iniciarFiltrar()
-            } else {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Explicaciones")
-                    .setMessage(buildString {
-                        if (!okFotos)     append("• Fotos: ${explicacionesAjustes["Fotos"]}\n\n")
-                        if (!okUbicacion) append("• Ubicación: ${explicacionesAjustes["Ubicacion"]}\n\n")
-                        if (!okLista)     append("• Lista: ${explicacionesAjustes["Lista"]}")
-                    })
-                    .setPositiveButton("OK", null)
-                    .show()
-            }
-        }.show()
+        val okFotos = switchFotos.isChecked == ajustesEsperados["Fotos"]
+        val okUbic = switchUbicacion.isChecked == ajustesEsperados["Ubicacion"]
+        val okLista = switchLista.isChecked == ajustesEsperados["Lista"]
+        val todo = listOf(okFotos, okUbic, okLista).all { it }
+        Snackbar.make(requireView(), if (todo) "¡Muy bien!" else "Corrige los ajustes…", Snackbar.LENGTH_LONG)
+            .setAction(if (todo) "Continuar" else "¿Por qué?") {
+                if (todo) iniciarFiltrar() else mostrarErroresAjustes(okFotos, okUbic, okLista)
+            }.show()
     }
-
-    // --- Filtra solicitudes ---
-    private fun iniciarFiltrar() {
-        idxSolicitud = 0
-        puntosFiltrar = 0
-        btnFinalizar.isEnabled = false
-
-        timer = object : CountDownTimer(30000, 30) {
-            override fun onTick(millisUntilFinished: Long) {
-                pbTimer.progress = (millisUntilFinished * 100 / 30000).toInt()
-            }
-            override fun onFinish() {
-                pbTimer.progress = 0
-                btnFinalizar.isEnabled = true
-            }
-        }.start()
-
-        mostrarEtapa(Etapa.FILTRAR_SOLICITUDES)
-    }
-
-    private fun evaluarSolicitud(aceptada: Boolean) {
-        val sol      = solicitudes[idxSolicitud]
-        val correcta = (aceptada == sol.esConocido)
-        if (correcta) puntosFiltrar++
-
-        Snackbar.make(
-            requireView(),
-            if (correcta) "¡Correcto!" else "Incorrecto",
-            Snackbar.LENGTH_SHORT
-        ).show()
-
-        idxSolicitud++
-        if (idxSolicitud >= solicitudes.size) {
-            btnFinalizar.isEnabled = true
-            timer.cancel()
-        } else {
-            rvSolicitudes.adapter?.notifyItemChanged(idxSolicitud - 1)
-            rvSolicitudes.scrollToPosition(idxSolicitud)
+    private fun mostrarErroresAjustes(okF: Boolean, okU: Boolean, okL: Boolean) {
+        val msg = buildString {
+            if (!okF) append("• Fotos: ${explicacionesAjustes["Fotos"]}\n\n")
+            if (!okU) append("• Ubicación: ${explicacionesAjustes["Ubicacion"]}\n\n")
+            if (!okL) append("• Lista: ${explicacionesAjustes["Lista"]}")
         }
-    }
-
-    // --- Combate Match-3 ---
-    private fun iniciarCombateMatch3() {
-        vidaEnemigo    = 100
-        escudoJugador  = 100
-        movRestantes   = 20
-        tablero.clear()
-
-        pbVidaEnemigo.progress   = vidaEnemigo
-        pbEscudoJugador.progress = escudoJugador
-        tvObjetivo.text          = "Inflige $objetivoHP HP en ≤ $movRestantes movimientos"
-        tvMovsRest.text          = "Mov: $movRestantes"
-
-        iniciarTablero()
-        mostrarEtapa(Etapa.COMBATE_MATCH3)
-    }
-
-    private fun iniciarTablero() {
-        repeat(tamañoTablero) { tablero.add(Tile.random()) }
-        gvTablero.adapter = TableroAdapter(tablero) { pos -> onTileSelected(pos) }
-    }
-
-    private fun onTileSelected(pos: Int) {
-        if (firstSelectedPos == null) {
-            // guardamos primera selección
-            firstSelectedPos = pos
-        } else {
-            val second = pos
-            val first  = firstSelectedPos!!
-            // sólo permitimos swap con casillas adyacentes
-            if (isAdjacent(first, second)) {
-                swapTiles(first, second)
-                // procesamos matches: si no hay, revertimos swap
-                if (!processMatches()) swapTiles(first, second)
-                else {
-                    movRestantes--
-                    tvMovsRest.text = "Mov: $movRestantes"
-                    // si no quedan movimientos o enemigo muerto, terminamos
-                    if (movRestantes == 0 || vidaEnemigo <= 0) {
-                        terminarCombate(vidaEnemigo <= 0)
-                    }
-                }
-            }
-            firstSelectedPos = null
-        }
-    }
-
-    private fun usarPista() {
-        escudoJugador = maxOf(0, escudoJugador - 5)
-        pbEscudoJugador.progress = escudoJugador
-        // TODO: resaltar un match sugerido en gvTablero
-
-    }
-
-    private fun terminarCombate(victoria: Boolean) {
-        if (victoria) {
-            mostrarEtapa(Etapa.RECOMPENSA)
-        } else {
-            Toast.makeText(context, "Has sido derrotado… inténtalo de nuevo.", Toast.LENGTH_LONG).show()
-            iniciarCombateMatch3()
-        }
-    }
-
-    private fun isAdjacent(a: Int, b: Int): Boolean {
-        val cols = 8
-        return when (b) {
-            a - 1 -> a % cols != 0          // izquierda
-            a + 1 -> b % cols != 0          // derecha
-            a - cols, a + cols -> true      // arriba/abajo
-            else -> false
-        }
-    }
-
-    private fun swapTiles(a: Int, b: Int) {
-        val tmp = tablero[a]
-        tablero[a] = tablero[b]
-        tablero[b] = tmp
-        (gvTablero.adapter as BaseAdapter).notifyDataSetChanged()
-    }
-
-    private fun processMatches(): Boolean {
-        val matches = findMatches()
-        if (matches.isEmpty()) return false
-
-        // aplicamos efectos
-        matches.forEach { idx ->
-            when (tablero[idx]) {
-                Tile.CANDADO   -> vidaEnemigo = (vidaEnemigo - 10).coerceAtLeast(0)
-                Tile.GLOBO     -> escudoJugador = (escudoJugador + 8).coerceAtMost(100)
-                Tile.ENGRANAJE -> escudoJugador = (escudoJugador + 5).coerceAtMost(100)
-            }
-        }
-        // actualizamos barras
-        pbVidaEnemigo.progress   = vidaEnemigo
-        pbEscudoJugador.progress = escudoJugador
-
-        // refill: nuevas fichas aleatorias en las posiciones eliminadas
-        matches.forEach { tablero[it] = Tile.random() }
-        (gvTablero.adapter as BaseAdapter).notifyDataSetChanged()
-        return true
-    }
-
-    private fun findMatches(): Set<Int> {
-        val matches = mutableSetOf<Int>()
-        val cols = 8
-        val rows = 8
-
-        // horizontal
-        for (r in 0 until rows) {
-            var streak = 1
-            for (c in 1 until cols) {
-                val prev = r*cols + (c-1)
-                val curr = r*cols + c
-                if (tablero[curr] == tablero[prev]) {
-                    streak++
-                } else {
-                    if (streak >= 3) {
-                        for (k in 0 until streak) matches += r*cols + (c-1 - k)
-                    }
-                    streak = 1
-                }
-            }
-            if (streak >= 3) {
-                for (k in 0 until streak) matches += r*cols + (cols-1 - k)
-            }
-        }
-
-        // vertical
-        for (c in 0 until cols) {
-            var streak = 1
-            for (r in 1 until rows) {
-                val prev = (r-1)*cols + c
-                val curr = r*cols + c
-                if (tablero[curr] == tablero[prev]) {
-                    streak++
-                } else {
-                    if (streak >= 3) {
-                        for (k in 0 until streak) matches += (r-1-k)*cols + c
-                    }
-                    streak = 1
-                }
-            }
-            if (streak >= 3) {
-                for (k in 0 until streak) matches += (rows-1-k)*cols + c
-            }
-        }
-
-        return matches
-    }
-
-    // --- Helpers ---
-    private fun mostrarDialogo(titulo: String, mensaje: String) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(titulo)
-            .setMessage(mensaje)
+            .setTitle("Explicaciones")
+            .setMessage(msg)
             .setPositiveButton("OK", null)
             .show()
     }
 
-    private fun mostrarEtapa(etapa: Etapa) {
-        pantallaIntro.visibility   = View.GONE
-        pantallaDetect.visibility  = View.GONE
-        pantallaAjustes.visibility = View.GONE
-        pantallaFiltrar.visibility = View.GONE
-        pantallaCombate.visibility = View.GONE
-        when (etapa) {
-            Etapa.INTRO               -> pantallaIntro.visibility   = View.VISIBLE
-            Etapa.DETECT_OVERSHARING  -> pantallaDetect.visibility  = View.VISIBLE
-            Etapa.AJUSTES             -> pantallaAjustes.visibility = View.VISIBLE
+    // --- Filtrar solicitudes ---
+    private fun setupFiltrar(view: View) {
+        rvSolicitudes = view.findViewById(R.id.rvSolicitudes)
+        pbTimer = view.findViewById(R.id.pbTimerFiltrar)
+        btnFinalizar = view.findViewById(R.id.btnFinalizarFiltrar)
+        rvSolicitudes.layoutManager = LinearLayoutManager(requireContext())
+        rvSolicitudes.adapter = SolicitudAdapter(solicitudes) { evalSolicitud(it) }
+        btnFinalizar.setOnClickListener { timer.cancel(); mostrarResultadoFiltrar() }
+    }
+    private fun iniciarFiltrar() {
+        idxSolicitud = 0; puntosFiltrar = 0
+        btnFinalizar.isEnabled = false
+        timer = object : CountDownTimer(30_00, 30) {
+            override fun onTick(millis: Long) = run { pbTimer.progress = (millis * 100 / 30000).toInt() }
+            override fun onFinish() { pbTimer.progress = 0; btnFinalizar.isEnabled = true }
+        }.start()
+        mostrarEtapa(Etapa.FILTRAR_SOLICITUDES)
+    }
+    private fun evalSolicitud(acepta: Boolean) {
+        val sol = solicitudes[idxSolicitud]
+        if (acepta == sol.esConocido) puntosFiltrar++
+        Snackbar.make(requireView(), if (acepta == sol.esConocido) "¡Correcto!" else "Incorrecto", Snackbar.LENGTH_SHORT).show()
+        idxSolicitud++
+        if (idxSolicitud >= solicitudes.size) { btnFinalizar.isEnabled = true; timer.cancel() }
+        else { rvSolicitudes.adapter?.notifyItemChanged(idxSolicitud-1); rvSolicitudes.scrollToPosition(idxSolicitud) }
+    }
+    private fun mostrarResultadoFiltrar() {
+        Snackbar.make(requireView(), "Filtrado: $puntosFiltrar/${solicitudes.size} correctas", Snackbar.LENGTH_LONG)
+            .setAction("Continuar") { iniciarCombateMatch3() }
+            .show()
+    }
+
+    // --- Combate Match-3 ---
+    private fun setupCombate(view: View) {
+        gridLayout = view.findViewById(R.id.gvTablero) as GridLayout
+        pbVidaEnemigo = view.findViewById(R.id.pbVidaEnemigo)
+        pbEscudoJugador = view.findViewById(R.id.pbEscudoJugador)
+        tvObjetivo = view.findViewById(R.id.tvObjetivoCombate)
+        tvMovsRest = view.findViewById(R.id.tvMovimientosRestantes)
+        btnPista = view.findViewById(R.id.btnPista)
+        btnPista.setOnClickListener { usarPista() }
+    }
+    private fun iniciarCombateMatch3() {
+        engine.reset(objetivoHP, movimientosIniciales)
+        gridLayout.removeAllViews()
+        gridLayout.rowCount = filas
+        gridLayout.columnCount = cols
+        primeraPos = null
+        actualizarBarras()
+        tvObjetivo.text = "Inflige $objetivoHP HP en ≤ $movimientosIniciales movimientos"
+        tvMovsRest.text = "Mov: $movimientosIniciales"
+        drawBoard()
+        mostrarEtapa(Etapa.COMBATE_MATCH3)
+    }
+    private fun drawBoard() {
+        gridLayout.removeAllViews()
+
+        // Recorremos cada fila y columna
+        for (r in 0 until filas) {
+            for (c in 0 until cols) {
+                val iv = ImageView(requireContext()).apply {
+                    setImageResource(engine.getDrawableAt(r, c))
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    setOnClickListener { onTileClick(r to c, this) }
+                }
+
+                // ¡Este es el truco! Le damos un LayoutParams que
+                // especifique su fila (r), columna (c) y peso 1f
+                val lp = GridLayout.LayoutParams(
+                    GridLayout.spec(r, 1, 1f),   // fila r, ocupa 1 fila, peso 1
+                    GridLayout.spec(c, 1, 1f)    // col c, ocupa 1 columna, peso 1
+                ).apply {
+                    width = 0    // con peso, width=0 para repartir
+                    height = 0   // idem para height
+                    setMargins(4, 4, 4, 4)
+                }
+
+                gridLayout.addView(iv, lp)
+            }
+        }
+    }
+
+    private fun onTileClick(pos: Pos, view: View) {
+        if (primeraPos == null) { primeraPos = pos; view.alpha = 0.5f }
+        else {
+            val segunda = pos
+            val primera = primeraPos!!
+            val firstView = gridLayout.getChildAt(primera.first*cols + primera.second)
+            firstView.alpha = 1f
+            if (engine.canSwap(primera, segunda)) animateSwap(primera, segunda)
+            primeraPos = null
+        }
+    }
+    private fun animateSwap(a: Pos, b: Pos) {
+        val idxA = a.first*cols + a.second; val idxB = b.first*cols + b.second
+        val viewA = gridLayout.getChildAt(idxA) as ImageView
+        val viewB = gridLayout.getChildAt(idxB) as ImageView
+        val xA = viewA.x; val yA = viewA.y; val xB = viewB.x; val yB = viewB.y
+        viewA.animate().x(xB).y(yB).setDuration(200).start()
+        viewB.animate().x(xA).y(yA).setDuration(200).withEndAction {
+            if (!engine.swap(a, b)) {
+                viewA.animate().x(xA).y(yA).setDuration(200).start()
+                viewB.animate().x(xB).y(yB).setDuration(200).start()
+            } else handleMatches()
+        }.start()
+    }
+    private fun handleMatches() {
+        val matches = engine.findMatches()
+        if (matches.isEmpty()) return
+        // animar fade-out
+        matches.forEach { (r, c) -> gridLayout.getChildAt(r*cols + c).animate().alpha(0f).setDuration(200).start() }
+        // tras delay, clear, cascade y refill
+        gridLayout.postDelayed({
+            engine.clearMatches(matches)
+            engine.collapse()
+            engine.refill()
+            actualizarBoardViews()
+            actualizarBarras()
+            handleMatches()
+        }, 250)
+    }
+    private fun actualizarBoardViews() {
+        for (i in 0 until filas*cols) {
+            val (r, c) = i/cols to i%cols
+            (gridLayout.getChildAt(i) as ImageView).apply {
+                setImageResource(engine.getDrawableAt(r, c))
+                alpha = 1f
+                x = (i%cols) * width.toFloat() + gridLayout.paddingLeft
+                y = (i/cols) * height.toFloat() + gridLayout.paddingTop
+            }
+        }
+    }
+    private fun actualizarBarras() {
+        pbVidaEnemigo.progress = engine.vidaEnemigo
+        pbEscudoJugador.progress = engine.escudoJugador
+        tvMovsRest.text = "Mov: ${engine.movimientosRestantes}"
+    }
+    private fun usarPista() {
+        engine.useHint()?.let { pos ->
+            val view = gridLayout.getChildAt(pos.first*cols + pos.second)
+            view.animate().alpha(0.3f).setDuration(200).withEndAction { view.animate().alpha(1f).setDuration(200).start() }.start()
+        }
+        actualizarBarras()
+    }
+
+    // --- Helpers comunes ---
+    private fun mostrarDialogo(t: String, m: String) = MaterialAlertDialogBuilder(requireContext()).setTitle(t).setMessage(m).setPositiveButton("OK", null).show()
+    private fun mostrarEtapa(e: Etapa) {
+        pantallaIntro.visibility = View.GONE; pantallaDetect.visibility = View.GONE; pantallaAjustes.visibility = View.GONE; pantallaFiltrar.visibility = View.GONE; pantallaCombate.visibility = View.GONE
+        when(e) {
+            Etapa.INTRO -> pantallaIntro.visibility = View.VISIBLE
+            Etapa.DETECT_OVERSHARING -> pantallaDetect.visibility = View.VISIBLE
+            Etapa.AJUSTES -> pantallaAjustes.visibility = View.VISIBLE
             Etapa.FILTRAR_SOLICITUDES -> pantallaFiltrar.visibility = View.VISIBLE
-            Etapa.COMBATE_MATCH3      -> pantallaCombate.visibility = View.VISIBLE
-            Etapa.RECOMPENSA          -> { /* implementar recompensa */ }
+            Etapa.COMBATE_MATCH3 -> pantallaCombate.visibility = View.VISIBLE
+            else -> {}
         }
     }
 
-    // --- Adapter interno para Filtrar solicitudes ---
-    private inner class SolicitudAdapter(
-        val items: List<Solicitud>,
-        val callback: (Boolean) -> Unit
-    ) : RecyclerView.Adapter<SolicitudAdapter.VH>() {
+    // --- Motor Match-3 integrado ---
+    private class Match3Engine(val rows: Int, val cols: Int) {
+        enum class Type { ROJO, AZUL, VERDE, AMARILLO }
+        data class Tile(var type: Type)
 
-        inner class VH(view: View) : RecyclerView.ViewHolder(view) {
-            private val ivAvatar: ImageView = view.findViewById(R.id.ivAvatar)
-            private val tvNombre: TextView  = view.findViewById(R.id.tvNombre)
-            private val btnAceptar: Button  = view.findViewById(R.id.btnAceptar)
-            private val btnRechazar: Button = view.findViewById(R.id.btnRechazar)
+        val board = Array(rows) { Array(cols) { Tile(randomType()) } }
+        var vidaEnemigo = 100
+        var escudoJugador = 100
+        var movimientosRestantes = 0
 
-            fun bind(sol: Solicitud) {
-                ivAvatar.setImageResource(sol.avatarRes)
-                tvNombre.text = sol.nombre
-                btnAceptar.setOnClickListener { callback(true) }
-                btnRechazar.setOnClickListener { callback(false) }
+        fun reset(objetivoHP: Int, movs: Int) {
+            repeat(rows) { r -> repeat(cols) { c -> board[r][c] = Tile(randomType()) }}
+            vidaEnemigo = objetivoHP
+            escudoJugador = objetivoHP
+            movimientosRestantes = movs
+        }
+        private fun randomType() = Type.values().random()
+        fun getDrawableAt(r: Int, c: Int): Int = when(board[r][c].type) {
+            Type.ROJO -> R.drawable.ic_no_compartir
+            Type.AZUL -> R.drawable.ic_shield
+            Type.VERDE -> R.drawable.ic_warning_email
+            Type.AMARILLO -> R.drawable.ic_candado
+        }
+        fun canSwap(a: Pos, b: Pos) = (Math.abs(a.first-b.first)+Math.abs(a.second-b.second)==1)
+        fun swap(a: Pos, b: Pos): Boolean {
+            val tmp = board[a.first][a.second]; board[a.first][a.second] = board[b.first][b.second]; board[b.first][b.second] = tmp
+            val ok = findMatches().isNotEmpty()
+            if (!ok) swap(a, b)
+            else movimientosRestantes--
+            return ok
+        }
+        fun findMatches(): Set<Pos> {
+            val matches = mutableSetOf<Pos>()
+            // horizontal
+            for(r in 0 until rows) {
+                var streak = 1
+                for(c in 1 until cols) {
+                    if(board[r][c].type==board[r][c-1].type) streak++ else {
+                        if(streak>=3) for(k in 0 until streak) matches += r to (c-1-k)
+                        streak=1
+                    }
+                }
+                if(streak>=3) for(k in 0 until streak) matches += r to (cols-1-k)
+            }
+            // vertical
+            for(c in 0 until cols) {
+                var streak=1
+                for(r in 1 until rows) {
+                    if(board[r][c].type==board[r-1][c].type) streak++ else {
+                        if(streak>=3) for(k in 0 until streak) matches += (r-1-k) to c
+                        streak=1
+                    }
+                }
+                if(streak>=3) for(k in 0 until streak) matches += (rows-1-k) to c
+            }
+            return matches
+        }
+        fun clearMatches(matches: Set<Pos>) {
+            matches.forEach { (r,c) -> when(board[r][c].type) {
+                Type.ROJO -> vidaEnemigo = (vidaEnemigo-10).coerceAtLeast(0)
+                else -> escudoJugador = (escudoJugador+5).coerceAtMost(100)
+            }; board[r][c] = Tile(randomType()) }
+        }
+        fun collapse() { /* no gravity needed si refill directo */ }
+        fun refill() { /* ya rellenado en clearMatches */ }
+        fun useHint(): Pos? = findMatches().firstOrNull()
+    }
+
+    // --- Adapters para solicitudes ---
+    private inner class SolicitudAdapter(val items: List<Solicitud>, val cb: (Boolean)->Unit) : RecyclerView.Adapter<SolicitudAdapter.VH>() {
+        inner class VH(v: View): RecyclerView.ViewHolder(v) {
+            val iv = v.findViewById<ImageView>(R.id.ivAvatar)
+            val tv = v.findViewById<TextView>(R.id.tvNombre)
+            val btnA = v.findViewById<View>(R.id.btnAceptar)
+            val btnR = v.findViewById<View>(R.id.btnRechazar)
+            fun bind(s: Solicitud) {
+                iv.setImageResource(s.avatarRes); tv.text = s.nombre
+                btnA.setOnClickListener { cb(true) }
+                btnR.setOnClickListener { cb(false) }
             }
         }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-            val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_solicitud, parent, false)
-            return VH(v)
-        }
-        override fun onBindViewHolder(holder: VH, position: Int) {
-            holder.bind(items[position])
-        }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VH(LayoutInflater.from(parent.context).inflate(R.layout.item_solicitud, parent, false))
+        override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(items[position])
         override fun getItemCount() = items.size
-    }
-
-    // --- Adapter interno para el Tablero Match-3 ---
-    private inner class TableroAdapter(
-        private val items: List<Tile>,
-        private val callback: (Int) -> Unit
-    ) : BaseAdapter() {
-        override fun getCount() = items.size
-        override fun getItem(position: Int) = items[position]
-        override fun getItemId(position: Int) = position.toLong()
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val tv = TextView(parent.context).apply {
-                text = items[position].name
-                gravity = Gravity.CENTER
-                setPadding(8, 8, 8, 8)
-                setOnClickListener { callback(position) }
-            }
-            return tv
-        }
     }
 }

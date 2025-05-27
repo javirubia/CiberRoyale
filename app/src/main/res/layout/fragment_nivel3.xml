@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-
     <!-- 1. Pantalla de introducción -->
     <LinearLayout
         android:id="@+id/pantalla_intro"
@@ -304,13 +303,11 @@
         android:visibility="gone"
         android:padding="16dp">
 
-        <!-- Contenedor vertical -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- Vida enemigo -->
             <ProgressBar
                 android:id="@+id/pbVidaEnemigo"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -319,7 +316,6 @@
                 android:progress="100"
                 android:max="100"/>
 
-            <!-- Escudo jugador -->
             <ProgressBar
                 android:id="@+id/pbEscudoJugador"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -329,7 +325,6 @@
                 android:progress="100"
                 android:max="100"/>
 
-            <!-- Objetivo y movimientos restantes -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -353,19 +348,17 @@
                     android:textSize="14sp"/>
             </LinearLayout>
 
-            <!-- Tablero Match-3: ocupa todo el espacio restante -->
-            <GridView
+            <androidx.gridlayout.widget.GridLayout
                 android:id="@+id/gvTablero"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:numColumns="8"
-                android:verticalSpacing="4dp"
-                android:horizontalSpacing="4dp"
-                android:stretchMode="columnWidth"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                app:columnCount="8"
+                app:rowCount="8"
+                app:useDefaultMargins="true" />
 
-            <!-- Botón pista -->
+
             <Button
                 android:id="@+id/btnPista"
                 android:layout_width="wrap_content"
