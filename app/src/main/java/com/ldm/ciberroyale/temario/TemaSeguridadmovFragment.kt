@@ -1,4 +1,4 @@
-package com.ldm.ciberroyale
+package com.ldm.ciberroyale.temario
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,15 +9,15 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
+import com.ldm.ciberroyale.R
 
-class TemaPhishingFragment : Fragment() {
+class TemaSeguridadmovFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_tema_phishing, container, false)
+        return inflater.inflate(R.layout.fragment_tema_seguridadmov, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,26 +31,25 @@ class TemaPhishingFragment : Fragment() {
 
         val temas = listOf(
             Triple(
-                "¿Qué es el Phishing?",
-                "Es cuando alguien intenta engañarte con un mensaje falso para que des tu contraseña o tus datos. ¡Parece real, pero es una trampa! 🪝",
-                R.drawable.ic_phishing
+                "Cuida tu dispositivo como un tesoro",
+                "Tu móvil o tablet tiene fotos, juegos, cuentas... ¡es muy valioso! 💎\n\nSi alguien lo coge sin permiso, puede hacer daño.",
+                R.drawable.ic_mobile_lock
             ),
             Triple(
-                "¿Cómo Reconocer un Mensaje Sospechoso?",
-                "🚨 Usa frases como: \"¡Tu cuenta será bloqueada!\"\n📝 Tiene errores o enlaces raros como www.banco-falso123.com\n❌ Pide tu contraseña o número de tarjeta.",
-                R.drawable.ic_warning_email
+                "Pon una contraseña o patrón de bloqueo",
+                "🔒 Usa un patrón, PIN o huella para proteger tu dispositivo.\n📱 Así nadie podrá usarlo sin permiso.",
+                R.drawable.ic_pattern_lock
             ),
             Triple(
-                "¿Qué Hacer si Recibes un Mensaje Raro?",
-                "📵 No hagas clic si no estás seguro\n👨‍👩‍👧 Díselo a un adulto de confianza\n📧 Revisa siempre quién lo envía",
-                R.drawable.ic_shield
+                "¡Cuidado con lo que instalas!",
+                "📥 Solo descarga apps de sitios seguros (como Google Play).\n🧟 Algunas apps falsas pueden tener virus o espiar lo que haces.",
+                R.drawable.ic_alerta
             ),
             Triple(
-                "¿Qué es la Ingeniería Social?",
-                "Es cuando alguien intenta ganarse tu confianza para que le des información sin que te des cuenta.\n\nPuede hacerse pasar por un amigo, maestro o técnico. ¡Pero es un engaño! 🎭",
-                R.drawable.ic_actor
+                "WiFi gratis... ¿seguro?",
+                "📶 No te conectes a redes WiFi abiertas sin saber si son confiables.\n👀 Alguien podría espiar lo que haces o robar información.",
+                R.drawable.ic_wifi_alert
             )
-
         )
 
         for ((titulo, descripcion, icono) in temas) {

@@ -88,10 +88,13 @@
         <action
             android:id="@+id/action_logrosFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_logrosFragment_self"
+            app:destination="@id/logrosFragment" />
     </fragment>
     <fragment
         android:id="@+id/temaContraFragment"
-        android:name="com.ldm.ciberroyale.TemaContraFragment"
+        android:name="com.ldm.ciberroyale.temario.TemaContraFragment"
         android:label="fragment_tema_contra"
         tools:layout="@layout/fragment_tema_contra" >
         <action
@@ -100,7 +103,7 @@
     </fragment>
     <fragment
         android:id="@+id/temaPhishingFragment"
-        android:name="com.ldm.ciberroyale.TemaPhishingFragment"
+        android:name="com.ldm.ciberroyale.temario.TemaPhishingFragment"
         android:label="fragment_tema_phishing"
         tools:layout="@layout/fragment_tema_phishing" >
         <action
@@ -109,7 +112,7 @@
     </fragment>
     <fragment
         android:id="@+id/temaRRSSFragment"
-        android:name="com.ldm.ciberroyale.TemaRRSSFragment"
+        android:name="com.ldm.ciberroyale.temario.TemaRRSSFragment"
         android:label="fragment_tema_r_r_s_s"
         tools:layout="@layout/fragment_tema_r_r_s_s" >
         <action
@@ -118,7 +121,7 @@
     </fragment>
     <fragment
         android:id="@+id/temaSeguridadmovFragment"
-        android:name="com.ldm.ciberroyale.TemaSeguridadmovFragment"
+        android:name="com.ldm.ciberroyale.temario.TemaSeguridadmovFragment"
         android:label="fragment_tema_seguridadmov"
         tools:layout="@layout/fragment_tema_seguridadmov" >
         <action
@@ -127,7 +130,7 @@
     </fragment>
     <fragment
         android:id="@+id/nivel1Fragment"
-        android:name="com.ldm.ciberroyale.Nivel1Fragment"
+        android:name="com.ldm.ciberroyale.niveles.Nivel1Fragment"
         android:label="fragment_nivel1"
         tools:layout="@layout/fragment_nivel1" >
         <action
@@ -136,7 +139,7 @@
     </fragment>
     <fragment
         android:id="@+id/nivel2Fragment"
-        android:name="com.ldm.ciberroyale.Nivel2Fragment"
+        android:name="com.ldm.ciberroyale.niveles.Nivel2Fragment"
         android:label="fragment_nivel2"
         tools:layout="@layout/fragment_nivel2" >
         <action
@@ -145,7 +148,7 @@
     </fragment>
     <fragment
         android:id="@+id/nivel3Fragment"
-        android:name="com.ldm.ciberroyale.Nivel3Fragment"
+        android:name="com.ldm.ciberroyale.niveles.Nivel3Fragment"
         android:label="fragment_nivel3"
         tools:layout="@layout/fragment_nivel3" >
         <action
@@ -154,7 +157,7 @@
     </fragment>
     <fragment
         android:id="@+id/nivel4Fragment"
-        android:name="com.ldm.ciberroyale.Nivel4Fragment"
+        android:name="com.ldm.ciberroyale.niveles.Nivel4Fragment"
         android:label="fragment_nivel4"
         tools:layout="@layout/fragment_nivel4" >
         <action

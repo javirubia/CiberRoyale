@@ -1,4 +1,4 @@
-package com.ldm.ciberroyale
+package com.ldm.ciberroyale.temario
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,14 +9,15 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.ldm.ciberroyale.R
 
-class TemaSeguridadmovFragment : Fragment() {
+class TemaRRSSFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_tema_seguridadmov, container, false)
+        return inflater.inflate(R.layout.fragment_tema_r_r_s_s, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,24 +31,24 @@ class TemaSeguridadmovFragment : Fragment() {
 
         val temas = listOf(
             Triple(
-                "Cuida tu dispositivo como un tesoro",
-                "Tu móvil o tablet tiene fotos, juegos, cuentas... ¡es muy valioso! 💎\n\nSi alguien lo coge sin permiso, puede hacer daño.",
-                R.drawable.ic_mobile_lock
+                "¿Por qué es importante cuidar tu privacidad?",
+                "Cuando subes fotos o información, muchas personas pueden verla. Algunos podrían usar eso para hacerte daño o molestarte. 😟\n\n¡Protege tus cosas personales!",
+                R.drawable.ic_privacidad
             ),
             Triple(
-                "Pon una contraseña o patrón de bloqueo",
-                "🔒 Usa un patrón, PIN o huella para proteger tu dispositivo.\n📱 Así nadie podrá usarlo sin permiso.",
-                R.drawable.ic_pattern_lock
+                "Cosas que nunca deberías compartir",
+                "❌ Tu dirección o colegio\n📸 Fotos con tu ubicación\n🧾 Fotos de documentos\n👨‍👩‍👧 Información de tu familia\n\n¡Piénsalo antes de publicar!",
+                R.drawable.ic_no_compartir
             ),
             Triple(
-                "¡Cuidado con lo que instalas!",
-                "📥 Solo descarga apps de sitios seguros (como Google Play).\n🧟 Algunas apps falsas pueden tener virus o espiar lo que haces.",
-                R.drawable.ic_alerta
+                "Cómo configurar tu perfil para estar seguro",
+                "🔒 Haz tu cuenta privada\n👀 Elige quién puede ver tus cosas\n🚫 Bloquea a desconocidos\n📲 Activa alertas de inicio de sesión",
+                R.drawable.ic_candado
             ),
             Triple(
-                "WiFi gratis... ¿seguro?",
-                "📶 No te conectes a redes WiFi abiertas sin saber si son confiables.\n👀 Alguien podría espiar lo que haces o robar información.",
-                R.drawable.ic_wifi_alert
+                "¡Sé un héroe digital!",
+                "🤖 Ayuda a tus amigos a configurar su privacidad\n🔍 Revisa tus publicaciones antiguas\n💬 Habla con un adulto si algo te parece raro",
+                R.drawable.ic_heroe
             )
         )
 

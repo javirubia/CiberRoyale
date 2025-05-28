@@ -1,0 +1,29 @@
+<!-- res/xml/scene_inicio.xml -->
+<MotionScene
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        app:constraintSetStart="@+id/inicio"
+        app:constraintSetEnd="@+id/fin"
+        app:duration="1200"
+        app:motionInterpolator="easeInOut"
+        app:autoTransition="animateToEnd" />
+
+    <ConstraintSet android:id="@+id/inicio">
+        <Constraint android:id="@+id/tvTitulo"
+            android:alpha="0"
+            android:translationY="-50dp"/>
+        <Constraint android:id="@+id/logoImage"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:translationY="-100dp"/>
+        <Constraint android:id="@+id/btnComenzar"
+            android:alpha="0"
+            android:translationY="50dp"/>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/fin">
+        <!-- vacio: hereda las posiciones de tu layout normal -->
+    </ConstraintSet>
+</MotionScene>

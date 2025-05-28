@@ -1,10 +1,7 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<!-- res/values/themes.xml -->
+<resources>
     <style name="Base.Theme.CiberRoyale" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-
-
-
+        <!-- … aquí tus colores y tipografía por defecto … -->
     </style>
-
     <style name="Theme.CiberRoyale" parent="Base.Theme.CiberRoyale" />
 </resources>

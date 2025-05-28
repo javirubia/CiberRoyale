@@ -1,4 +1,4 @@
-package com.ldm.ciberroyale
+package com.ldm.ciberroyale.temario
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.ldm.ciberroyale.R
 
 class TemaContraFragment : Fragment() {
 
@@ -32,18 +33,22 @@ class TemaContraFragment : Fragment() {
         val temas = listOf(
             Triple("¿Qué es una Contraseña Segura?",
                 "Una contraseña segura es como una puerta mágica con muchos candados. Debe tener 12 letras o más, con mayúsculas, números y símbolos. ¡Nada de tu nombre ni fechas!",
-                R.drawable.ic_candado),
+                R.drawable.ic_candado
+            ),
             Triple("Ejemplos de Contraseñas",
                 "🟥 Débiles: 12345, jose1990, contraseña\n" +
                         "🟩 Fuertes: PeRr0AzUl!85, A5!zT&9nQx#\n" +
                         "💡 Consejo: Usa frases locas como 'Pat0\$AzulEstrell4C0che'.",
-                R.drawable.ic_claves),
+                R.drawable.ic_claves
+            ),
             Triple("Consejos para Gestionarlas",
                 "🔐 No repitas contraseñas\n📲 Usa un gestor de contraseñas\n🔁 Cámbialas regularmente\n❗ No las compartas",
-                R.drawable.ic_consejo),
+                R.drawable.ic_consejo
+            ),
             Triple("¿Por qué son importantes?",
                 "⚠️ Contraseñas débiles permiten robos de cuentas.\n🚨 Si repites la misma en varias webs, todas se pueden ver comprometidas.\n👾 ¡Los hackers usan robots para adivinar contraseñas!",
-                R.drawable.ic_alerta)
+                R.drawable.ic_alerta
+            )
         )
 
         for ((titulo, descripcion, icono) in temas) {

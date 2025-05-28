@@ -368,6 +368,52 @@
                 android:layout_marginTop="12dp"/>
         </LinearLayout>
     </FrameLayout>
+    <!-- Pantalla 6: Recompensa -->
+    <LinearLayout
+        android:id="@+id/pantalla_recomp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="24dp">
+
+        <!-- Texto de felicitación -->
+        <TextView
+            android:id="@+id/tvRecompensaTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎉 ¡Enhorabuena!"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/tvRecompensaSubtitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Has superado el nivel de phishing"
+            android:textSize="16sp"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- Aquí podrías añadir una imagen o animación de confeti -->
+        <ImageView
+            android:id="@+id/imgConfeti"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_actor"
+            android:contentDescription="Confeti"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- Botón para continuar -->
+        <Button
+            android:id="@+id/btnRecompContinuar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continuar"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
 
 
 
