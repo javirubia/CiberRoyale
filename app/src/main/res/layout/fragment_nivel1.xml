@@ -5,103 +5,278 @@
     android:background="@android:color/white">
 
     <!-- Pantalla 1: Animación ViperWare -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/pantalla_ataque"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:paddingTop="68dp"
+        android:background="@drawable/background_gradient">
 
-        <!-- Aquí va la animación de ViperWare -->
-        <ImageView
-            android:id="@+id/imgViper"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/viper" />
-
+        <!-- Título grande -->
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvTituloAtaque"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="¡El mundo ha sido atacado por ViperWare!"
-            android:textSize="18sp"
+            android:text="¡Atención!"
+            android:textSize="35sp"
+            android:gravity="center"
             android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:fontFamily="@font/orbitron_regular"
+            android:textColor="@android:color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp"/>
 
-        <Button
+        <!-- Vídeo grande, 16:9 -->
+        <VideoView
+            android:id="@+id/videoViper"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintTop_toBottomOf="@id/tvTituloAtaque"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="18dp"/>
+
+        <!-- Texto secundario -->
+        <TextView
+            android:id="@+id/tvSubtituloAtaque"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="¡El mundo ha sido infectado por ViperWare!"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:fontFamily="@font/orbitron_regular"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/videoViper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp"/>
+
+        <!-- Botón estilizado con Material Components -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSiguienteAtaque"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Continuar"
-            android:layout_marginTop="20dp" />
-    </LinearLayout>
+            android:text="CONTINUAR"
+            android:textAllCaps="true"
+            android:textSize="30sp"
+            android:fontFamily="@font/orbitron_extrabold"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtituloAtaque"
+            app:layout_constraintStart_toStartOf="parent"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Pantalla 2: Byte se presenta -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/pantalla_byte"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:background="@drawable/background_gradient"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="100dp"
+        android:paddingBottom="32dp">
+    <!-- 1. Texto de introducción -->
+        <TextView
+            android:id="@+id/tvIntroByte"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Soy Byte, robot de asistencia. Necesitamos tu ayuda: el planeta ha sido atacado por Viper, un hacker malvado. ¡Únete a los Cyber Defensores!"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:fontFamily="@font/orbitron_regular"
+            android:background="@drawable/bg_texto_translucido"
+            android:padding="12dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- 2. Robot “enmarcado” dentro de un card para crear un borde -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardRobot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tvIntroByte"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@android:color/white"
+            app:strokeWidth="2dp">
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/robot" />
+            android:id="@+id/imgRobot"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:src="@drawable/robot_presentacion"
+            android:contentDescription="Byte Robot"
+            android:scaleType="centerCrop" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¿Te unes a los CiberDefensores?"
-            android:textSize="18sp"
-            android:layout_marginTop="16dp" />
+    </com.google.android.material.card.MaterialCardView>
 
-        <Button
-            android:id="@+id/btnUnirse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="✅ ¡Sí, quiero ayudar!" />
+        <!-- 3. Tarjeta con texto y botones un poco más arriba que antes -->
+    <com.google.android.material.card.MaterialCardView
+    android:id="@+id/cardOpciones"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="64dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-            android:id="@+id/btnRechazar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="❌ No"
-            android:layout_marginTop="8dp" />
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tvBytePregunta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Te unes a los CyberDefensores?"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/orbitron_extrabold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="12dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUnirse"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="¡Sí, quiero ayudar!"
+        android:fontFamily="@font/orbitron_extrabold"
+        app:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        app:rippleColor="@color/green_200"
+        android:layout_marginBottom="8dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRechazar"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/orbitron_extrabold"
+        app:backgroundTint="@color/red_700"
+        android:textColor="@android:color/white"
+        app:rippleColor="@color/red_200"
+        android:text="No cuentes conmigo."/>
+
     </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Pantalla 3: Contexto del nivel -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/pantalla_contexto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
         android:visibility="gone"
+        android:background="@drawable/background_gradient"
         android:padding="16dp">
 
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/robot"
-            android:contentDescription="Byte" />
-
-        <TextView
+        <!-- 1) Imagen grande de Viper robando contraseñas -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViperRobando"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@android:color/white"
+            app:strokeWidth="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/imgViperRobando"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/viper_contras"
+                android:contentDescription="Viper robando contraseñas"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 2) Robot Byte a la izquierda (columna 1) -->
+        <ImageView
+            android:id="@+id/imgByteContexto"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:src="@drawable/robot"
+            android:contentDescription="Byte"
+            android:scaleType="centerInside"
+            app:layout_constraintTop_toBottomOf="@id/cardViperRobando"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.4"/>
+
+        <!-- 3) Texto de contexto a la derecha (columna 2) -->
+        <TextView
+            android:id="@+id/tvContexto"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="ViperWare está robando contraseñas débiles. ¡Debemos detenerlo!"
             android:textSize="18sp"
             android:gravity="center"
-            android:layout_marginTop="16dp" />
+            android:padding="12dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/bg_texto_translucido"
+            android:fontFamily="@font/orbitron_regular"
+            app:layout_constraintTop_toTopOf="@id/imgByteContexto"
+            app:layout_constraintStart_toEndOf="@id/imgByteContexto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.55"/>
 
-        <Button
+        <!-- 4) Barrier para saber dónde acaba la “fila” de robot+texto -->
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierBottom"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="imgByteContexto,tvContexto"/>
+
+
+        <!-- 5) Botón centrado debajo de la Barrier -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnContextoListo"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Estoy listo"
-            android:layout_marginTop="20dp" />
-    </LinearLayout>
+            android:fontFamily="@font/orbitron_extrabold"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@null"
+            app:layout_constraintTop_toBottomOf="@id/barrierBottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Agrega más pantallas: preguntas, mejora contraseñas, combate... -->
     <!-- Pantalla 4: Quiz de contraseñas seguras -->

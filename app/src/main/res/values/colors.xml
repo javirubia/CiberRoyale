@@ -6,5 +6,10 @@
     <color name="red_card_bg">#FFEBEE</color>
     <color name="purple_card_bg">#F3E5F5</color>
     <color name="green_card_bg">#E8F5E9</color>
+    <color name="red_700">#D32F2F</color>
+    <color name="red_200">#FF6659</color>
+    <color name="green_700">#388E3C</color>
+    <color name="green_200">#A5D6A7</color>
+
 
 </resources>
