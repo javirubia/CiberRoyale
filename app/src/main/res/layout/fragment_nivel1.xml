@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/contenedor_nivel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -228,12 +229,12 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:src="@drawable/robot"
+            android:layout_marginTop="16dp"
             android:contentDescription="Byte"
             android:scaleType="centerInside"
             app:layout_constraintTop_toBottomOf="@id/cardViperRobando"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.4"/>
-
         <!-- 3) Texto de contexto a la derecha (columna 2) -->
         <TextView
             android:id="@+id/tvContexto"
@@ -278,39 +279,81 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Agrega más pantallas: preguntas, mejora contraseñas, combate... -->
     <!-- Pantalla 4: Quiz de contraseñas seguras -->
     <LinearLayout
         android:id="@+id/pantalla_quiz"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
         android:visibility="gone"
-        android:padding="24dp">
-
+        android:padding="24dp"
+        android:background="@drawable/background_gradient">
+        <!-- 1) Cabecera con número de pregunta -->
         <TextView
-            android:id="@+id/tvPregunta"
+            android:id="@+id/tvQuizTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¿Pregunta?"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp" />
+            android:text="Pregunta 1 de 4"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp"/>
 
+        <!-- 2) Barra de progreso -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressQuiz"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginBottom="24dp"
+            app:indicatorColor="@color/purple_700"
+            app:trackColor="@android:color/white"
+            />
+
+
+
+        <!-- 3) Card con la pregunta -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="8dp"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <TextView
+                android:id="@+id/tvPregunta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="¿Pregunta?"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:padding="16dp"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 4) Opciones con MaterialRadioButton -->
         <RadioGroup
             android:id="@+id/rgOpciones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:layout_marginBottom="32dp">
+        </RadioGroup>
 
-        <Button
+        <!-- 5) Botón siguiente con icono -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSiguiente"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Siguiente"
+            android:textAllCaps="true"
             android:enabled="false"
-            android:layout_marginTop="32dp" />
+            app:backgroundTint="@color/purple_700"
+            android:textColor="@android:color/white"
+            app:cornerRadius="24dp"
+            app:iconSize="30dp"
+            app:icon="@drawable/ic_arrow_fw"
+            app:iconGravity="textEnd"/>
     </LinearLayout>
 
 
@@ -322,41 +365,110 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:background="@drawable/background_gradient"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
+        <!-- Cabecera -->
         <TextView
+            android:id="@+id/tvMejoraTitle1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mejora estas contraseñas (1/2):"
-            android:textSize="18sp"
+            android:text="Mejora contraseñas (1/2)"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="8dp"/>
 
-        <!-- Primera contraseña -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="1. juanito2009" />
-        <Spinner
-            android:id="@+id/spinner_m1_p1"
+        <!-- Barra de progreso al 50% -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressMejora1"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginBottom="24dp"
+            app:indicatorColor="@color/purple_700"
+            app:trackColor="@android:color/white"
+           />
+
+        <!-- Card para primera contraseña -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@android:color/white">
 
-        <!-- Segunda contraseña -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="2. contraseña" />
-        <Spinner
-            android:id="@+id/spinner_m1_p2"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1. juanito2009"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginBottom="8dp"/>
+
+                <Spinner
+                    android:id="@+id/spinner_m1_p1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Card para segunda contraseña -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp" />
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:layout_marginBottom="32dp"
+            app:cardBackgroundColor="@android:color/white">
 
-        <Button
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2. contraseña"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginBottom="8dp"/>
+
+                <Spinner
+                    android:id="@+id/spinner_m1_p2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botón siguiente -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnMejora1Next"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Siguiente"
-            android:enabled="false"/>
+            android:textAllCaps="true"
+            android:enabled="false"
+            app:backgroundTint="@color/purple_700"
+            android:textColor="@android:color/white"
+            app:cornerRadius="24dp"
+            app:iconSize="30dp"
+            app:icon="@drawable/ic_arrow_fw"
+            app:iconGravity="textEnd"/>
     </LinearLayout>
+
     <!-- Pantalla 5.2: Mejora contraseñas — Bloque 2 -->
     <LinearLayout
         android:id="@+id/pantalla_mejora2"
@@ -364,40 +476,107 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:background="@drawable/background_gradient"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
+        <!-- Cabecera -->
         <TextView
+            android:id="@+id/tvMejoraTitle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mejora estas contraseñas (2/2):"
-            android:textSize="18sp"
+            android:text="Mejora contraseñas (2/2)"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="8dp"/>
 
-        <!-- Tercera contraseña -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="3. pepe123" />
-        <Spinner
-            android:id="@+id/spinner_m2_p1"
+        <!-- Barra de progreso al 100% -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressMejora2"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginBottom="24dp"
+            app:indicatorColor="@color/purple_700"
+            app:trackColor="@android:color/white" />
+
+        <!-- Card para tercera contraseña -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@android:color/white">
 
-        <!-- Cuarta contraseña -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="4. primavera" />
-        <Spinner
-            android:id="@+id/spinner_m2_p2"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3. pepe123"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginBottom="8dp"/>
+
+                <Spinner
+                    android:id="@+id/spinner_m2_p1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Card para cuarta contraseña -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp" />
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:layout_marginBottom="32dp"
+            app:cardBackgroundColor="@android:color/white">
 
-        <Button
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4. primavera"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginBottom="8dp"/>
+
+                <Spinner
+                    android:id="@+id/spinner_m2_p2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botón continuar -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnMejora2Next"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Continuar"
-            android:enabled="false"/>
+            android:text="Siguiente"
+            android:textAllCaps="true"
+            android:enabled="false"
+            app:backgroundTint="@color/purple_700"
+            android:textColor="@android:color/white"
+            app:cornerRadius="24dp"
+            app:iconSize="30dp"
+            app:icon="@drawable/ic_arrow_fw"
+            app:iconGravity="textEnd"/>
     </LinearLayout>
 
     <!-- Pantalla 6: Combate final -->
@@ -409,97 +588,133 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:background="@color/white">
+        android:background="@drawable/background_gradient">
 
-        <!-- Enemigo arriba a la derecha -->
+        <!-- 1) Enemigo arriba a la derecha -->
         <ImageView
             android:id="@+id/imgEnemigo"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/viper"
+            android:contentDescription="Viper"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp" />
 
-        <!-- Barra de vida enemigo -->
-        <ProgressBar
+        <!-- 2) Barra de vida enemigo con indicador Material -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/barraVidaEnemigo"
-            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="150dp"
-            android:layout_height="16dp"
-            android:max="80"
-            android:progress="80"
-            app:layout_constraintEnd_toEndOf="@id/imgEnemigo"
+            android:layout_height="8dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintTop_toBottomOf="@id/imgEnemigo"
-            android:layout_marginTop="4dp"/>
+            app:layout_constraintEnd_toEndOf="@id/imgEnemigo"
+            app:indicatorColor="@color/red_700"
+            app:trackColor="@android:color/darker_gray" />
 
-        <!-- Narración del combate -->
-        <TextView
-            android:id="@+id/textoNarracion"
+        <!-- 3) Narración del combate dentro de un Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardNarracion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="El combate comienza..."
-            android:textAlignment="center"
-            android:textSize="16sp"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            app:layout_constraintTop_toBottomOf="@id/imgEnemigo"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/imgJugador"
-            android:layout_marginBottom="8dp"/>
+            app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Tu personaje, más elevado -->
+            <TextView
+                android:id="@+id/textoNarracion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="El combate comienza..."
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textColor="@android:color/black" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 4) Jugador abajo a la izquierda -->
         <ImageView
             android:id="@+id/imgJugador"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/robot"
-            app:layout_constraintBottom_toTopOf="@+id/panelAtaque"
+            android:contentDescription="Byte"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/panelAtaque"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="96dp"/>
+            android:layout_marginBottom="16dp" />
 
-        <!-- Barra de vida jugador -->
-        <ProgressBar
+        <!-- 5) Barra de vida jugador -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/barraVidaJugador"
-            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="150dp"
-            android:layout_height="16dp"
-            android:max="100"
-            android:progress="100"
+            android:layout_height="8dp"
+            android:layout_marginBottom="4dp"
             app:layout_constraintStart_toStartOf="@id/imgJugador"
             app:layout_constraintBottom_toTopOf="@id/imgJugador"
-            android:layout_marginBottom="4dp"/>
+            app:indicatorColor="@color/green_700"
+            app:trackColor="@android:color/darker_gray" />
 
-        <!-- Panel inferior elevado 80dp -->
-        <LinearLayout
+        <!-- 6) Panel de ataque (MaterialCardView para elevar) -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/panelAtaque"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="@drawable/rounded_panel"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="80dp">
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <EditText
-                android:id="@+id/inputContrasena"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Escribe contraseña..."
-                android:inputType="textPassword"
-                android:layout_weight="1"
-                android:padding="8dp"/>
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
 
-            <Button
-                android:id="@+id/btnAtacar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="¡Atacar!"
-                android:layout_marginStart="8dp"/>
-        </LinearLayout>
+                <!-- EditText con estilo Material -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/teal_200"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputContrasena"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Escribe contraseña..."
+                        android:inputType="textPassword"
+                        android:padding="8dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Botón atacar con MaterialButton -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAtacar"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="¡Atacar!"
+                    android:textAllCaps="true"
+                    app:backgroundTint="@color/purple_700"
+                    android:textColor="@android:color/white"
+                    app:cornerRadius="24dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

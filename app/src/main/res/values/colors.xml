@@ -10,6 +10,11 @@
     <color name="red_200">#FF6659</color>
     <color name="green_700">#388E3C</color>
     <color name="green_200">#A5D6A7</color>
+    <color name="purple_700">#7B1FA2</color>
+    <color name="purple_200">#CE93D8</color>
+    <color name="teal_700">#00796B</color>
+    <color name="teal_200">#80CBC4</color>
+
 
 
 </resources>

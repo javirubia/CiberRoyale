@@ -1,5 +1,7 @@
 package com.ldm.ciberroyale.niveles
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +11,12 @@ import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.radiobutton.MaterialRadioButton
 import com.ldm.ciberroyale.R
 import com.ldm.ciberroyale.databinding.FragmentNivel1Binding
 import kotlinx.coroutines.delay
@@ -51,12 +55,12 @@ class Nivel1Fragment : Fragment() {
 
     // Mejora
     private val mejoraOpciones = listOf(
-        listOf("juanito2009", "Juanito_2009!", "miJuan*2023"),
-        listOf("contraseña", "C0ntr@seÑa2024", "123456"),
-        listOf("pepe123", "Pep3_321!", "pepeloco"),
-        listOf("primavera", "Pr1m4v3r4!", "Primavera2024")
+        listOf("jnito2009", "Ju@nito_2009!", "miJuan*2023"),
+        listOf("c0ntraseña", "C0ntr@seÑa2024", "123456"),
+        listOf("123pepe", "Pep3_321!", "peperisa"),
+        listOf("verano", "Pr1m4v3r4!", "Primavera2024")
     )
-    private val mejoraCorrectas = listOf("Juanito_2009!", "C0ntr@seÑa2024", "Pep3_321!", "Pr1m4v3r4!")
+    private val mejoraCorrectas = listOf("Ju@nito_2009!", "C0ntr@seÑa2024", "Pep3_321!", "Pr1m4v3r4!")
     private var puntuacionMejora = 0
 
     override fun onCreateView(
@@ -69,11 +73,12 @@ class Nivel1Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupVideo()       // <-- inicializa el VideoView
+        setupVideo()
         setupNavigation()
         setupQuiz()
         setupMejora()
         setupCombate()
+
         val floatAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.float_up_down)
         binding.imgByteContexto.startAnimation(floatAnim)
     }
@@ -141,19 +146,35 @@ class Nivel1Fragment : Fragment() {
         }
     }
 
+
     private fun cargarPregunta() = with(binding) {
         val q = preguntas[idxPregunta]
         tvPregunta.text = q.texto
         rgOpciones.removeAllViews()
+
+        // ← Aquí sustituimos la creación de RadioButton...
         q.opciones.mapIndexed { i, texto ->
-            android.widget.RadioButton(requireContext()).apply {
+            MaterialRadioButton(requireContext()).apply {
                 id = View.generateViewId()
                 this.text = texto
-                tag = (i == q.opcionCorrecta)
+                this.tag = (i == q.opcionCorrecta)
+                // ----> Estilos Material:
+                setTextColor(Color.BLACK)
+                setButtonTintList(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(context, R.color.purple_700)
+                    )
+                )
             }
-        }.shuffled().forEach { rgOpciones.addView(it) }
+        }
+            .shuffled()
+            .forEach { rgOpciones.addView(it) }
+
         rgOpciones.clearCheck()
         btnSiguiente.isEnabled = false
+        tvQuizTitle.text = "Pregunta ${idxPregunta+1} de ${preguntas.size}"
+        val percent = (idxPregunta+1)*100 / preguntas.size
+        progressQuiz.setProgressCompat(percent, true)
     }
 
     private fun setupMejora() = with(binding) {
@@ -163,12 +184,15 @@ class Nivel1Fragment : Fragment() {
                 it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
             onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: android.widget.AdapterView<*>,
-                                            view: View?, pos: Int, id: Long) = onChange()
+                override fun onItemSelected(
+                    parent: android.widget.AdapterView<*>,
+                    view: View?, pos: Int, id: Long
+                ) = onChange()
                 override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
             }
         }
 
+        // Bloque 1
         spinnerM1P1.init(mejoraOpciones[0]) {
             btnMejora1Next.isEnabled =
                 spinnerM1P1.selectedItemPosition > 0 &&
@@ -185,6 +209,7 @@ class Nivel1Fragment : Fragment() {
             mostrarPantalla(Paso.MEJ2)
         }
 
+        // Bloque 2
         spinnerM2P1.init(mejoraOpciones[2]) {
             btnMejora2Next.isEnabled =
                 spinnerM2P1.selectedItemPosition > 0 &&
@@ -205,6 +230,8 @@ class Nivel1Fragment : Fragment() {
             mostrarPantalla(Paso.COMBATE)
         }
     }
+
+
 
     private fun setupCombate() = with(binding) {
         btnAtacar.setOnClickListener { playerTurn() }
@@ -297,8 +324,16 @@ class Nivel1Fragment : Fragment() {
             }
 
             Paso.QUIZ    -> binding.pantallaQuiz.isVisible = true
-            Paso.MEJ1    -> binding.pantallaMejora1.isVisible = true
-            Paso.MEJ2    -> binding.pantallaMejora2.isVisible = true
+            Paso.MEJ1    -> {
+                binding.pantallaMejora1.isVisible = true
+                binding.progressMejora1.max = 100
+                binding.progressMejora1.setProgressCompat(50, true)
+            }
+            Paso.MEJ2    -> {
+                binding.pantallaMejora2.isVisible = true
+                binding.progressMejora2.max = 100
+                binding.progressMejora2.setProgressCompat(100, true)
+            }
             Paso.COMBATE -> binding.pantallaCombate.isVisible = true
         }
     }
