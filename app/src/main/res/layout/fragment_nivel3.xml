@@ -44,6 +44,26 @@
         android:visibility="gone"
         android:padding="24dp">
 
+        <TextView
+            android:id="@+id/tvAjustesCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:text="Configuración: 0/3"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/tvPostCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:text="Post: 1/4"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"/>
+
         <!-- Card con el post draggable -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardPost"
@@ -233,6 +253,31 @@
                         android:contentDescription="Info lista"/>
                 </LinearLayout>
 
+                <!-- Ajuste: Dificultad -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="24dp">
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchDificultad"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Dificultad Difícil"
+                        android:textSize="16sp"/>
+
+                    <ImageView
+                        android:id="@+id/btnInfoDificultad"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_info"
+                        android:contentDescription="Info dificultad"/>
+                </LinearLayout>
+
                 <!-- Botón Verificar -->
                 <Button
                     android:id="@+id/btnVerificarAjustes"
@@ -413,9 +458,5 @@
             android:text="Continuar"
             android:textAllCaps="false"/>
     </LinearLayout>
-
-
-
-
 
 </FrameLayout>

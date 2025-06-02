@@ -1,5 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CiberRoyale</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Pantalla 1: Ataque -->
+    <string name="titulo_ataque">¡Atención!</string>
+    <string name="subtitulo_ataque">¡El mundo ha sido infectado por ViperWare!</string>
+    <string name="btn_continuar">CONTINUAR</string>
+
+    <!-- Pantalla 2: Byte -->
+    <string name="intro_byte">Soy Byte, robot de asistencia. Necesitamos tu ayuda: el planeta ha sido atacado por Viper, un hacker malvado. ¡Únete a los Cyber Defensores!</string>
+    <string name="byte_pregunta">¿Te unes a los CyberDefensores?</string>
+    <string name="btn_unirse">¡Sí, quiero ayudar!</string>
+    <string name="btn_rechazar">No cuentes conmigo.</string>
+
+    <!-- Pantalla 3: Contexto -->
+    <string name="contexto_viper">ViperWare está robando contraseñas débiles. ¡Debemos detenerlo!</string>
+    <string name="btn_listo">Estoy listo</string>
+
+    <!-- Pantalla 4: Quiz -->
+    <string name="quiz_titulo">Pregunta %1$d de %2$d</string>
+    <string name="btn_siguiente">Siguiente</string>
+
+    <!-- Pantalla 5: Mejora -->
+    <string name="mejora_title1">Mejora contraseñas (1/2)</string>
+    <string name="mejora_title2">Mejora contraseñas (2/2)</string>
+
+    <!-- Pantalla 6: Combate -->
+    <string name="btn_ataque">¡Atacar!</string>
+    <string name="hint_contrasena">Escribe una contraseña segura...</string>
+    <string name="mensaje_escribe_pw">Escribe una contraseña antes</string>
+    <string name="mensaje_pw_repetida">No repitas contraseñas</string>
+    <string name="mensaje_demasiado_debil">¡Demasiado débil! La contraseña no hace daño.</string>
+    <string name="mensaje_damage">Le haces %1$d pts</string>
+    <string name="mensaje_enemigo_ataca">CobraX inflige %1$d pts</string>
+
+    <!-- Pantalla 7: Recompensa/Derrota -->
+    <string name="victoria_general">🎉 ¡Enhorabuena!</string>
+    <string name="derrota_general">💀 ¡Has sido derrotado!</string>
+    <string name="resultado_mal">Lo siento, has perdido. Repite el nivel.</string>
+    <string name="resultado_bien">Bien</string>
+    <string name="resultado_muy_bien">Muy bien</string>
+    <string name="resultado_perfecto">¡Perfecto!</string>
+    <string name="puntuacion_total">Has obtenido %1$d puntos de 100</string>
+    <string name="btn_reintentar">Reintentar</string>
+    <string name="btn_continuar_final">Continuar</string>
 </resources>

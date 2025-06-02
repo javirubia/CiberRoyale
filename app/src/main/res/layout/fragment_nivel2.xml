@@ -35,6 +35,7 @@
             android:text="¡Empezar!"
             android:layout_marginTop="24dp"/>
     </LinearLayout>
+
     <!-- Pantalla 2: Clasifica el mensaje -->
     <FrameLayout
         android:id="@+id/pantalla_detec"
@@ -111,6 +112,7 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
+
     <!-- Pantalla 3: Inspecciona la URL -->
     <FrameLayout
         android:id="@+id/pantalla_url"
@@ -187,6 +189,7 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
+
     <!-- Pantalla COMBATE -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pantalla_combate"
@@ -269,7 +272,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <!-- Pantalla 6: Recompensa -->
+
+    <!-- Pantalla Recompensa -->
     <LinearLayout
         android:id="@+id/pantalla_recomp"
         android:layout_width="match_parent"
@@ -314,6 +318,50 @@
             android:layout_height="wrap_content"
             android:text="Continuar"
             android:textAllCaps="false"/>
+    </LinearLayout>
+
+    <!-- Pantalla Derrota -->
+    <LinearLayout
+        android:id="@+id/pantallaDerrota"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="24dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:id="@+id/tvDerrotaTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Derrota!"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/tvDerrotaSubtitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Has sido derrotado..."
+            android:textSize="16sp"
+            android:layout_marginBottom="32dp"/>
+
+        <Button
+            android:id="@+id/btnDerrotaReintentar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reintentar"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btnDerrotaSalir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salir"
+            android:textAllCaps="false"
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 
 </FrameLayout>

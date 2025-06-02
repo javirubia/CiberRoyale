@@ -3,6 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue_card_bg">#E3F2FD</color>
+
+    <color name="correct_color">#4CAF50</color>
+    <color name="incorrect_color">#F44336</color>
     <color name="red_card_bg">#FFEBEE</color>
     <color name="purple_card_bg">#F3E5F5</color>
     <color name="green_card_bg">#E8F5E9</color>
