@@ -7,13 +7,15 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- Pantalla 1: Animación ViperWare -->
+    <!-- ================================================
+         Pantalla 1: Animación ViperWare (sin botón “info”)
+         ================================================ -->
     <ScrollView
         android:id="@+id/scroll_pantalla_ataque"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pantalla_ataque"
@@ -35,8 +37,7 @@
                 android:text="@string/titulo_ataque"
                 android:textColor="@android:color/white"
                 android:textSize="35sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/orbitron_regular"
+                android:fontFamily="@font/orbitron_extrabold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -86,11 +87,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvSubtituloAtaque" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <!-- Pantalla 2: Byte se presenta -->
+
+    <!-- =========================================
+         Pantalla 2: Byte se presenta (sin info)
+         ========================================= -->
     <ScrollView
         android:id="@+id/scroll_pantalla_byte"
         android:layout_width="match_parent"
@@ -180,7 +183,6 @@
                         android:text="@string/byte_pregunta"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
-                        android:textStyle="bold"
                         android:fontFamily="@font/orbitron_extrabold" />
 
                     <com.google.android.material.button.MaterialButton
@@ -207,13 +209,15 @@
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         app:rippleColor="@color/red_200" />
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <!-- Pantalla 3: Contexto -->
+
+    <!-- ==============================================
+         Pantalla 3: Contexto (sin botón “info”)
+         ============================================== -->
     <ScrollView
         android:id="@+id/scroll_pantalla_contexto"
         android:layout_width="match_parent"
@@ -231,10 +235,10 @@
             <!-- Imagen de Viper robando contraseñas -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardViperRobando"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="8dp"
+                app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -244,8 +248,8 @@
 
                 <ImageView
                     android:id="@+id/imgViperRobando"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:contentDescription="@null"
                     android:scaleType="centerCrop"
@@ -310,25 +314,31 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/barrierBottom" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <!-- Pantalla 4: Quiz de contraseñas seguras -->
+
+    <!-- ==================================================
+         Pantalla 4: Quiz de contraseñas seguras
+         (ScrollView + botón info FUERA del ScrollView)
+         ================================================== -->
     <ScrollView
         android:id="@+id/scroll_pantalla_quiz"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:fillViewport="true">
+        android:visibility="visible"
+        android:fillViewport="true"
+        android:background="@drawable/background_gradient"
+        android:paddingTop="56dp">  <!-- Aquí desplazamos TODO el contenido  -->
 
+        <!-- Contenido desplazable (introducimos un paddingTop grande para que baje) -->
         <LinearLayout
             android:id="@+id/pantalla_quiz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp"
-            android:background="@drawable/background_gradient">
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="24dp">
 
             <!-- Cabecera con número de pregunta -->
             <TextView
@@ -338,7 +348,8 @@
                 android:layout_marginBottom="8dp"
                 android:text="@string/quiz_titulo"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:fontFamily="@font/orbitron_extrabold" />
 
             <!-- Barra de progreso -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -366,10 +377,10 @@
                     android:text="¿Pregunta?"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/orbitron_bold" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Opciones con MaterialRadioButton (dinámicas en tiempo de ejecución) -->
+            <!-- Opciones generadas dinámicamente -->
             <RadioGroup
                 android:id="@+id/rgOpciones"
                 android:layout_width="match_parent"
@@ -377,7 +388,7 @@
                 android:layout_marginBottom="32dp"
                 android:orientation="vertical" />
 
-            <!-- Botón siguiente -->
+            <!-- Botón “Siguiente” -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSiguiente"
                 style="@style/Widget.MaterialComponents.Button"
@@ -386,6 +397,7 @@
                 android:layout_gravity="center_horizontal"
                 android:backgroundTint="@color/purple_700"
                 android:enabled="false"
+                android:fontFamily="@font/orbitron_extrabold"
                 android:text="@string/btn_siguiente"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
@@ -393,25 +405,43 @@
                 app:icon="@drawable/ic_arrow_fw"
                 app:iconGravity="textEnd"
                 app:iconSize="30dp" />
-
         </LinearLayout>
     </ScrollView>
 
-    <!-- Pantalla 5.1: Mejora contraseñas — Bloque 1 -->
+    <!-- Botón de info “Quiz” fijo en la esquina superior derecha -->
+    <ImageButton
+        android:id="@+id/btnInfoQuiz"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/info_desc_quiz"
+        android:src="@drawable/ic_info"
+        android:scaleType="centerInside"
+        android:layout_gravity="top|end" />
+
+
+    <!-- ======================================================
+         Pantalla 5.1: Mejora contraseñas — Bloque 1
+         (ScrollView + botón info FUERA del ScrollView)
+         ====================================================== -->
     <ScrollView
         android:id="@+id/scroll_pantalla_mejora1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:background="@drawable/background_gradient"
+        android:paddingTop="56dp">  <!-- Aquí desplazamos TODO el contenido -->
 
+        <!-- Contenido desplazable -->
         <LinearLayout
             android:id="@+id/pantalla_mejora1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp"
-            android:background="@drawable/background_gradient">
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="24dp">
 
             <!-- Cabecera -->
             <TextView
@@ -422,7 +452,7 @@
                 android:text="@string/mejora_title1"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/orbitron_extrabold" />
 
             <!-- Barra de progreso al 50% -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -455,7 +485,7 @@
                         android:text="1. juanito2009"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/orbitron_bold" />
 
                     <Spinner
                         android:id="@+id/spinner_m1_p1"
@@ -487,7 +517,7 @@
                         android:text="2. contraseña"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/orbitron_bold" />
 
                     <Spinner
                         android:id="@+id/spinner_m1_p2"
@@ -506,6 +536,7 @@
                 android:layout_gravity="center_horizontal"
                 android:backgroundTint="@color/purple_700"
                 android:enabled="false"
+                android:fontFamily="@font/orbitron_extrabold"
                 android:text="@string/btn_siguiente"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
@@ -513,25 +544,43 @@
                 app:icon="@drawable/ic_arrow_fw"
                 app:iconGravity="textEnd"
                 app:iconSize="30dp" />
-
         </LinearLayout>
     </ScrollView>
 
-    <!-- Pantalla 5.2: Mejora contraseñas — Bloque 2 -->
+    <!-- Botón de info “Mejora 1” fijo en la esquina superior derecha -->
+    <ImageButton
+        android:id="@+id/btnInfoMejora1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/info_desc_mejora1"
+        android:src="@drawable/ic_info"
+        android:scaleType="centerInside"
+        android:layout_gravity="top|end" />
+
+
+    <!-- ======================================================
+         Pantalla 5.2: Mejora contraseñas — Bloque 2
+         (ScrollView + botón info FUERA del ScrollView)
+         ====================================================== -->
     <ScrollView
         android:id="@+id/scroll_pantalla_mejora2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:background="@drawable/background_gradient"
+        android:paddingTop="56dp">  <!-- Aquí desplazamos TODO el contenido -->
 
+        <!-- Contenido desplazable -->
         <LinearLayout
             android:id="@+id/pantalla_mejora2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp"
-            android:background="@drawable/background_gradient">
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="24dp">
 
             <!-- Cabecera -->
             <TextView
@@ -542,7 +591,7 @@
                 android:text="@string/mejora_title2"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/orbitron_extrabold" />
 
             <!-- Barra de progreso al 100% -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -575,7 +624,7 @@
                         android:text="3. pepe123"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/orbitron_bold" />
 
                     <Spinner
                         android:id="@+id/spinner_m2_p1"
@@ -607,7 +656,7 @@
                         android:text="4. primavera"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/orbitron_bold" />
 
                     <Spinner
                         android:id="@+id/spinner_m2_p2"
@@ -626,6 +675,7 @@
                 android:layout_gravity="center_horizontal"
                 android:backgroundTint="@color/purple_700"
                 android:enabled="false"
+                android:fontFamily="@font/orbitron_extrabold"
                 android:text="@string/btn_siguiente"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
@@ -633,33 +683,45 @@
                 app:icon="@drawable/ic_arrow_fw"
                 app:iconGravity="textEnd"
                 app:iconSize="30dp" />
-
         </LinearLayout>
     </ScrollView>
 
-    <!-- Pantalla 6: Combate final -->
-    <!-- ===========================
-     Pantalla 6: Combate final – Barras justo debajo de cada sprite
-=========================== -->
+    <!-- Botón de info “Mejora 2” fijo en la esquina superior derecha -->
+    <ImageButton
+        android:id="@+id/btnInfoMejora2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/info_desc_mejora2"
+        android:src="@drawable/ic_info"
+        android:scaleType="centerInside"
+        android:layout_gravity="top|end" />
+
+
+    <!-- ==============================================
+         Pantalla 6: Combate final
+         (ScrollView + botón info FUERA del ScrollView)
+         ============================================== -->
     <ScrollView
         android:id="@+id/scroll_pantalla_combate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         android:fillViewport="true"
-        android:overScrollMode="ifContentScrolls">
+        android:overScrollMode="ifContentScrolls"
+        android:background="@drawable/background_gradient"
+        android:paddingTop="80dp">  <!-- Aquí desplazamos TODO el contenido -->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/pantalla_combate"
+        <!-- Contenido desplazable -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:background="@drawable/background_gradient">
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="24dp">
 
-            <!-- 1) Sprite del enemigo centrado arriba -->
+            <!-- Sprite del enemigo centrado arriba -->
             <ImageView
                 android:id="@+id/imgEnemigo"
                 android:layout_width="150dp"
@@ -667,36 +729,28 @@
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/viper"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp" />
 
-            <!-- 2) Barra de vida del enemigo (justo debajo de imgEnemigo) -->
+            <!-- Barra de vida del enemigo -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/barraVidaEnemigo"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:layout_marginTop="4dp"
                 app:indicatorColor="@color/red_700"
-                app:trackColor="@android:color/darker_gray"
-                app:layout_constraintTop_toBottomOf="@id/imgEnemigo"
-                app:layout_constraintStart_toStartOf="@id/imgEnemigo"
-                app:layout_constraintEnd_toEndOf="@id/imgEnemigo" />
+                app:trackColor="@android:color/darker_gray" />
 
-            <!-- 3) Caja de narración un poco más abajo, centrada -->
+            <!-- Caja de narración un poco más abajo, centrada -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardNarracion"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:layout_constraintTop_toBottomOf="@id/barraVidaEnemigo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:cardBackgroundColor="@android:color/white">
 
                 <TextView
                     android:id="@+id/textoNarracion"
@@ -706,10 +760,11 @@
                     android:text="El combate comienza..."
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:fontFamily="@font/orbitron_regular" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 4) Sprite del jugador centrado debajo de la narración -->
+            <!-- Sprite del jugador centrado debajo de la narración -->
             <ImageView
                 android:id="@+id/imgJugador"
                 android:layout_width="150dp"
@@ -717,37 +772,28 @@
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/robot"
-                app:layout_constraintTop_toBottomOf="@id/cardNarracion"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp" />
 
-            <!-- 5) Barra de vida del jugador justo debajo de imgJugador -->
+            <!-- Barra de vida del jugador justo debajo de imgJugador -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/barraVidaJugador"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:layout_marginTop="4dp"
                 app:indicatorColor="@color/green_700"
-                app:trackColor="@android:color/darker_gray"
-                app:layout_constraintTop_toBottomOf="@id/imgJugador"
-                app:layout_constraintStart_toStartOf="@id/imgJugador"
-                app:layout_constraintEnd_toEndOf="@id/imgJugador" />
+                app:trackColor="@android:color/darker_gray" />
 
-            <!-- 6) Panel de ataque en la parte inferior, semitransparente -->
+            <!-- Panel de ataque en la parte inferior, semitransparente -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/panelAtaque"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#CCFFFFFF"
-                app:layout_constraintTop_toBottomOf="@id/barraVidaJugador"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:cardBackgroundColor="#CCFFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -756,7 +802,7 @@
                     android:padding="12dp"
                     android:gravity="center_vertical">
 
-                    <!-- EditText para contraseña (ocupa la mayor parte) -->
+                    <!-- EditText para contraseña -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -774,10 +820,11 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/hint_contrasena"
                             android:inputType="textPassword"
-                            android:padding="8dp" />
+                            android:padding="8dp"
+                            android:fontFamily="@font/orbitron_regular" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Botón ¡Atacar! a la derecha -->
+                    <!-- Botón “Atacar!” a la derecha -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAtacar"
                         style="@style/Widget.MaterialComponents.Button"
@@ -785,18 +832,32 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:backgroundTint="@color/purple_700"
+                        android:fontFamily="@font/orbitron_extrabold"
                         android:text="@string/btn_ataque"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         app:cornerRadius="24dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </ScrollView>
 
+    <!-- Botón de info “Combate” fijo en la esquina superior derecha -->
+    <ImageButton
+        android:id="@+id/btnInfoCombate"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/info_desc_combate"
+        android:src="@drawable/ic_info"
+        android:scaleType="centerInside"
+        android:layout_gravity="top|end" />
 
-    <!-- Pantalla 7: Recompensa / Derrota -->
+
+    <!-- =========================================
+         Pantalla 7: Recompensa / Derrota (sin info)
+         ========================================= -->
     <ScrollView
         android:id="@+id/scroll_pantalla_recomp"
         android:layout_width="match_parent"
@@ -821,6 +882,7 @@
                 android:layout_marginBottom="16dp"
                 android:text=""
                 android:textSize="24sp"
+                android:fontFamily="@font/orbitron_extrabold"
                 android:textStyle="bold"
                 android:textColor="@android:color/black" />
 
@@ -832,7 +894,8 @@
                 android:layout_marginBottom="16dp"
                 android:text=""
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:fontFamily="@font/orbitron_regular" />
 
             <!-- Mostrar la puntuación total -->
             <TextView
@@ -843,7 +906,7 @@
                 android:text=""
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/orbitron_bold" />
 
             <!-- Imagen de confeti / alerta -->
             <ImageView
@@ -853,14 +916,14 @@
                 android:layout_marginBottom="32dp"
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_actor" />
+                android:src="@drawable/robot" />
 
             <!-- Botón “Continuar” o “Reintentar” -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRecompContinuar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:fontFamily="@font/orbitron_extrabold"
                 android:textAllCaps="false" />
         </LinearLayout>
     </ScrollView>

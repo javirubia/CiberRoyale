@@ -43,4 +43,10 @@
     <string name="puntuacion_total">Has obtenido %1$d puntos de 100</string>
     <string name="btn_reintentar">Reintentar</string>
     <string name="btn_continuar_final">Continuar</string>
+
+    <string name="info_desc_quiz">Información sobre el Quiz</string>
+    <string name="info_desc_mejora1">Información sobre Mejora - Bloque 1</string>
+    <string name="info_desc_mejora2">Información sobre Mejora - Bloque 2</string>
+    <string name="info_desc_combate">Información sobre el Combate</string>
+
 </resources>

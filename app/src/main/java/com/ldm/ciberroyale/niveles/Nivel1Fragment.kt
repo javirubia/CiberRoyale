@@ -12,9 +12,12 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.RadioGroup
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -93,7 +96,8 @@ class Nivel1Fragment : Fragment() {
     private val contrasenasUsadas = mutableSetOf<String>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNivel1Binding.inflate(inflater, container, false)
@@ -103,39 +107,46 @@ class Nivel1Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configurar video en Pantalla 1
+        // 1) Configurar video en Pantalla 1
         setupVideo()
 
-        // Configurar navegación estática de pantallas
+        // 2) Configurar navegación estática de pantallas
         setupNavigation()
 
-        // Configurar Quiz (pantalla 4)
+        // 3) Configurar Quiz (pantalla 4)
         setupQuiz()
 
-        // Configurar Mejora (pantallas 5.1 y 5.2)
+        // 4) Configurar Mejora (pantallas 5.1 y 5.2)
         setupMejora()
 
-        // Configurar Combate (pantalla 6)
+        // 5) Configurar Combate (pantalla 6)
         setupCombate()
 
-        // Iniciar mostrando SOLO Pantalla 1: ATAQUE
+        // 6) Iniciar mostrando SOLO Pantalla 1: ATAQUE
         mostrarPantalla(Paso.ATAQUE)
 
-        // Animación flotante de Byte en Pantalla 3
+        // 7) Animación flotante de Byte en Pantalla 3 y robots
         val floatAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.float_up_down)
         binding.imgByteContexto.startAnimation(floatAnim)
+        binding.imgEnemigo.startAnimation(floatAnim)
+        binding.imgJugador.startAnimation(floatAnim)
+        // imgConfeti se animará dinámicamente en handleLevelCompletion()
 
-        // En Pantalla 7, el mismo botón se usará para Reintentar o Continuar
+        // 8) En Pantalla 7, el mismo botón se usará para Reintentar o Continuar
         binding.btnRecompContinuar.setOnClickListener {
-            // Si ha perdido (menos de 50), reiniciamos el nivel
             val finalScore = puntuacionQuiz + puntuacionMejora + puntuacionCombate
             if (finalScore < 50) {
                 resetLevel()
             } else {
-                // Si ha aprobado, navegamos al fragment general
                 findNavController().navigate(R.id.action_nivel1Fragment_to_juegoFragment)
             }
         }
+
+        // 9) Configurar los botones de Info para cada sección:
+        binding.btnInfoQuiz.setOnClickListener { mostrarDialogoInfoQuiz() }
+        binding.btnInfoMejora1.setOnClickListener { mostrarDialogoInfoMejora1() }
+        binding.btnInfoMejora2.setOnClickListener { mostrarDialogoInfoMejora2() }
+        binding.btnInfoCombate.setOnClickListener { mostrarDialogoInfoCombate() }
     }
 
     override fun onResume() {
@@ -192,13 +203,13 @@ class Nivel1Fragment : Fragment() {
 
     /** Configura la lógica del Quiz: habilitar botón al seleccionar, avanzar preguntas, sumar 5 pts por respuesta correcta */
     private fun setupQuiz() = with(binding) {
-        binding.rgOpciones.setOnCheckedChangeListener { _, _ ->
-            binding.btnSiguiente.isEnabled = true
+        rgOpciones.setOnCheckedChangeListener { _, _ ->
+            btnSiguiente.isEnabled = true
         }
-        binding.btnSiguiente.setOnClickListener {
+        btnSiguiente.setOnClickListener {
             // Obtener RadioButton seleccionado
-            val sel = binding.rgOpciones.findViewById<android.widget.RadioButton>(
-                binding.rgOpciones.checkedRadioButtonId
+            val sel = rgOpciones.findViewById<android.widget.RadioButton>(
+                rgOpciones.checkedRadioButtonId
             )
             // Si su tag == true, sumar 5 pts
             if (sel?.tag == true) {
@@ -211,16 +222,14 @@ class Nivel1Fragment : Fragment() {
                 // Terminado Quiz
                 Toast.makeText(
                     requireContext(),
-                    getString(
-                        R.string.resultado_bien
-                    ) + ": $puntuacionQuiz/${preguntas.size * 5} pts",
+                    getString(R.string.resultado_bien) + ": $puntuacionQuiz/${preguntas.size * 5} pts",
                     Toast.LENGTH_SHORT
                 ).show()
                 // Reiniciar Mejora
                 puntuacionMejora = 0
                 mostrarPantalla(Paso.MEJ1)
             }
-            binding.btnSiguiente.isEnabled = false
+            btnSiguiente.isEnabled = false
         }
     }
 
@@ -228,8 +237,11 @@ class Nivel1Fragment : Fragment() {
     private fun cargarPregunta() = with(binding) {
         val q = preguntas[idxPregunta]
         tvPregunta.text = q.texto
+
+        // 1) Borrar las opciones viejas
         rgOpciones.removeAllViews()
 
+        // 2) Por cada opción, crear un MaterialRadioButton con Orbitron Bold
         q.opciones.mapIndexed { i, texto ->
             MaterialRadioButton(requireContext()).apply {
                 id = View.generateViewId()
@@ -242,6 +254,16 @@ class Nivel1Fragment : Fragment() {
                         ContextCompat.getColor(context, R.color.purple_700)
                     )
                 )
+                // Asignar Typeface de Orbitron Bold
+                typeface = ResourcesCompat.getFont(requireContext(), R.font.orbitron_bold)
+
+                // Márgenes opcionales para separación
+                val lp = RadioGroup.LayoutParams(
+                    RadioGroup.LayoutParams.MATCH_PARENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT
+                )
+                lp.setMargins(0, 8, 0, 8)
+                layoutParams = lp
             }
         }
             .shuffled()
@@ -260,28 +282,33 @@ class Nivel1Fragment : Fragment() {
         progressQuiz.setProgressCompat(percent, true)
     }
 
-    /** Configura los Spinners de Mejora con un único "– Elige una opción –" + opciones, sumando 5 pts por cada elección correcta */
+    /** Configura los Spinners de Mejora con Orbitron Bold y un único "– Elige una opción –" */
     private fun setupMejora() = with(binding) {
         // Deshabilitados al inicio
         btnMejora1Next.isEnabled = false
         btnMejora2Next.isEnabled = false
 
-        // Función de extensión para inicializar Spinner
-        fun Spinner.initSimple(opts: List<String>) {
-            adapter = ArrayAdapter(
+        // Función de extensión para inicializar Spinner usando nuestro layout (@layout/spinner_item_orbitron)
+        fun Spinner.initOrbitron(opts: List<String>) {
+            // Preparamos la lista con un placeholder al inicio
+            val listaCompleta = listOf("-- Elige una opción --") + opts
+            val adapter = ArrayAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_item,
-                listOf("-- Elige una opción --") + opts
-            ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+                R.layout.spinner_item_orbitron,  // layout custom con TextView que usa orbitron_bold
+                R.id.tvSpinnerItem,
+                listaCompleta
+            )
+            adapter.setDropDownViewResource(R.layout.spinner_item_orbitron)
+            this.adapter = adapter
             // Evitar disparar onItemSelectedListener al inflar
             setSelection(0, false)
         }
 
         // Inicializar Spinners de Mejora1
-        spinnerM1P1.initSimple(mejoraOpciones[0])
-        spinnerM1P2.initSimple(mejoraOpciones[1])
+        spinnerM1P1.initOrbitron(mejoraOpciones[0])
+        spinnerM1P2.initOrbitron(mejoraOpciones[1])
 
-        // Listener común para habilitar botón "Siguiente"
+        // Listener común para habilitar botón "Siguiente" en Mejora1
         val escuchaMejora1 = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, pos: Int, id: Long
@@ -290,7 +317,6 @@ class Nivel1Fragment : Fragment() {
                 val sel2 = spinnerM1P2.selectedItemPosition > 0
                 btnMejora1Next.isEnabled = sel1 && sel2
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
         spinnerM1P1.onItemSelectedListener = escuchaMejora1
@@ -305,8 +331,8 @@ class Nivel1Fragment : Fragment() {
         }
 
         // Inicializar Spinners de Mejora2
-        spinnerM2P1.initSimple(mejoraOpciones[2])
-        spinnerM2P2.initSimple(mejoraOpciones[3])
+        spinnerM2P1.initOrbitron(mejoraOpciones[2])
+        spinnerM2P2.initOrbitron(mejoraOpciones[3])
 
         val escuchaMejora2 = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -316,7 +342,6 @@ class Nivel1Fragment : Fragment() {
                 val sel2 = spinnerM2P2.selectedItemPosition > 0
                 btnMejora2Next.isEnabled = sel1 && sel2
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
         spinnerM2P1.onItemSelectedListener = escuchaMejora2
@@ -346,7 +371,7 @@ class Nivel1Fragment : Fragment() {
         }
     }
 
-    /** Inicia Combate reiniciando vidas, borrando contraseñas usadas y determinando quien empieza */
+    /** Inicia Combate reiniciando vidas, borrando contraseñas usadas y determinando quién empieza */
     private fun iniciarCombate() = with(binding) {
         vidaJugador = VIDA_INICIAL_JUGADOR
         vidaEnemigo = VIDA_INICIAL_ENEMIGO
@@ -370,7 +395,7 @@ class Nivel1Fragment : Fragment() {
         }
     }
 
-    /** Lógica del turno del jugador: valida contraseña, calcula daño, actualiza barras, controla fin de combate */
+    /** Lógica del turno del jugador: valida la contraseña, calcula daño, actualiza barras, controla fin de combate */
     private fun playerTurn() {
         if (!turnoJugador) return
 
@@ -400,19 +425,18 @@ class Nivel1Fragment : Fragment() {
 
         if (vidaEnemigo <= 0) {
             // *** Lógica modificada: asignar 60 o 30 puntos según la vida restante ***
-
             val mitadVida = VIDA_INICIAL_JUGADOR / 2
             puntuacionCombate = when {
                 vidaJugador > mitadVida -> {
-                    // Si queda más de la mitad de la vida (strictly greater), 60 puntos
+                    // Si queda más de la mitad de la vida → 60 puntos
                     COMBATE_MAX_SCORE
                 }
                 vidaJugador in 1..mitadVida -> {
-                    // Si queda de 1 hasta la mitad (inclusive), 30 puntos
+                    // Si queda de 1 hasta la mitad → 30 puntos
                     COMBATE_MAX_SCORE / 2
                 }
                 else -> {
-                    // Si vidaJugador <= 0 (por seguridad), 0 puntos
+                    // Si vidaJugador <= 0 → 0 puntos
                     0
                 }
             }
@@ -431,8 +455,8 @@ class Nivel1Fragment : Fragment() {
     /** Lógica del turno del enemigo: resta 10 pts al jugador, actualiza barra, controla si el jugador pierde */
     private fun enemyTurn() = with(binding) {
         vidaJugador -= DANIO_SECUAZ
-        binding.barraVidaJugador.setProgressCompat(vidaJugador.coerceAtLeast(0), true)
-        binding.textoNarracion.text = getString(R.string.mensaje_enemigo_ataca, DANIO_SECUAZ)
+        barraVidaJugador.setProgressCompat(vidaJugador.coerceAtLeast(0), true)
+        textoNarracion.text = getString(R.string.mensaje_enemigo_ataca, DANIO_SECUAZ)
 
         if (vidaJugador <= 0) {
             // Si pierdes, puntuación de combate = 0
@@ -441,13 +465,10 @@ class Nivel1Fragment : Fragment() {
             return
         }
         turnoJugador = true
-        binding.btnAtacar.isEnabled = true
+        btnAtacar.isEnabled = true
     }
 
-    /**
-     * Calcula el daño de 'pw' según longitud, mayúsculas, dígitos y símbolos.
-     * Máximo 30 pts, pero ya no se traduce directamente en la puntuación final del combate.
-     */
+    /** Calcula el daño de 'pw' según longitud, mayúsculas, dígitos y símbolos. Máximo 30 pts. */
     private fun calcularDano(pw: String): Int {
         var s = 0
         if (pw.length >= 12) s += 10
@@ -457,45 +478,50 @@ class Nivel1Fragment : Fragment() {
         return s.coerceAtMost(30)
     }
 
-    /** Cuando el combate termina (tanto victoria como derrota), calculamos la puntuación final y mostramos pantalla de recompensa */
+    /** Cuando el combate termina, calculamos la puntuación final y mostramos pantalla de recompensa */
     private fun handleLevelCompletion() {
-        // Sumar puntuaciones parciales: Quiz (máx. 20) + Mejora (máx. 20) + Combate (0, 30 o 60)
+        // Sumar puntuaciones parciales
         val finalScore = puntuacionQuiz + puntuacionMejora + puntuacionCombate
         // Mostrar Pantalla 7: Recompensa/Derrota
         mostrarPantalla(Paso.RECOMP)
-        // Configurar textos e imagen según rango
         binding.tvPuntuacionFinal.text = getString(R.string.puntuacion_total, finalScore)
+
+        // Animación flotante para imgConfeti
+        val floatAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.float_up_down)
 
         when {
             finalScore < 50 -> {
                 // Ha perdido → Menor de 50
                 binding.tvRecompensaTitulo.text = getString(R.string.derrota_general)
                 binding.tvRecompensaSubtitulo.text = getString(R.string.resultado_mal)
-                binding.imgConfeti.setImageResource(R.drawable.ic_alerta)
+                binding.imgConfeti.setImageResource(R.drawable.byte_triste)
                 binding.btnRecompContinuar.text = getString(R.string.btn_reintentar)
             }
             finalScore in 50..70 -> {
                 // Entre 50 y 70
                 binding.tvRecompensaTitulo.text = getString(R.string.victoria_general)
                 binding.tvRecompensaSubtitulo.text = getString(R.string.resultado_bien)
-                binding.imgConfeti.setImageResource(R.drawable.ic_actor)
+                binding.imgConfeti.setImageResource(R.drawable.byte_frame2)
                 binding.btnRecompContinuar.text = getString(R.string.btn_continuar_final)
             }
             finalScore in 71..99 -> {
                 // Entre 71 y 99
                 binding.tvRecompensaTitulo.text = getString(R.string.victoria_general)
                 binding.tvRecompensaSubtitulo.text = getString(R.string.resultado_muy_bien)
-                binding.imgConfeti.setImageResource(R.drawable.ic_actor)
+                binding.imgConfeti.setImageResource(R.drawable.byte_frame3)
                 binding.btnRecompContinuar.text = getString(R.string.btn_continuar_final)
             }
             finalScore >= 100 -> {
-                // 100 puntos
+                // 100 puntos → ¡perfecto!
                 binding.tvRecompensaTitulo.text = getString(R.string.victoria_general)
                 binding.tvRecompensaSubtitulo.text = getString(R.string.resultado_perfecto)
-                binding.imgConfeti.setImageResource(R.drawable.ic_actor)
+                binding.imgConfeti.setImageResource(R.drawable.byte_frame1)
                 binding.btnRecompContinuar.text = getString(R.string.btn_continuar_final)
             }
         }
+
+        // Iniciar animación flotante en imgConfeti
+        binding.imgConfeti.startAnimation(floatAnim)
     }
 
     /** Reinicia TODO el nivel para que el usuario lo vuelva a intentar desde Pantalla 1 */
@@ -509,7 +535,7 @@ class Nivel1Fragment : Fragment() {
         idxPregunta = 0
         preguntas = preguntasOriginal.shuffled().toMutableList()
 
-        // Reiniciar Mejora (spinners volverán a su posición 0 cuando se muestre la pantalla de Mejora)
+        // Reiniciar Mejora (spinners volverán a posición 0 cuando se muestre la pantalla de Mejora)
         // Reiniciar Combate
         contrasenasUsadas.clear()
 
@@ -520,6 +546,7 @@ class Nivel1Fragment : Fragment() {
     /**
      * Muestra solamente la pantalla correspondiente a 'paso' ocultando el resto.
      * Además, arranca o pausa el video en función de si ATAQUE está visible.
+     * También gestiona la visibilidad de los botones de info.
      */
     private fun mostrarPantalla(paso: Paso) = with(binding) {
         // 1) Ocultar todas las pantallas
@@ -534,7 +561,13 @@ class Nivel1Fragment : Fragment() {
             scrollPantallaRecomp
         ).forEach { it.isVisible = false }
 
-        // 2) Si mostramos ATAQUE, arrancar video; si no, pausarlo.
+        // 2) Ocultar TODOS los botones de info
+        btnInfoQuiz.isVisible = false
+        btnInfoMejora1.isVisible = false
+        btnInfoMejora2.isVisible = false
+        btnInfoCombate.isVisible = false
+
+        // 3) Si mostramos ATAQUE, arrancar video; si no, pausarlo.
         if (paso == Paso.ATAQUE) {
             videoViper.start()
             scrollPantallaAtaque.isVisible = true
@@ -543,22 +576,96 @@ class Nivel1Fragment : Fragment() {
             when (paso) {
                 Paso.BYTE -> scrollPantallaByte.isVisible = true
                 Paso.CONTEXTO -> scrollPantallaContexto.isVisible = true
-                Paso.QUIZ -> scrollPantallaQuiz.isVisible = true
+                Paso.QUIZ -> {
+                    scrollPantallaQuiz.isVisible = true
+                    btnInfoQuiz.isVisible = true
+                }
                 Paso.MEJ1 -> {
                     scrollPantallaMejora1.isVisible = true
                     progressMejora1.max = 100
                     progressMejora1.setProgressCompat(50, true)
+                    btnInfoMejora1.isVisible = true
                 }
                 Paso.MEJ2 -> {
                     scrollPantallaMejora2.isVisible = true
                     progressMejora2.max = 100
                     progressMejora2.setProgressCompat(100, true)
+                    btnInfoMejora2.isVisible = true
                 }
-                Paso.COMBATE -> scrollPantallaCombate.isVisible = true
+                Paso.COMBATE -> {
+                    scrollPantallaCombate.isVisible = true
+                    btnInfoCombate.isVisible = true
+                }
                 Paso.RECOMP -> scrollPantallaRecomp.isVisible = true
                 else -> {}
             }
         }
+    }
+
+    // -----------------------------------------------------------------------
+    // Funciones que muestran un AlertDialog con la información correspondiente
+    // -----------------------------------------------------------------------
+
+    private fun mostrarDialogoInfoQuiz() {
+        val mensaje = """
+            Aquí debes seleccionar la contraseña más segura de las opciones. 
+            Cada pregunta vale 5 puntos y el Quiz consta de 4 preguntas. 
+            Elige con cuidado: pulsa tu opción para habilitar “Siguiente”.
+        """.trimIndent()
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("¿Cómo funciona el Quiz?")
+            .setMessage(mensaje)
+            .setPositiveButton("Entendido") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun mostrarDialogoInfoMejora1() {
+        val mensaje = """
+            En esta sección (Mejora - Bloque 1) verás dos contraseñas escritas arriba de cada Spinner. 
+            Elige la versión más segura de cada contraseña. 
+            Cada respuesta correcta suma 5 puntos. 
+            Cuando selecciones ambas opciones, el botón “Siguiente” se habilitará.
+        """.trimIndent()
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Cómo funciona Mejora (Bloque 1)")
+            .setMessage(mensaje)
+            .setPositiveButton("¡Vale!") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun mostrarDialogoInfoMejora2() {
+        val mensaje = """
+            Ahora estás en la parte Mejora (Bloque 2). 
+            Nuevamente, elige la opción más segura de cada contraseña mostrada arriba. 
+            Cada respuesta correcta suma 5 puntos adicionales. 
+            Al completar ambas, pulsa “Siguiente” para pasar al combate.
+        """.trimIndent()
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Cómo funciona Mejora (Bloque 2)")
+            .setMessage(mensaje)
+            .setPositiveButton("Entendido") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun mostrarDialogoInfoCombate() {
+        val mensaje = """
+            Bienvenido al Combate Final. 
+            En cada turno, escribe una contraseña en el campo de texto y pulsa “Atacar”. 
+            Si la contraseña es muy segura, harás más daño al enemigo. 
+            El enemigo te devolverá el golpe con 10 puntos de daño fijo por turno. 
+            Tu puntuación de combate depende de cuánta vida te quede al final:
+            • Si matas al enemigo con más de la mitad de tu vida → 60 puntos. 
+            • Si matas al enemigo con entre 1 y la mitad de tu vida → 30 puntos.
+        """.trimIndent()
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Cómo funciona Combate")
+            .setMessage(mensaje)
+            .setPositiveButton("¡Vamos!") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 
     /** Enum para identificar cada pantalla dentro del mismo Fragment */
