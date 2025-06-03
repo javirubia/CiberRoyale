@@ -1,367 +1,683 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/contenedor_phishing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@android:color/white">
 
     <!-- Pantalla 1: Introducción de Byte -->
-    <LinearLayout
-        android:id="@+id/pantalla_intro"
+    <ScrollView
+        android:id="@+id/pantallaIntro"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:fillViewport="true"
+        android:visibility="gone"
+        android:background="@drawable/background_gradient"
+        android:padding="24dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/pantalla_contexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/background_gradient">
+
+            <!-- Imagen de Viper robando contraseñas -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViperRobando"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.9"
+                app:layout_constraintDimensionRatio="16:9">
+
+                <ImageView
+                    android:id="@+id/imgViperRobando"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/viper_phising" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Robot Byte a la izquierda -->
+            <ImageView
+                android:id="@+id/imgByteContexto"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@null"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/robot"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardViperRobando"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintDimensionRatio="1:1" />
+
+            <!-- Texto de contexto a la derecha -->
+            <TextView
+                android:id="@+id/tvContexto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:text="@string/contexto_viper_phs"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:fontFamily="@font/orbitron_regular"
+                android:gravity="center"
+                android:background="@drawable/bg_texto_translucido"
+                app:layout_constraintStart_toEndOf="@id/imgByteContexto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/imgByteContexto"
+                app:layout_constraintWidth_percent="0.55" />
+
+            <!-- Barrier para la “fila” de robot+texto -->
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrierBottom"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="imgByteContexto,tvContexto" />
+
+            <!-- Botón “Estoy listo” -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnIntroSiguiente"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="@color/purple_700"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:text="@string/btn_listo"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrierBottom" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Pantalla 2: Clasifica el mensaje (Detect) -->
+    <ScrollView
+        android:id="@+id/pantallaDetec"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:fillViewport="true"
+        android:background="@drawable/background_gradient"
+        android:paddingTop="56dp"
+        android:paddingHorizontal="24dp"
+        android:paddingBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTituloDetec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:text="Detecta si el mensaje es seguro o phishing"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:gravity="center" />
+
+            <!-- Tarjeta con el mensaje a clasificar -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardMensaje"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <TextView
+                    android:id="@+id/tvMensaje"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="Mensaje de ejemplo…"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/orbitron_bold" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Zona de targets “Seguro” / “Phishing” -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:id="@+id/targetSeguro"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_drop_target"
+                    android:layout_marginEnd="8dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_candado"
+                        android:contentDescription="Seguro" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Seguro"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/orbitron_bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/targetPhishing"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_drop_target"
+                    android:layout_marginStart="8dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_alerta"
+                        android:contentDescription="Phishing" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phishing"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/orbitron_bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/btnInfoDetect"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Información Detect"
+        android:src="@drawable/ic_info"
+        android:scaleType="centerInside"
+        android:layout_gravity="top|end" />
+
+    <!-- Pantalla 3: Inspecciona la URL (URL) -->
+
+    <ScrollView
+        android:id="@+id/pantallaUrl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:fillViewport="true"
+        android:background="@drawable/background_gradient"
+        android:paddingTop="56dp"
+        android:paddingHorizontal="24dp"
+        android:paddingBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ======= TÍTULO AGREGADO ======= -->
+            <TextView
+                android:id="@+id/tvTituloUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:text="Inspecciona la URL"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:gravity="center" />
+
+            <!-- Tarjeta con la URL a inspeccionar -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <TextView
+                    android:id="@+id/tvUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="https://banco-oficial.com/actualizar"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/orbitron_medium" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Zona de targets “Válida” / “Inválida” -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:id="@+id/targetValida"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_drop_target"
+                    android:layout_marginEnd="8dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_url_secure"
+                        android:contentDescription="Válida" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Válida"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/orbitron_bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/targetInvalida"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_drop_target"
+                    android:layout_marginStart="8dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_url_warning"
+                        android:contentDescription="Inválida" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Inválida"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/orbitron_bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/btnInfoUrl"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Información URL"
+        android:src="@drawable/ic_info"
+        android:scaleType="centerInside"
+        android:layout_gravity="top|end" />
+
+    <!-- Pantalla COMBATE: QUITAR Y PONER LA NUEVA  -->
+    <ScrollView
+        android:id="@+id/pantallaCombate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="visible"
-        android:padding="24dp">
+        android:fillViewport="true"
+        android:background="@drawable/background_gradient"
+        android:paddingTop="56dp"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="24dp">
 
-        <ImageView
-            android:id="@+id/imgByteIntro"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/robot"/>
-        <TextView
-            android:id="@+id/tvIntroPhishing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¡Hola! Soy Byte. En este nivel vas a aprender a detectar phishing interactuando con varios escenarios."
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_marginTop="16dp"/>
-        <Button
-            android:id="@+id/btnIntroSiguiente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¡Empezar!"
-            android:layout_marginTop="24dp"/>
-    </LinearLayout>
-
-    <!-- Pantalla 2: Clasifica el mensaje -->
-    <FrameLayout
-        android:id="@+id/pantalla_detec"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:padding="24dp">
-
-        <!-- Card con el mensaje draggable -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardMensaje"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginBottom="32dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-
-            <TextView
-                android:id="@+id/tvMensaje"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="Mensaje de ejemplo…"
-                android:textSize="16sp"/>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Contenedor de drop targets -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:id="@+id/targetSeguro"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/bg_drop_target"
-                android:layout_marginEnd="8dp">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_candado"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Seguro"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/targetPhishing"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/bg_drop_target"
-                android:layout_marginStart="8dp">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_alerta"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Phishing"/>
-            </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
-
-    <!-- Pantalla 3: Inspecciona la URL -->
-    <FrameLayout
-        android:id="@+id/pantalla_url"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:padding="24dp">
-
-        <!-- Card con la URL draggable -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardUrl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="32dp">
-
-            <TextView
-                android:id="@+id/tvUrl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="https://banco-oficial.com/actualizar"
-                android:textSize="16sp"/>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Drop targets para URLs válidas/incorrectas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:id="@+id/targetValida"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/bg_drop_target"
-                android:layout_marginEnd="8dp">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_candado"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Válida"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/targetInvalida"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/bg_drop_target"
-                android:layout_marginStart="8dp">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_alerta"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Invalida"/>
-            </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
-
-    <!-- Pantalla COMBATE -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/pantalla_combate"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:padding="16dp"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-
-        <!-- Barra vida enemigo -->
-        <ProgressBar
-            android:id="@+id/pbVidaEnemigo"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="16dp"
-            android:max="100"
-            android:progress="100"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <!-- Imagen enemigo -->
-        <ImageView
-            android:id="@+id/imgEnemigo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/viper"
-            app:layout_constraintTop_toBottomOf="@id/pbVidaEnemigo"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <!-- Pregunta de combate -->
-        <TextView
-            android:id="@+id/tvCombatePregunta"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Pregunta…"
-            android:textSize="18sp"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/imgEnemigo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"/>
-
-        <!-- Opciones -->
-        <LinearLayout
-            android:id="@+id/llOpciones"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/tvCombatePregunta"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp">
-            <Button
-                android:id="@+id/btnOpcion0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:id="@+id/btnOpcion1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
-            <Button
-                android:id="@+id/btnOpcion2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
-        </LinearLayout>
+            android:gravity="center_horizontal">
 
-        <!-- Barra vida jugador -->
-        <ProgressBar
-            android:id="@+id/pbVidaJugador"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="16dp"
-            android:max="100"
-            android:progress="100"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tvScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Score: 0"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/orbitron_bold" />
+
+                <TextView
+                    android:id="@+id/tvTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tiempo: 30"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/orbitron_bold" />
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/gridMoles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="24dp"
+                android:rowCount="4"
+                android:columnCount="3"
+                android:background="@android:color/darker_gray"
+                android:alignmentMode="alignMargins"
+                android:useDefaultMargins="true">
+
+                <ImageButton
+                    android:id="@+id/hoyo0"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+
+                <ImageButton
+                    android:id="@+id/hoyo1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+
+                <ImageButton
+                    android:id="@+id/hoyo2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="0"
+                    android:layout_column="2"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+
+                <ImageButton
+                    android:id="@+id/hoyo3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+
+                <ImageButton
+                    android:id="@+id/hoyo4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+
+                <ImageButton
+                    android:id="@+id/hoyo5"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="1"
+                    android:layout_column="2"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+
+                <ImageButton
+                    android:id="@+id/hoyo6"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+
+                <ImageButton
+                    android:id="@+id/hoyo7"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="2"
+                    android:layout_column="1"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+
+                <ImageButton
+                    android:id="@+id/hoyo8"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="2"
+                    android:layout_column="2"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+                <ImageButton
+                    android:id="@+id/hoyo11"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="3"
+                    android:layout_column="2"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+                <ImageButton
+                    android:id="@+id/hoyo10"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="3"
+                    android:layout_column="1"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+                <ImageButton
+                    android:id="@+id/hoyo9"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_row="3"
+                    android:layout_column="0"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/ic_hole"
+                    android:contentDescription="hoyo" />
+            </GridLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/btnInfoBatalla"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Información Combate"
+        android:src="@drawable/ic_info"
+        android:scaleType="centerInside"
+        android:layout_gravity="top|end" />
+
 
     <!-- Pantalla Recompensa -->
-    <LinearLayout
-        android:id="@+id/pantalla_recomp"
+    <ScrollView
+        android:id="@+id/pantallaRecomp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
         android:visibility="gone"
-        android:padding="24dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:fillViewport="true"
+        android:background="@drawable/background_gradient"
+        android:padding="24dp">
 
-        <!-- Texto de felicitación -->
-        <TextView
-            android:id="@+id/tvRecompensaTitulo"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🎉 ¡Enhorabuena!"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/tvRecompensaSubtitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Has superado el nivel de phishing"
-            android:textSize="16sp"
-            android:layout_marginBottom="32dp"/>
+            <TextView
+                android:id="@+id/tvRecompensaTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎉 ¡Enhorabuena!"
+                android:textSize="24sp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Aquí podrías añadir una imagen o animación de confeti -->
-        <ImageView
-            android:id="@+id/imgConfeti"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_actor"
-            android:contentDescription="Confeti"
-            android:layout_marginBottom="32dp"/>
+            <TextView
+                android:id="@+id/tvRecompensaSubtitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Has superado el nivel de phishing"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/orbitron_regular"
+                android:layout_marginBottom="32dp" />
 
-        <!-- Botón para continuar -->
-        <Button
-            android:id="@+id/btnRecompContinuar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Continuar"
-            android:textAllCaps="false"/>
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/imgConfeti"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_actor"
+                android:contentDescription="Confeti"
+                android:layout_marginBottom="32dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRecompContinuar"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Continuar"
+                android:textAllCaps="false"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:backgroundTint="@color/purple_700"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </ScrollView>
 
     <!-- Pantalla Derrota -->
-    <LinearLayout
+    <ScrollView
         android:id="@+id/pantallaDerrota"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
         android:visibility="gone"
-        android:padding="24dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:fillViewport="true"
+        android:background="@drawable/background_gradient"
+        android:padding="24dp">
 
-        <TextView
-            android:id="@+id/tvDerrotaTitulo"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="¡Derrota!"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/tvDerrotaSubtitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Has sido derrotado..."
-            android:textSize="16sp"
-            android:layout_marginBottom="32dp"/>
+            <TextView
+                android:id="@+id/tvDerrotaTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💀 ¡Derrota!"
+                android:textSize="24sp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:layout_marginBottom="16dp" />
 
-        <Button
-            android:id="@+id/btnDerrotaReintentar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reintentar"
-            android:textAllCaps="false"/>
+            <TextView
+                android:id="@+id/tvDerrotaSubtitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Has sido derrotado…"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/orbitron_regular"
+                android:layout_marginBottom="32dp" />
 
-        <Button
-            android:id="@+id/btnDerrotaSalir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Salir"
-            android:textAllCaps="false"
-            android:layout_marginTop="8dp"/>
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDerrotaReintentar"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reintentar"
+                android:textAllCaps="false"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:backgroundTint="@color/purple_700"
+                android:textColor="@android:color/white" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDerrotaSalir"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salir"
+                android:textAllCaps="false"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:backgroundTint="@color/red_700"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

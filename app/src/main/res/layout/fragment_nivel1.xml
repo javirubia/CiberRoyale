@@ -222,7 +222,7 @@
         android:id="@+id/scroll_pantalla_contexto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -326,7 +326,7 @@
         android:id="@+id/scroll_pantalla_quiz"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:fillViewport="true"
         android:background="@drawable/background_gradient"
         android:paddingTop="56dp">  <!-- Aquí desplazamos TODO el contenido  -->

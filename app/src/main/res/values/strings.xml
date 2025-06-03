@@ -48,5 +48,138 @@
     <string name="info_desc_mejora1">Información sobre Mejora - Bloque 1</string>
     <string name="info_desc_mejora2">Información sobre Mejora - Bloque 2</string>
     <string name="info_desc_combate">Información sobre el Combate</string>
+    <!-- ================================
+        Nivel 2 → Pantalla 1: Introducción
+        ================================
+        (¡Hola! Soy Byte. En este nivel vas a aprender a detectar phishing interactuando con varios escenarios.)
+   -->
+    <string name="intro_phishing_titulo">¡Bienvenido al Nivel 2!</string>
+    <string name="intro_phishing">
+        ¡Hola! Soy Byte. En este nivel vas a aprender a detectar phishing interactuando con varios escenarios.
+    </string>
+    <string name="contexto_viper_phs">ViperWare está realizandp ataques de phising. ¡Necesitamos defendernos!</string>
+    <string name="btn_intro_empezar">¡Empezar!</string>
 
+    <!-- =================================================
+         Nivel 2 → Pantalla 2: Detect (clasifica el mensaje)
+         =================================================
+         (Arrastra el mensaje a “Seguro” o “Phishing”.)
+    -->
+    <string name="detect_titulo">Clasifica el Mensaje</string>
+    <string name="detect_instruccion">
+        Mantén pulsado el mensaje y arrástralo al recuadro adecuado:
+        • “Seguro” (NO es phishing)
+        • “Phishing” (SÍ es phishing).
+    </string>
+    <string name="detect_correcto">¡Correcto!</string>
+    <string name="detect_incorrecto_seguro">Incorrecto… El mensaje era seguro.</string>
+    <string name="detect_incorrecto_phishing">Incorrecto… El mensaje era phishing.</string>
+    <string name="detect_completado">Fase DETECT completada</string>
+
+    <!-- =================================================
+         Nivel 2 → Pantalla 3: URL (inspecciona la URL)
+         =================================================
+         (Arrastra la URL a “Válida” o “Invalida”.)
+    -->
+    <string name="url_titulo">Inspecciona la URL</string>
+    <string name="url_instruccion">
+        Mantén pulsada la URL y arrástrala al recuadro:
+        • “Válida” (segura)
+        • “Invalida” (phishing).
+    </string>
+    <string name="url_correcto">¡Correcto!</string>
+    <string name="url_incorrecto_http">Incorrecto… La URL no es segura (HTTP).</string>
+    <string name="url_incorrecto_dominio">Incorrecto… La URL tiene un dominio sospechoso.</string>
+    <string name="url_completado">Fase URL completada</string>
+
+    <!-- =================================================
+         Nivel 2 → Pantalla 4: Combate
+         =================================================
+         (Responde preguntas para dañar al secuestrador/phisher.)
+    -->
+    <string name="combate_titulo">Pregunta %1$d de %2$d</string>
+    <string name="combate_pregunta_1">Recibes un correo que pide tu contraseña. ¿Qué haces?</string>
+    <string name="combate_pregunta_2">Un SMS de tu banco pide enviar tu PIN. ¿Acción correcta?</string>
+    <string name="combate_pregunta_3">Mensaje de Facebook pide contraseña. ¿Qué haces?</string>
+    <!-- Aunque en código cargues texto dinámicamente, estos strings pueden servir de plantilla -->
+    <string name="combate_opcion1a">Hago clic y escribo</string>
+    <string name="combate_opcion1b">Ignoro y reporto al soporte</string>
+    <string name="combate_opcion1c">Reenvío a un amigo</string>
+
+    <string name="combate_opcion2a">Responder con PIN</string>
+    <string name="combate_opcion2b">Ignorar y llamar al oficial</string>
+    <string name="combate_opcion2c">Guardar SMS</string>
+
+    <string name="combate_opcion3a">Confirmo contraseña</string>
+    <string name="combate_opcion3b">Abrir app y revisar notificaciones</string>
+    <string name="combate_opcion3c">Compartir con amigos</string>
+
+    <string name="combate_bien">¡Buen ataque! -%1$d HP al enemigo</string>
+    <string name="combate_fallo">Fallaste… -%1$d HP recibidos</string>
+
+    <!-- =================================================
+         Nivel 2 → Pantalla 5: Recompensa / Victoria
+         ================================================= -->
+    <string name="recomp_titulo">🎉 ¡Enhorabuena!</string>
+    <string name="recomp_subtitulo">
+        Has superado el nivel de phishing.
+        Mensajes correctos: %1$d / %2$d
+        URLs correctas: %3$d / %4$d
+        Preguntas de combate: %5$d / %6$d
+    </string>
+    <string name="btn_recomp_continuar">Continuar</string>
+
+    <!-- =================================================
+         Nivel 2 → Pantalla 6: Derrota
+         ================================================= -->
+    <string name="derrota_titulo">💀 ¡Derrota!</string>
+    <string name="derrota_subtitulo">
+        Has sido derrotado…
+        Repite el nivel o abandona.
+    </string>
+    <string name="btn_derrota_reintentar">Reintentar</string>
+    <string name="btn_derrota_salir">Salir</string>
+
+    <!-- =================================================
+         Mensajes de toasts generales (Detect y URL)
+         ================================================= -->
+    <string name="toast_detect_seguro">El mensaje era seguro.</string>
+    <string name="toast_detect_phishing">El mensaje era phishing.</string>
+    <string name="toast_url_http">La URL no es segura (HTTP).</string>
+    <string name="toast_url_dominio">La URL tiene un dominio sospechoso.</string>
+
+    <!-- =================================================
+         Textos de ayuda para AlertDialog (botones “info”)
+         ================================================= -->
+    <string name="info_desc_detect">Información sobre Detectar</string>
+    <string name="info_desc_url">Información sobre URL</string>
+
+    <string name="info_detect_titulo">¿Cómo detectar phishing?</string>
+    <string name="info_detect_mensaje">
+        En esta etapa debes clasificar un mensaje arrastrándolo (long‐press)
+        al área “Seguro” (señala que NO es phishing) o “Phishing” (señala que SÍ lo es).
+        • Mantén pulsado el texto del mensaje
+        • Arrástralo al recuadro correcto
+        • Si aciertas, sumas un punto; si fallas, se muestra una explicación breve.
+    </string>
+
+    <string name="info_url_titulo">¿Cómo inspeccionar la URL?</string>
+    <string name="info_url_mensaje">
+        Ahora debes inspeccionar una URL y arrastrarla (long‐press)
+        al área “Válida” (segura) o “Invalida” (phishing).
+        • Mantén pulsado el texto de la URL
+        • Arrástrala al recuadro correspondiente
+        • Aprenderás a distinguir HTTP vs HTTPS y dominios sospechosos.
+    </string>
+
+    <string name="info_combate_titulo">¿Cómo funciona Combate?</string>
+    <string name="info_combate_mensaje">
+        Bienvenido al Combate Final.
+        En cada pregunta, elige la respuesta correcta para dañar al “secuestrador”:
+        • Si aciertas → le quitas %1$d HP.
+        • Si fallas → te quitan %2$d HP.
+        El combate termina cuando el enemigo o tú lleguéis a 0 HP.
+    </string>
+    <string name="ttl_nvl2_p1">Clasifica las diferentes situaciones e identifica lo seguro</string>
+    <string name="ttl_nvl2_p2">Inspecciona la URL y decide si es válida o no</string>
 </resources>
