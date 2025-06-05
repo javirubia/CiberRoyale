@@ -84,6 +84,7 @@
     <!-- RECOMPENSA / DERROTA -->
 
     <string name="phishings_derrotados">Phishings derribados: %1$d</string>
+    <string name="voler_al_menu">Volver al menú</string>
 
 
     <!-- COMUNES -->
@@ -108,6 +109,7 @@
 
 
     <string name="puntuacion_obtenida">Puntuación obtenida: %1$d / 100</string>
+    <string name="achievement_icon">ICONO LOGRO</string>
 
 
 </resources>

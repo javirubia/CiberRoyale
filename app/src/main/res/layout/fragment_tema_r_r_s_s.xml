@@ -1,10 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".PrivacidadRRSSFragment">
 
     <!-- Barra superior con la flecha y el título -->
     <LinearLayout
@@ -20,7 +23,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackground"
-            android:contentDescription="Volver al menú"
+            android:contentDescription="@string/volver_al_menu"
             android:padding="8dp"
             android:scaleType="fitCenter"
             android:src="@drawable/return_icon"
@@ -35,19 +38,46 @@
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="@font/orbitron_bold"
             android:layout_marginStart="12dp"/>
     </LinearLayout>
 
+    <!-- ScrollView con peso para que el botón quede fijo abajo -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="8dp">
 
         <LinearLayout
             android:id="@+id/containerLayout"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <!-- Contenido del tema Privacidad en RRSS -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(Aquí iría todo el texto e imágenes de Privacidad en Redes Sociales...)"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/orbitron_regular"
+                android:layout_marginBottom="16dp"/>
+            <!-- … más contenido … -->
+        </LinearLayout>
     </ScrollView>
+
+    <!-- Botón para marcar como leído -->
+    <Button
+        android:id="@+id/btnMarcarLeido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="He leído todo"
+        android:fontFamily="@font/orbitron_bold"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp" />
+
 </LinearLayout>

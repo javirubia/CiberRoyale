@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import com.ldm.ciberroyale.AchievementRepository
 import com.ldm.ciberroyale.R
 
 class TemaPhishingFragment : Fragment() {
@@ -52,6 +55,22 @@ class TemaPhishingFragment : Fragment() {
             )
 
         )
+        val btnMarcarLeido: Button = view.findViewById(R.id.btnMarcarLeido)
+        btnMarcarLeido.setOnClickListener {
+            // Desbloquea el logro del Tema 2
+            AchievementRepository.unlock("TEMA2_LEIDO")
+
+            // Feedback visual
+            Toast.makeText(
+                requireContext(),
+                "¡Logro desbloqueado: Tema 2 completado!",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            // Opcional: volver a la pantalla de logros
+            // findNavController().popBackStack()
+        }
+
 
         for ((titulo, descripcion, icono) in temas) {
             val cardView = layoutInflater.inflate(R.layout.item_tarjeta_tema, containerLayout, false)

@@ -1,59 +1,59 @@
 package com.ldm.ciberroyale
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [LogrosFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LogrosFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var rvLogros: RecyclerView
+    private lateinit var adapter: LogrosAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        // Inflamos el layout sin Toolbar
         return inflater.inflate(R.layout.fragment_logros, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LogrosFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LogrosFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 0. Inicializar el botón “Volver” con findViewById, no con binding
+        val btnBack: ImageButton = view.findViewById(R.id.btnBack)
+        btnBack.setOnClickListener {
+            // Cambia esta línea según tu acción de navegación:
+            // Si quieres simplemente volver al fragmento anterior:
+            findNavController().popBackStack()
+            // O si quieres navegar a un destino concreto (ej. menuFragment):
+            // findNavController().navigate(R.id.action_logrosFragment_to_menuFragment)
+        }
+
+        // 1. Inicializar RecyclerView
+        rvLogros = view.findViewById(R.id.rvLogros)
+        rvLogros.layoutManager = LinearLayoutManager(requireContext())
+
+        // 2. (Opcional) Divider entre tarjetas
+        val divider = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        // Si tienes un drawable personalizado para el divider, úsalo así:
+        // divider.setDrawable(resources.getDrawable(R.drawable.divider_gray, null))
+        rvLogros.addItemDecoration(divider)
+
+        // 3. Ordenar logros y pasar al adaptador
+        val sortedLogros = AchievementRepository.allAchievements.sortedWith(
+            compareBy<Achievement> { it.type }
+                .thenBy { it.themeNumber ?: it.levelNumber ?: Int.MAX_VALUE }
+                .thenBy { it.scoreCategory?.ordinal ?: -1 }
+        )
+        adapter = LogrosAdapter(sortedLogros)
+        rvLogros.adapter = adapter
     }
 }

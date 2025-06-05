@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.ldm.ciberroyale.AchievementRepository
 import com.ldm.ciberroyale.R
 
 class TemaContraFragment : Fragment() {
@@ -50,6 +53,16 @@ class TemaContraFragment : Fragment() {
                 R.drawable.ic_alerta
             )
         )
+        val btnMarcarLeido: Button = view.findViewById(R.id.btnMarcarLeido)
+        btnMarcarLeido.setOnClickListener {
+            // Desbloquear el logro correspondiente (TEMA1_LEIDO)
+            AchievementRepository.unlock("TEMA1_LEIDO")
+            // Opcional: mostrar un Toast de confirmación
+            Toast.makeText(requireContext(),
+                "¡Has desbloqueado el logro Tema 1 completado!",
+                Toast.LENGTH_SHORT).show()
+
+        }
 
         for ((titulo, descripcion, icono) in temas) {
             val cardView = layoutInflater.inflate(R.layout.item_tarjeta_tema, containerLayout, false)

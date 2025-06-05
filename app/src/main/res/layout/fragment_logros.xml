@@ -1,9 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/logros_coordinator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LogrosFragment">
+    android:layout_height="match_parent">
 
+    <!-- Fondo degradado (puedes usar el recurso que prefieras) -->
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_gradient"
+        android:alpha="0.4"/>
 
-</FrameLayout>
+    <!-- Contenedor principal: cabecera (FrameLayout con botón + título) + RecyclerView -->
+    <LinearLayout
+        android:id="@+id/llContainer"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="24dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <!-- Cabecera: FrameLayout para superponer el botón y el título -->
+        <FrameLayout
+            android:id="@+id/flHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
+
+            <!-- Botón de volver, anclado a la izquierda -->
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="start|center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/voler_al_menu"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/return_icon"
+                />
+
+            <!-- Título “Logros” centrado en el FrameLayout -->
+            <TextView
+                android:id="@+id/tvLogrosHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Logros"
+                android:fontFamily="@font/orbitron_bold"
+                android:textSize="42sp"
+                android:textColor="@color/black"
+                android:gravity="center" />
+        </FrameLayout>
+
+        <!-- RecyclerView que ocupa el resto del espacio -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvLogros"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:overScrollMode="always"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

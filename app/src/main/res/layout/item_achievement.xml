@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- Icono a la izquierda -->
+        <ImageView
+            android:id="@+id/ivAchievementIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/achievement_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Contenedor vertical para título + descripción -->
+        <LinearLayout
+            android:id="@+id/textContainer"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toEndOf="@id/ivAchievementIcon"
+            app:layout_constraintTop_toTopOf="@id/ivAchievementIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/ivAchievementIcon">
+
+            <!-- Título -->
+            <TextView
+                android:id="@+id/tvAchievementTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Título del logro"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/orbitron_bold"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <!-- Espacio pequeño entre texto -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp" />
+
+            <!-- Descripción -->
+            <TextView
+                android:id="@+id/tvAchievementDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Breve descripción del logro"
+                android:textSize="14sp"
+                android:textColor="@color/gray_dark"
+                android:fontFamily="@font/orbitron_regular"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

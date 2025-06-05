@@ -1,4 +1,6 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -6,7 +8,7 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- Barra superior con la flecha y el título -->
+    <!-- Barra superior con flecha y título -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,13 +22,13 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackground"
-            android:contentDescription="Volver al menú"
+            android:contentDescription="@string/voler_al_menu"
             android:padding="8dp"
             android:scaleType="fitCenter"
             android:src="@drawable/return_icon"
             tools:ignore="TouchTargetSizeCheck" />
 
-        <!-- Texto fijo -->
+        <!-- Texto fijo del título del tema -->
         <TextView
             android:id="@+id/tvTituloTemario"
             android:layout_width="wrap_content"
@@ -35,19 +37,37 @@
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="@font/orbitron_bold"
             android:layout_marginStart="12dp"/>
     </LinearLayout>
 
+    <!-- ScrollView que contiene todo el contenido del tema -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="8dp">
 
         <LinearLayout
             android:id="@+id/containerLayout"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <!-- Aquí vas metiendo tu contenido (TextViews, imágenes, etc.) -->
+        </LinearLayout>
     </ScrollView>
+
+    <!-- Botón fijo al final para marcar "He leído todo" -->
+    <Button
+        android:id="@+id/btnMarcarLeido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="He leído todo"
+        android:fontFamily="@font/orbitron_bold"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp" />
+
 </LinearLayout>
