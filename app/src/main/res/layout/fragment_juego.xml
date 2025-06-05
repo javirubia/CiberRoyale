@@ -1,65 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/juego_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@android:color/white"
-    android:padding="16dp">
+    android:background="@drawable/background_gradient"
+    tools:context=".JuegoFragment">
 
-    <!-- Barra superior -->
+    <!-- Encabezado fijo con fondo primario y botón de volver -->
     <LinearLayout
+        android:id="@+id/llHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingBottom="12dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
+       >
 
+        <!-- Botón volver -->
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Volver al menú"
+            android:contentDescription="@string/volver_al_menu"
             android:padding="8dp"
             android:scaleType="fitCenter"
             android:src="@drawable/return_icon"
             tools:ignore="TouchTargetSizeCheck" />
 
-
+        <!-- Título del encabezado -->
         <TextView
+            android:id="@+id/tvHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selecciona un nivel"
+            android:text="@string/selecciona_un_nivel"
             android:textSize="22sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/orbitron_bold"
             android:layout_marginStart="12dp"
-            android:textColor="@android:color/black" />
+            android:maxLines="1"
+            android:ellipsize="end"/>
     </LinearLayout>
 
-    <!-- Lista de niveles -->
+    <!-- Contenido scrollable: lista de niveles -->
     <ScrollView
+        android:id="@+id/scrollNiveles"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:overScrollMode="always"
+        android:scrollbars="vertical">
 
         <LinearLayout
+            android:id="@+id/llContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <!-- Nivel 1 -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/nivel1_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
-                android:layout_marginBottom="24dp"
                 app:cardBackgroundColor="@color/blue_card_bg"
-                android:foreground="?attr/selectableItemBackground"
+                android:layout_marginBottom="24dp"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -70,35 +87,38 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/img_nivel_contrasenas" />
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/img_nivel_contrasenas"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/img_nivel1_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🔓 Nivel 1: Contraseñas Seguras"
+                        android:text="@string/nivel1_titulo"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black"
                         android:layout_marginTop="12dp"
-                        android:fontFamily="sans-serif-medium" />
+                        android:fontFamily="@font/orbitron_bold"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Repite para Nivel 2, 3, etc. -->
             <!-- Nivel 2 -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/nivel2_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
-                android:layout_marginBottom="24dp"
                 app:cardBackgroundColor="@color/red_card_bg"
-                android:foreground="?attr/selectableItemBackground"
+                android:layout_marginBottom="24dp"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -109,33 +129,38 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/img_nivl_psh"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/img_nivl_psh" />
+                        android:contentDescription="@string/img_nivel2_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🎣 Nivel 2: Phishing e Ingeniería Social"
+                        android:text="@string/nivel2_titulo"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black"
                         android:layout_marginTop="12dp"
-                        android:fontFamily="sans-serif-medium" />
+                        android:fontFamily="@font/orbitron_bold"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Nivel 3 -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/nivel3_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/purple_card_bg"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/red_card_bg"
-                android:foreground="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,34 +171,38 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/img_privacidad_redes"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/img_contrasenas" />
+                        android:contentDescription="@string/img_nivel3_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🎣 Nivel 3: Privacidad en Redes Sociales"
+                        android:text="@string/nivel3_titulo"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black"
                         android:layout_marginTop="12dp"
-                        android:fontFamily="sans-serif-medium" />
+                        android:fontFamily="@font/orbitron_bold"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <!-- Nivel 4 -->
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <!-- Nivel 4 -->
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/nivel4_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/green_card_bg"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/red_card_bg"
-                android:foreground="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -184,21 +213,27 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/img_seguridad_movil"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/img_contrasenas" />
+                        android:contentDescription="@string/img_nivel4_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🎣 Nivel 4: Seguridad en Dispositivos Móviles"
+                        android:text="@string/nivel4_titulo"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black"
                         android:layout_marginTop="12dp"
-                        android:fontFamily="sans-serif-medium" />
+                        android:fontFamily="@font/orbitron_bold"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -84,7 +84,7 @@
     <!-- RECOMPENSA / DERROTA -->
 
     <string name="phishings_derrotados">Phishings derribados: %1$d</string>
-    <string name="voler_al_menu">Volver al menú</string>
+    <string name="volver_al_menu">Volver al menú</string>
 
 
     <!-- COMUNES -->
@@ -110,6 +110,36 @@
 
     <string name="puntuacion_obtenida">Puntuación obtenida: %1$d / 100</string>
     <string name="achievement_icon">ICONO LOGRO</string>
+    <string name="que_quieres_repasar">¿Qué quieres repasar?</string>
+    <string name="img_contrasenas_desc">Ilustración de contraseña segura</string>
+    <string name="img_phishing_desc">Ilustración de ataque de phishing</string>
+    <string name="img_privacidad_desc">Ilustración de redes sociales</string>
+    <string name="img_seguridad_desc">Ilustración de seguridad móvil</string>
+    <string name="titulo_contrasenas">🔐 CONTRASEÑAS SEGURAS</string>
+    <string name="titulo_phishing">🎣 PHISHING E INGENIERÍA SOCIAL</string>
+    <string name="titulo_privacidad">🔒 PRIVACIDAD EN REDES SOCIALES</string>
+    <string name="titulo_seguridad_movil">📱 SEGURIDAD EN DISPOSITIVOS MÓVILES</string>
+
+    <string name="selecciona_un_nivel">Selecciona un nivel</string>
+
+    <!-- Descripciones de imágenes -->
+    <string name="img_nivel1_desc">Imagen Nivel 1: Contraseñas Seguras</string>
+    <string name="img_nivel2_desc">Imagen Nivel 2: Phishing e Ingeniería Social</string>
+    <string name="img_nivel3_desc">Imagen Nivel 3: Privacidad en Redes Sociales</string>
+    <string name="img_nivel4_desc">Imagen Nivel 4: Seguridad en Dispositivos Móviles</string>
+
+    <!-- Títulos internos de cada nivel -->
+    <string name="nivel1_titulo">🔓 Nivel 1: Contraseñas Seguras</string>
+    <string name="nivel2_titulo">🎣 Nivel 2: Phishing e Ingeniería Social</string>
+    <string name="nivel3_titulo">🔒 Nivel 3: Privacidad en Redes Sociales</string>
+    <string name="nivel4_titulo">📱 Nivel 4: Seguridad en Dispositivos Móviles</string>
+    <string name="menu_titulo">MENU</string>
+    <string name="btn_jugar">JUGAR</string>
+    <string name="btn_temario">TEMARIO</string>
+    <string name="btn_logros">LOGROS</string>
+    <string name="byte1_desc">Byte animado 1</string>
+    <string name="byte2_desc">Byte animado 2</string>
+    <string name="byte3_desc">Byte animado 3</string>
 
 
 </resources>

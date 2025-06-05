@@ -40,7 +40,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="start|center_vertical"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/voler_al_menu"
+                android:contentDescription="@string/volver_al_menu"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/return_icon"
