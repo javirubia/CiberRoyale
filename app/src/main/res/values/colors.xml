@@ -19,6 +19,11 @@
     <color name="teal_200">#80CBC4</color>
     <color name="gray_dark">#757575</color>
     <color name="gray_light">#BDBDBD</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_400">#B0BEC5</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_600">#757575</color>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
 

@@ -140,6 +140,60 @@
     <string name="byte1_desc">Byte animado 1</string>
     <string name="byte2_desc">Byte animado 2</string>
     <string name="byte3_desc">Byte animado 3</string>
+    <string name="intro_nivel3">
+        En este nivel aprenderás a proteger tu privacidad en redes sociales.
+    </string>
+
+
+    <!-- SALA DE CONTROL -->
+    <string name="control_title">Sala de Control</string>
+    <string name="game1_label">Privacidad de Perfil</string>
+    <!-- Título Desafío 1 -->
+    <string name="game1_title">Privacidad de Perfil</string>
+    <string name="game1_item_photo">Foto de perfil</string>
+    <string name="game1_item_birthdate">Fecha de nacimiento</string>
+    <string name="game1_item_friends">Lista de amigos</string>
+    <string name="game1_item_posts">Publicaciones</string>
+    <string name="game1_btn_complete">Completar</string>
+    <string name="publico">Público</string>
+    <string name="privado">Privado</string>
+
+    <string name="game2_label">Selección de Amigos</string>
+    <string name="game3_label">Bloqueo de Contenido</string>
+    <string name="enter_password">Introduce la contraseña</string>
+    <string name="btn_confirm">Confirmar</string>
+
+    <!-- BOTÓN VOLVER -->
+    <string name="btn_back">Volver</string>
+
+    <!-- RECOMPENSA -->
+    <string name="reward_title">¡Nivel completado!</string>
+    <string name="btn_continue">Continuar</string>
+
+    <!-- ERRORES -->
+    <string name="error_password">Contraseña incorrecta. Intenta de nuevo.</string>
+    <string name="info_desc_game1">Información Desafío Perfil</string>
+    <string name="info_game1">
+    Ajusta cada sección a \"Público\" o \"Privado\".
+    ­ Foto de perfil → Público
+    ­ Fecha de nacimiento → Privado
+    ­ Lista de amigos → Privado
+    ­ Publicaciones → Público
+</string>
+    <string name="game1_piece">Pieza de contraseña: BYTE</string>
+    <!-- Título e información del Desafío 2 -->
+    <string name="game2_title">¿Verdadero o Falso?</string>
+    <string name="info_game2">
+    Lee cada afirmación sobre privacidad en redes sociales.
+    Selecciona “Verdadero” si crees que la afirmación es correcta,
+    o “Falso” si no lo es.
+</string>
+    <string name="game2_btn_true">Verdadero</string>
+    <string name="game2_btn_false">Falso</string>
+    <string name="game2_btn_next">Siguiente</string>
+    <string name="game2_piece">Pieza de contraseña: SEGURA</string>
+    <string name="game2_complete_toast">¡Bien hecho! Afirmaciones completadas.</string>
+    <string name="info_desc_game2">"Info verdadero o falso "</string>
 
 
 </resources>

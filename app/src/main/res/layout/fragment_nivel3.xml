@@ -1,462 +1,674 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/contenedor_nivel3"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contenedor_privacidad"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
-    <!-- 1. Pantalla de introducción -->
-    <LinearLayout
-        android:id="@+id/pantalla_intro"
+    android:background="@android:color/white">
+
+    <!-- 1) INTRODUCCIÓN -->
+    <ScrollView
+        android:id="@+id/pantallaIntro"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="24dp">
-
-        <ImageView
-            android:id="@+id/imgByteIntro3"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/robot" />
-
-        <TextView
-            android:id="@+id/tvIntroNivel3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¡Hola! Soy Byte. En este nivel aprenderás a detectar oversharing en redes sociales."
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_marginTop="16dp" />
-
-        <Button
-            android:id="@+id/btnIntro3Siguiente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¡Empezar!"
-            android:layout_marginTop="24dp" />
-    </LinearLayout>
-
-    <!-- 2. Juego “Detecta el oversharing” -->
-    <FrameLayout
-        android:id="@+id/pantalla_detect_oversharing"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:fillViewport="true"
         android:visibility="gone"
+        android:background="@drawable/background_gradient"
         android:padding="24dp">
-
-        <TextView
-            android:id="@+id/tvAjustesCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:text="Configuración: 0/3"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="16dp"/>
-
-        <TextView
-            android:id="@+id/tvPostCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:text="Post: 1/4"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Card con el post draggable -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardPost"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            android:padding="16dp"
+            android:background="@drawable/background_gradient">
 
-            <LinearLayout
+            <!-- Imagen de Viper explicando phishing -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViperRobando"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.9"
+                app:layout_constraintDimensionRatio="16:9">
 
                 <ImageView
-                    android:id="@+id/imgPost"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:id="@+id/imgViperRobando"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/desc_viper_phishing"
                     android:scaleType="centerCrop"
-                    android:visibility="gone" />
+                    android:src="@drawable/viper_phising" />
+            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    android:id="@+id/tvPost"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="Contenido del post..."
-                    android:textSize="16sp" />
+            <!-- Robot Byte a la izquierda -->
+            <ImageView
+                android:id="@+id/imgByteContexto"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/desc_robot"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/robot"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardViperRobando"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintDimensionRatio="1:1" />
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+            <!-- Texto de contexto a la derecha -->
+            <TextView
+                android:id="@+id/tvContexto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:text="@string/intro_nivel3"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:fontFamily="@font/orbitron_regular"
+                android:gravity="center"
+                android:background="@drawable/bg_texto_translucido"
+                app:layout_constraintStart_toEndOf="@id/imgByteContexto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/imgByteContexto"
+                app:layout_constraintWidth_percent="0.55" />
 
-        <!-- Drop targets -->
+            <!-- Barrier para la fila robot + texto -->
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrierBottom"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="imgByteContexto,tvContexto" />
+
+            <!-- Botón “Estoy listo” -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnIntroSiguiente"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="@color/purple_700"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:text="@string/btn_listo"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrierBottom" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+    <!-- 2) SALA DE CONTROL -->
+    <ScrollView
+        android:id="@+id/pantallaControl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:visibility="gone"
+        android:background="@drawable/background_gradient"
+        android:padding="24dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="bottom"
-            android:weightSum="2"
-            android:layout_marginTop="32dp">
-
-            <LinearLayout
-                android:id="@+id/targetPublico"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/bg_drop_target"
-                android:layout_marginEnd="8dp">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_shield" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Público" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/targetPrivado"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/bg_drop_target"
-                android:layout_marginStart="8dp">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_candado" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Privado" />
-
-            </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
-
-    <!-- 3. Juego “Ajusta tu privacidad” -->
-    <FrameLayout
-        android:id="@+id/pantalla_ajustes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:padding="24dp">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="32dp">
-
-                <!-- Título/instrucción -->
-                <TextView
-                    android:id="@+id/tvInstruccionAjustes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Configura tu privacidad:"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="24dp"/>
-
-                <!-- Ajuste: Fotos -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="16dp">
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchFotos"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Fotos públicas"
-                        android:textSize="16sp"/>
-
-                    <ImageView
-                        android:id="@+id/btnInfoFotos"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/ic_info"
-                        android:contentDescription="Info fotos"/>
-                </LinearLayout>
-
-                <!-- Ajuste: Ubicación -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="16dp">
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchUbicacion"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Compartir ubicación"
-                        android:textSize="16sp"/>
-
-                    <ImageView
-                        android:id="@+id/btnInfoUbicacion"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/ic_info"
-                        android:contentDescription="Info ubicación"/>
-                </LinearLayout>
-
-                <!-- Ajuste: Lista de amigos -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="24dp">
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchLista"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Lista de amigos visible"
-                        android:textSize="16sp"/>
-
-                    <ImageView
-                        android:id="@+id/btnInfoLista"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/ic_info"
-                        android:contentDescription="Info lista"/>
-                </LinearLayout>
-
-                <!-- Ajuste: Dificultad -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="24dp">
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchDificultad"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Dificultad Difícil"
-                        android:textSize="16sp"/>
-
-                    <ImageView
-                        android:id="@+id/btnInfoDificultad"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/ic_info"
-                        android:contentDescription="Info dificultad"/>
-                </LinearLayout>
-
-                <!-- Botón Verificar -->
-                <Button
-                    android:id="@+id/btnVerificarAjustes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Verificar"
-                    android:textAllCaps="false"
-                    android:layout_gravity="center"
-                    android:paddingHorizontal="32dp"
-                    android:paddingVertical="12dp"/>
-            </LinearLayout>
-        </ScrollView>
-    </FrameLayout>
-    <!-- 4. Juego “Filtra solicitudes” -->
-    <FrameLayout
-        android:id="@+id/pantalla_filtrar_solicitudes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:padding="24dp">
-
-        <!-- Contenedor vertical que reparte alturas con peso -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/tvInstruccionFiltrar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Filtra las solicitudes de amistad"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvSolicitudes"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:overScrollMode="never"
-                android:layout_marginBottom="16dp"/>
-
-            <ProgressBar
-                android:id="@+id/pbTimerFiltrar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:max="100"
-                android:progress="100"
-                android:layout_marginBottom="16dp"/>
-
-            <Button
-                android:id="@+id/btnFinalizarFiltrar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Finalizar"
-                android:enabled="false"/>
+                android:text="@string/control_title"
+                android:textSize="20sp"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:layout_marginBottom="24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGame1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/game1_label"
+                android:layout_marginBottom="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGame2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/game2_label"
+                android:layout_marginBottom="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGame3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/game3_label"
+                android:layout_marginBottom="32dp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_password"
+                android:enabled="false"
+                android:inputType="textPassword"
+                android:layout_marginBottom="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCheckPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_confirm"
+                android:enabled="false" />
         </LinearLayout>
-    </FrameLayout>
-    <!-- 5. Combate Match-3 “Conecta tu Privacidad” -->
-    <FrameLayout
-        android:id="@+id/pantalla_combate_match3"
+    </ScrollView>
+
+    <!-- 3) MINIJUEGO 1 -->
+    <ScrollView
+        android:id="@+id/pantallaGame1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:padding="16dp">
+        android:background="@drawable/background_gradient"
+        android:padding="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ProgressBar
-                android:id="@+id/pbVidaEnemigo"
-                style="?android:attr/progressBarStyleHorizontal"
+            <!-- CABECERA: título + info -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:progress="100"
-                android:max="100"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
 
-            <ProgressBar
-                android:id="@+id/pbEscudoJugador"
-                style="?android:attr/progressBarStyleHorizontal"
+                <TextView
+                    android:id="@+id/tvGame1Titulo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/game1_title"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/orbitron_extrabold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnInfoGame1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_vertical"/>
+
+                <ImageButton
+                    android:id="@+id/btnInfoGame1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/info_desc_game1"
+                    android:padding="4dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_info"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Divider -->
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_marginTop="4dp"
-                android:progress="100"
-                android:max="100"/>
+                android:layout_height="1dp"
+                android:background="@color/purple_200"
+                android:layout_marginBottom="16dp" />
 
+            <!-- ITEM GENÉRICO: icono + texto + botón toggle -->
+            <!-- 1) Foto de perfil -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/imgPhoto"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_user"
+                        android:contentDescription="@string/game1_item_photo"/>
+
+                    <TextView
+                        android:id="@+id/tvPhoto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/game1_item_photo"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/orbitron_regular"/>
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/togglePhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnPhotoPublic"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/publico"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnPhotoPrivate"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/privado"/>
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 2) Fecha de nacimiento -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/imgBirthdate"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_calendar"
+                        android:contentDescription="@string/game1_item_birthdate"/>
+
+                    <TextView
+                        android:id="@+id/tvBirthdate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/game1_item_birthdate"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/orbitron_regular"/>
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/toggleBirthdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnBirthdatePublic"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/publico"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnBirthdatePrivate"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/privado"/>
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 3) Lista de amigos -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/imgFriends"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_friends"
+                        android:contentDescription="@string/game1_item_friends"/>
+
+                    <TextView
+                        android:id="@+id/tvFriends"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/game1_item_friends"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/orbitron_regular"/>
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/toggleFriends"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnFriendsPublic"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/publico"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnFriendsPrivate"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/privado"/>
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 4) Publicaciones -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/imgPosts"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_posts"
+                        android:contentDescription="@string/game1_item_posts"/>
+
+                    <TextView
+                        android:id="@+id/tvPosts"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/game1_item_posts"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/orbitron_regular"/>
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/togglePosts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnPostsPublic"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/publico"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnPostsPrivate"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/privado"/>
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Botón Completar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCompleteGame1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/game1_btn_complete"
+                android:layout_marginBottom="12dp"
+                app:cornerRadius="8dp"
+                app:backgroundTint="@color/purple_700"
+                android:enabled="false" />
+
+            <!-- Pieza de contraseña -->
+            <TextView
+                android:id="@+id/tvGame1Piece"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/game1_piece"
+                android:textColor="@color/purple_700"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Botón Volver -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBackGame1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_back"
+                app:cornerRadius="8dp"
+                app:backgroundTint="@color/gray_600" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <!-- 4) MINIJUEGO 2: Selección de Amigos -->
+    <!-- 4) MINIJUEGO 2 -->
+    <ScrollView
+        android:id="@+id/pantallaGame2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:background="@drawable/background_gradient"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- CABECERA: título + info -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/tvGame2Titulo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/game2_title"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/orbitron_extrabold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnInfoGame2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_vertical"/>
+
+                <ImageButton
+                    android:id="@+id/btnInfoGame2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="@string/info_desc_game2"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="4dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_info"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Declaración actual -->
+            <TextView
+                android:id="@+id/tvStatement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="“Tu ubicación siempre está oculta por defecto en redes sociales.”"
+                android:textSize="18sp"
+                android:fontFamily="@font/orbitron_regular"
+                android:padding="12dp"
+                android:background="@color/white"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Botones Verdadero / Falso -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
+                android:gravity="center"
+                android:layout_marginBottom="24dp">
 
-                <TextView
-                    android:id="@+id/tvObjetivoCombate"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnTrue"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Inflige 100 HP en ≤ 20 movimientos"
-                    android:textSize="14sp"/>
+                    android:text="@string/game2_btn_true"/>
 
-                <TextView
-                    android:id="@+id/tvMovimientosRestantes"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFalse"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Mov: 20"
-                    android:textSize="14sp"/>
+                    android:layout_weight="1"
+                    android:text="@string/game2_btn_false"
+                    android:layout_marginStart="12dp"/>
             </LinearLayout>
 
-            <androidx.gridlayout.widget.GridLayout
-                android:id="@+id/gvTablero"
+            <!-- Botón “Siguiente” -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNextGame2"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="8dp"
-                app:columnCount="8"
-                app:rowCount="8"
-                app:useDefaultMargins="true" />
-
-
-            <Button
-                android:id="@+id/btnPista"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pista (–5 escudo)"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="12dp"/>
+                android:text="@string/game2_btn_next"
+                android:enabled="false"
+                app:backgroundTint="@color/purple_700"/>
+
+            <!-- Pieza de contraseña -->
+            <TextView
+                android:id="@+id/tvGame2Piece"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/game2_piece"
+                android:textColor="@color/purple_700"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Botón Volver -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBackGame2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_back"
+                app:backgroundTint="@color/gray_600"
+                android:layout_marginTop="24dp"/>
+
         </LinearLayout>
-    </FrameLayout>
-    <!-- Pantalla 6: Recompensa -->
-    <LinearLayout
-        android:id="@+id/pantalla_recomp"
+    </ScrollView>
+
+
+    <!-- 5) MINIJUEGO 3 -->
+    <ScrollView
+        android:id="@+id/pantallaGame3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
         android:visibility="gone"
+        android:background="@drawable/background_gradient"
         android:padding="24dp">
-
-        <!-- Texto de felicitación -->
-        <TextView
-            android:id="@+id/tvRecompensaTitulo"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🎉 ¡Enhorabuena!"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvRecompensaSubtitulo"
-            android:layout_width="wrap_content"
+            <!-- TODO: Contenido del minijuego 3 -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBackGame3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_back"
+                android:layout_marginTop="24dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 6) RECOMPENSA -->
+    <ScrollView
+        android:id="@+id/pantallaRecomp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@drawable/background_gradient"
+        android:padding="24dp">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Has superado el nivel de phishing"
-            android:textSize="16sp"
-            android:layout_marginBottom="32dp"/>
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <!-- Aquí podrías añadir una imagen o animación de confeti -->
-        <ImageView
-            android:id="@+id/imgConfeti"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_actor"
-            android:contentDescription="Confeti"
-            android:layout_marginBottom="32dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reward_title"
+                android:textSize="24sp"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Botón para continuar -->
-        <Button
-            android:id="@+id/btnRecompContinuar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Continuar"
-            android:textAllCaps="false"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvFinalPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginBottom="32dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFinish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_continue" />
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
