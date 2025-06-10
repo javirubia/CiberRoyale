@@ -493,7 +493,7 @@
         android:id="@+id/pantallaGame2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@drawable/background_gradient"
         android:padding="24dp">
 
@@ -576,14 +576,6 @@
                     android:layout_marginStart="12dp"/>
             </LinearLayout>
 
-            <!-- Botón “Siguiente” -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnNextGame2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/game2_btn_next"
-                android:enabled="false"
-                app:backgroundTint="@color/purple_700"/>
 
             <!-- Pieza de contraseña -->
             <TextView
@@ -615,22 +607,125 @@
         android:id="@+id/pantallaGame3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         android:background="@drawable/background_gradient"
         android:padding="24dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-            <!-- TODO: Contenido del minijuego 3 -->
+            <!-- CABECERA: título + info -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/tvGame3Titulo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/game3_title"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/orbitron_extrabold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnInfoGame3"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="8dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnInfoGame3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="4dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_info"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Drop targets -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:id="@+id/targetPublic3"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/bg_drop_target">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game3_drop_public"
+                        android:fontFamily="@font/orbitron_bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/targetPrivate3"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/bg_drop_target"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game3_drop_private"
+                        android:fontFamily="@font/orbitron_bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Tarjeta draggable -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardEmoji"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:padding="24dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/tvEmoji"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="32sp"
+                    android:gravity="center"
+                    android:fontFamily="@font/orbitron_regular"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Pieza final -->
+            <TextView
+                android:id="@+id/tvGame3Piece"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/game3_piece"
+                android:textColor="@color/purple_700"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnBackGame3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_back"
-                android:layout_marginTop="24dp" />
+                app:backgroundTint="@color/gray_600"/>
         </LinearLayout>
     </ScrollView>
 

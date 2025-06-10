@@ -158,7 +158,7 @@
     <string name="publico">Público</string>
     <string name="privado">Privado</string>
 
-    <string name="game2_label">Selección de Amigos</string>
+    <string name="game2_label">Datos sobre privacidad</string>
     <string name="game3_label">Bloqueo de Contenido</string>
     <string name="enter_password">Introduce la contraseña</string>
     <string name="btn_confirm">Confirmar</string>
@@ -175,10 +175,7 @@
     <string name="info_desc_game1">Información Desafío Perfil</string>
     <string name="info_game1">
     Ajusta cada sección a \"Público\" o \"Privado\".
-    ­ Foto de perfil → Público
-    ­ Fecha de nacimiento → Privado
-    ­ Lista de amigos → Privado
-    ­ Publicaciones → Público
+
 </string>
     <string name="game1_piece">Pieza de contraseña: BYTE</string>
     <!-- Título e información del Desafío 2 -->
@@ -194,6 +191,26 @@
     <string name="game2_piece">Pieza de contraseña: SEGURA</string>
     <string name="game2_complete_toast">¡Bien hecho! Afirmaciones completadas.</string>
     <string name="info_desc_game2">"Info verdadero o falso "</string>
+
+
+        <!-- Desafío 3: Rompecabezas de Emoticonos -->
+    <string name="game3_title">Rompecabezas de Emoticonos</string>
+    <string name="info_game3">
+    Arrastra cada emoticón al área “Publicar” si es seguro compartir,
+    o a “Privado” si no lo es.
+    </string>
+    <string name="info_desc_game3">Información Desafío Emoticones</string>
+
+    <!-- Etiquetas de las zonas de drop -->
+    <string name="game3_drop_public">Publicar</string>
+    <string name="game3_drop_private">Privado</string>
+
+    <!-- Pieza final de contraseña -->
+    <string name="game3_piece">Pieza de contraseña: 2025</string>
+
+    <!-- Toast al completar -->
+    <string name="game3_complete_toast">¡Contenido protegido!</string>
+
 
 
 </resources>

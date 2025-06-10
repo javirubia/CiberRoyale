@@ -1,14 +1,19 @@
 package com.ldm.ciberroyale.niveles
 
 import android.os.Bundle
+import android.view.DragEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ldm.ciberroyale.R
 import com.ldm.ciberroyale.databinding.FragmentNivel3Binding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
 
@@ -65,7 +70,7 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
             val birthOk   = (toggleBirthdate.checkedButtonId == R.id.btnBirthdatePublic) == correctBirthdatePublic
             val friendsOk = (toggleFriends.checkedButtonId == R.id.btnFriendsPublic)  == correctFriendsPublic
             val postsOk   = (togglePosts.checkedButtonId == R.id.btnPostsPublic)     == correctPostsPublic
-            btnCompleteGame1.isEnabled = photoOk && birthOk && friendsOk && postsOk
+            btnCompleteGame1.isEnabled = photoOk && birthOk && friendsOk && postsOk && !doneGame1
         }
 
         listOf(togglePhoto, toggleBirthdate, toggleFriends, togglePosts)
@@ -85,31 +90,32 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
 
         btnCompleteGame1.setOnClickListener {
             doneGame1 = true
-            tvGame1Piece.isVisible = true
+            togglePhoto.isEnabled     = false
+            toggleBirthdate.isEnabled = false
+            toggleFriends.isEnabled   = false
+            togglePosts.isEnabled     = false
             btnCompleteGame1.isEnabled = false
+            tvGame1Piece.isVisible = true
             updateControlState()
             Toast.makeText(requireContext(), getString(R.string.game1_piece), Toast.LENGTH_SHORT).show()
         }
 
         btnBackGame1.setOnClickListener { showScreen(Screen.CONTROL) }
 
-        // ---- DESAFÍO 2: Verdadero o Falso ----
+        // ---- DESAFÍO 2: Verdadero o Falso automático ----
         val statements = listOf(
-            "Tu ubicación siempre está oculta por defecto en redes sociales."          to false,
-            "Es seguro publicar tu correo electrónico en redes públicas."              to false,
-            "Puedes revisar quién visitó tu perfil (en la mayoría de apps)."           to false,
-            "Los mensajes directos privados los lee solo el destinatario."             to true,
-            "Los ajustes de privacidad pueden cambiarse en cualquier momento."         to true
+            "Tu ubicación siempre está oculta por defecto en redes sociales."  to false,
+            "Es seguro publicar tu correo electrónico en redes públicas."      to false,
+            "Puedes revisar quién visitó tu perfil (en la mayoría de apps)."   to false,
+            "Los mensajes directos privados los lee solo el destinatario."     to true,
+            "Los ajustes de privacidad pueden cambiarse en cualquier momento." to true
         )
-        var idx2 = 0
-        var correct2 = 0
+        val pending2 = statements.indices.toMutableList()
 
         fun loadStatement() {
-            val (text, _) = statements[idx2]
-            tvStatement.text = text
-            btnNextGame2.isEnabled = false
+            val idx = pending2.first()
+            tvStatement.text = statements[idx].first
         }
-        // Inicializa primera afirmación
         loadStatement()
 
         btnInfoGame2.setOnClickListener {
@@ -120,44 +126,103 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
                 .show()
         }
 
-        btnTrue.setOnClickListener {
-            val correct = statements[idx2].second
-            if (correct) correct2++
+        fun processAnswer2(isTrue: Boolean) {
+            if (doneGame2) return
+            val idx = pending2.removeAt(0)
+            val correct = statements[idx].second == isTrue
+            if (!correct) pending2.add(idx)
             Toast.makeText(
                 requireContext(),
                 if (correct) getString(R.string.correcto) else getString(R.string.incorrecto),
                 Toast.LENGTH_SHORT
             ).show()
-            btnNextGame2.isEnabled = true
-        }
-        btnFalse.setOnClickListener {
-            val correct = !statements[idx2].second
-            if (correct) correct2++
-            Toast.makeText(
-                requireContext(),
-                if (correct) getString(R.string.correcto) else getString(R.string.incorrecto),
-                Toast.LENGTH_SHORT
-            ).show()
-            btnNextGame2.isEnabled = true
-        }
 
-        btnNextGame2.setOnClickListener {
-            idx2++
-            if (idx2 < statements.size) {
-                loadStatement()
-            } else {
-                // Fin del desafío 2
-                doneGame2 = true
-                tvGame2Piece.isVisible = true
-                btnNextGame2.isEnabled = false
-                updateControlState()
-                Toast.makeText(requireContext(), getString(R.string.game2_piece), Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch {
+                delay(500.milliseconds)
+                if (pending2.isEmpty()) {
+                    doneGame2 = true
+                    btnTrue.isEnabled      = false
+                    btnFalse.isEnabled     = false
+                    tvGame2Piece.isVisible = true
+                    updateControlState()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.game2_piece),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    loadStatement()
+                }
             }
         }
 
+        btnTrue.setOnClickListener  { processAnswer2(true) }
+        btnFalse.setOnClickListener { processAnswer2(false) }
+
         btnBackGame2.setOnClickListener { showScreen(Screen.CONTROL) }
 
-        // ---- DESAFÍO 3 (pendiente) ----
+        // ---- DESAFÍO 3: Rompecabezas de Emoticonos ----
+        val contents = listOf(
+            "👁 Ver tu ubicación"          to false,
+            "📸 Publicar foto"             to true,
+            "👥 Mostrar lista de amigos"   to false,
+            "🔒 Establecer perfil privado" to true
+        )
+        val pending3 = contents.indices.toMutableList()
+
+        fun loadEmoji() {
+            val idx = pending3.first()
+            tvEmoji.text = contents[idx].first
+        }
+        loadEmoji()
+
+        btnInfoGame3.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.game3_title))
+                .setMessage(getString(R.string.info_game3))
+                .setPositiveButton(getString(R.string.entendido), null)
+                .show()
+        }
+
+        cardEmoji.setOnLongClickListener { v ->
+            v.startDragAndDrop(null, View.DragShadowBuilder(v), v, 0)
+            true
+        }
+
+        val dropListener = View.OnDragListener { v, event ->
+            if (event.action == DragEvent.ACTION_DROP && !doneGame3) {
+                val idx = pending3.removeAt(0)
+                val droppedPublic = v.id == R.id.targetPublic3
+                val correct = contents[idx].second == droppedPublic
+                if (!correct) pending3.add(idx)
+                Toast.makeText(
+                    requireContext(),
+                    if (correct) getString(R.string.correcto) else getString(R.string.incorrecto),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                lifecycleScope.launch {
+                    delay(500.milliseconds)
+                    if (pending3.isEmpty()) {
+                        doneGame3 = true
+                        tvGame3Piece.isVisible = true
+                        updateControlState()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.game3_piece),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        loadEmoji()
+                    }
+                }
+                true
+            } else true
+        }
+
+        targetPublic3.setOnDragListener(dropListener)
+        targetPrivate3.setOnDragListener(dropListener)
+
         btnBackGame3.setOnClickListener { showScreen(Screen.CONTROL) }
 
         // ---- RECOMPENSA ----
@@ -179,9 +244,32 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
                 pantallaControl.isVisible = true
                 updateControlState()
             }
-            Screen.GAME1   -> pantallaGame1.isVisible = true
-            Screen.GAME2   -> pantallaGame2.isVisible = true
-            Screen.GAME3   -> pantallaGame3.isVisible = true
+            Screen.GAME1   -> {
+                pantallaGame1.isVisible = true
+                if (doneGame1) {
+                    togglePhoto.isEnabled     = false
+                    toggleBirthdate.isEnabled = false
+                    toggleFriends.isEnabled   = false
+                    togglePosts.isEnabled     = false
+                    btnCompleteGame1.isEnabled = false
+                    tvGame1Piece.isVisible = true
+                }
+            }
+            Screen.GAME2   -> {
+                pantallaGame2.isVisible = true
+                if (doneGame2) {
+                    btnTrue.isEnabled      = false
+                    btnFalse.isEnabled     = false
+                    tvGame2Piece.isVisible = true
+                }
+            }
+            Screen.GAME3   -> {
+                pantallaGame3.isVisible = true
+                if (doneGame3) {
+                    // asegurar vista de pieza al reentrar
+                    tvGame3Piece.isVisible = true
+                }
+            }
             Screen.RECOMP  -> pantallaRecomp.isVisible = true
         }
     }
