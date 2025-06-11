@@ -1,10 +1,678 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".nivel4Fragment">
+    android:background="@drawable/background_gradient">
+
+    <!-- Pantalla 1: INTRO (idéntica a Nivel2) -->
+    <ScrollView
+        android:id="@+id/pantallaIntro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:visibility="visible"
+        android:background="@drawable/background_gradient"
+        android:padding="24dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/background_gradient">
+
+            <!-- Imagen de Viper explicando phishing -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViperRobando"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.9"
+                app:layout_constraintDimensionRatio="16:9">
+
+                <ImageView
+                    android:id="@+id/imgViperRobando"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/desc_viper_phishing"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/viper_mvil" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Robot Byte a la izquierda -->
+            <ImageView
+                android:id="@+id/imgByteContexto"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/desc_robot"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/robot"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardViperRobando"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintDimensionRatio="1:1" />
+
+            <!-- Texto de contexto a la derecha -->
+            <TextView
+                android:id="@+id/tvContexto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:text="@string/contexto_viper_movil"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:fontFamily="@font/orbitron_regular"
+                android:gravity="center"
+                android:background="@drawable/bg_texto_translucido"
+                app:layout_constraintStart_toEndOf="@id/imgByteContexto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/imgByteContexto"
+                app:layout_constraintWidth_percent="0.55" />
+
+            <!-- Barrier para la fila robot + texto -->
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrierBottom"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="imgByteContexto,tvContexto" />
+
+            <!-- Botón “Estoy listo” -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnIntroSiguiente"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="@color/purple_700"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:text="@string/btn_listo"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrierBottom" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
+    <!-- Pantalla 2: PIN PUZZLE -->
+    <ScrollView
+        android:id="@+id/pantallaPinPuzzle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Título -->
+            <TextView
+                android:id="@+id/tvTituloPin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pin_titulo"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Pista 1 -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
+
+                    <!-- Dígitos -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tvPista1Digit0"
+                            style="@style/CircleDigit" />
+                        <TextView
+                            android:id="@+id/tvPista1Digit1"
+                            style="@style/CircleDigit"
+                            android:layout_marginStart="8dp"/>
+                        <TextView
+                            android:id="@+id/tvPista1Digit2"
+                            style="@style/CircleDigit"
+                            android:layout_marginStart="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Descripción -->
+                    <TextView
+                        android:id="@+id/tvPista1Desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/pista1_desc"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/orbitron_regular"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Pista 2 -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tvPista2Digit0"
+                            style="@style/CircleDigit" />
+                        <TextView
+                            android:id="@+id/tvPista2Digit1"
+                            style="@style/CircleDigit"
+                            android:layout_marginStart="8dp"/>
+                        <TextView
+                            android:id="@+id/tvPista2Digit2"
+                            style="@style/CircleDigit"
+                            android:layout_marginStart="8dp"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvPista2Desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/pista2_desc"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/orbitron_regular"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Pista 3 -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tvPista3Digit0"
+                            style="@style/CircleDigit" />
+                        <TextView
+                            android:id="@+id/tvPista3Digit1"
+                            style="@style/CircleDigit"
+                            android:layout_marginStart="8dp"/>
+                        <TextView
+                            android:id="@+id/tvPista3Digit2"
+                            style="@style/CircleDigit"
+                            android:layout_marginStart="8dp"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvPista3Desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/pista3_desc"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/orbitron_regular"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <!-- Pista 4: suma -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:layout_marginBottom="24dp">
+
+                <!-- Aquí podrías mostrar por ejemplo la suma -->
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_sum"
+                    android:contentDescription="@null"/>
+
+                <TextView
+                    android:id="@+id/tvPista4Desc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/pista4_suma"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/orbitron_regular"/>
+            </LinearLayout>
+
+            <!-- Título sección PIN -->
+            <TextView
+                android:id="@+id/tvIntroducePin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/introduce_pin"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/orbitron_semibold"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Selector de PIN -->
+            <LinearLayout
+                android:layout_width="234dp"
+                android:layout_height="142dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
+
+                    <NumberPicker
+                        android:id="@+id/npDigit0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
+
+                    <NumberPicker
+                        android:id="@+id/npDigit1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
+
+                    <NumberPicker
+                        android:id="@+id/npDigit2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Botón COMPROBAR -->
+            <Button
+                android:id="@+id/btnCheckPin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/purple_700"
+                android:text="@string/btn_comprobar_pin"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/orbitron_extrabold"/>
+
+            <!-- Feedback -->
+            <TextView
+                android:id="@+id/tvFeedbackPin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/orbitron_regular"/>
+
+        </LinearLayout>
+    </ScrollView>
+    <ImageButton
+        android:id="@+id/btnInfoPin"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:layout_gravity="top|end"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/info_icon_desc"
+        android:src="@drawable/ic_info"
+        android:scaleType="centerInside"
+        android:visibility="gone" />
+
+    <!-- Pantalla 3: Wi‑Fi Detective -->
+    <ScrollView
+        android:id="@+id/pantallaWifi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:visibility="gone"
+        android:background="@drawable/background_gradient">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Título -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/tvTituloWifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/detective_wifi_titulo"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/orbitron_extrabold"/>
+
+                <ImageButton
+                    android:id="@+id/btnInfoWifi"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_info"
+                    android:scaleType="centerInside"
+                    android:contentDescription="@string/info_desc_wifi"/>
+            </FrameLayout>
+
+            <!-- Tarjeta de SSID con detalles -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSsid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Nombre de la red -->
+                    <TextView
+                        android:id="@+id/tvWifiSsid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/orbitron_bold"/>
+
+                    <!-- Fila de detalles -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical">
+
+                        <!-- Cifrado -->
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_candado" />
+                        <TextView
+                            android:id="@+id/tvEncryption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:textSize="16sp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/orbitron_regular"/>
+
+                        <!-- Separador -->
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="24dp"
+                            android:layout_marginHorizontal="16dp"
+                            android:background="@android:color/darker_gray"/>
+
+                        <!-- Señal -->
+                        <ImageView
+                            android:id="@+id/imgSignal"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_signal_high" />
+                        <TextView
+                            android:id="@+id/tvSignalLevel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:textSize="16sp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/orbitron_regular"/>
+
+                        <!-- Separador -->
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="24dp"
+                            android:layout_marginHorizontal="16dp"
+                            android:background="@android:color/darker_gray"/>
+
+                        <!-- Clientes -->
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_user" />
+                        <TextView
+                            android:id="@+id/tvClients"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:textSize="16sp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/orbitron_regular"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Zona de targets -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/targetSeguro"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_candado" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/seguro_label"
+                            android:fontFamily="@font/orbitron_bold"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/targetPeligro"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    android:layout_marginStart="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_alerta" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/peligroso_label"
+                            android:fontFamily="@font/orbitron_bold"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+    <!-- Pantalla 4: RECOMPENSA (idéntica a Nivel2) -->
+    <ScrollView
+        android:id="@+id/scroll_pantalla_recomp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/pantalla_recomp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="24dp"
+            android:background="@drawable/background_gradient">
+
+            <!-- Título (“Derrota” o “Victoria”) -->
+            <TextView
+                android:id="@+id/tvRecompensaTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text=""
+                android:textSize="24sp"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:textStyle="bold"
+                android:textColor="@android:color/black" />
+
+            <!-- Subtítulo: mensaje según rango de puntuación -->
+            <TextView
+                android:id="@+id/tvRecompensaSubtitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/orbitron_regular" />
+
+            <!-- Aquí se mostrará “Puntuación: XX / 100” -->
+            <TextView
+                android:id="@+id/tvPuntuacionFinal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:fontFamily="@font/orbitron_bold" />
+
+            <!-- Imagen de confeti o icono de derrota -->
+            <ImageView
+                android:id="@+id/imgConfeti"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="32dp"
+                android:contentDescription="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/robot" />
+
+            <!-- Botón “Continuar” o “Reintentar” según corresponda -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRecompContinuar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/orbitron_extrabold"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

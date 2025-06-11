@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:visibility="gone"
+        android:visibility="visible"
         android:background="@drawable/background_gradient"
         android:padding="24dp">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +45,7 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/desc_viper_phishing"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/viper_phising" />
+                    android:src="@drawable/viper_rrss" />
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Robot Byte a la izquierda -->
@@ -607,7 +607,7 @@
         android:id="@+id/pantallaGame3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@drawable/background_gradient"
         android:padding="24dp">
 
@@ -629,6 +629,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/game3_title"
                     android:textSize="20sp"
+                    android:textColor="@color/black"
+
                     android:fontFamily="@font/orbitron_extrabold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnInfoGame3"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CiberRoyale</string>
+    <string name="app_name">Cyber Royale</string>
     <!-- Pantalla 1: Ataque -->
     <string name="titulo_ataque">¡Atención!</string>
     <string name="subtitulo_ataque">¡El mundo ha sido infectado por ViperWare!</string>
@@ -210,7 +210,45 @@
 
     <!-- Toast al completar -->
     <string name="game3_complete_toast">¡Contenido protegido!</string>
+    <string name="desc_emoji_drag">IMAGEN EMOTICONO</string>
 
+    <!-- Títulos y botones de Nivel 4 -->
+    <string name="wifi_titulo">Detective de SSID</string>
+
+
+    <!-- Etiqueta de redes peligrosas -->
+    <string name="peligroso_label">Peligroso</string>
+
+    <!-- Diálogos de ayuda (Info) -->
+
+    <string name="info_titulo_wifi">Detective de Redes Wi-Fi</string>
+    <string name="info_mensaje_wifi">
+En esta fase te conviertes en un verdadero detective de redes inalámbricas.\n
+Para cada red verás:\n
+• El nombre (SSID)\n
+• El tipo de cifrado (WPA2, WPA3 o abierta)\n
+• La intensidad de la señal (barras de cobertura)\n
+• El número de dispositivos conectados\n\n
+Tu misión es arrastrar la red a “Seguro” si cumple buenas prácticas (cifrado fuerte, señal razonable, pocos clientes extraños), o a “Peligrosa” si detectas indicios de honeypot, cifrado débil o demasiados usuarios desconocidos. ¡Pon a prueba tu ojo ciberseguro y salva al sistema de ViperWare!
+</string>
+
+
+    <string name="pin_titulo">Desbloquea el PIN</string>
+    <string name="btn_comprobar_pin">Comprobar</string>
+    <string name="info_titulo_pin">¿Qué es un PIN seguro?</string>
+    <string name="info_mensaje_pin">
+En este juego debes adivinar un PIN de 3 dígitos. Fíjate en los indicadores para ver cuántos dígitos están en la posición correcta y cuántos son correctos pero están en otra posición. Usa un PIN único y evita secuencias fáciles.
+</string>
+
+    <string name="pista1_desc">Dos dígitos en común y ninguno en posición correcta.</string>
+    <string name="pista2_desc">Dos dígitos en común y uno en posición correcta.</string>
+    <string name="pista3_desc">No tiene dígitos comunes.</string>
+    <string name="info_icon_desc">Información sobre el PIN</string>
+    <string name="info_desc_wifi">Información sobre Wi-Fi</string>
+    <string name="pista4_suma">La suma de los dígitos es %1$d.</string>
+    <string name="introduce_pin">INTRODUCE EL PIN:</string>
+    <string name="detective_wifi_titulo">Detective de Redes Wi-Fi</string>
+    <string name="contexto_viper_movil">Tenemos que descburir un pin secreto y clasificar redes Wi-Fi.\n !AYUDA!</string>
 
 
 </resources>

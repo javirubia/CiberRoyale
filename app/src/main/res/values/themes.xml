@@ -4,4 +4,25 @@
         <!-- … aquí tus colores y tipografía por defecto … -->
     </style>
     <style name="Theme.CiberRoyale" parent="Base.Theme.CiberRoyale" />
+    <style name="CircleDigit">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/bg_circle_digit</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/orbitron_bold</item>
+    </style>
+    <!-- Círculos con morado oscuro -->
+    <style name="CircleDigitDark">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/bg_circle_digit_dark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/orbitron_bold</item>
+    </style>
+
+
 </resources>

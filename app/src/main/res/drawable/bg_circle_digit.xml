@@ -1,0 +1,9 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <!-- Tamaño fijo 40×40 dp -->
+    <size
+        android:width="40dp"
+        android:height="40dp"/>
+    <!-- Color de fondo: ajusta a tu primario o uno contrastado -->
+    <solid android:color="@color/purple_700"/>
+</shape>
