@@ -1,0 +1,38 @@
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    app:strokeWidth="2dp"
+    app:strokeColor="@color/purple_200"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- reverso: tu layer-list -->
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/card_back_layer" />
+
+        <!-- cara frontal: emoji -->
+        <TextView
+            android:id="@+id/tvEmojiCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/circle_white_bg"
+            android:padding="12dp"
+            android:gravity="center"
+            android:textSize="32sp"
+            android:visibility="gone"
+            android:fontFamily="@font/orbitron_regular"/>
+    </FrameLayout>
+</com.google.android.material.card.MaterialCardView>

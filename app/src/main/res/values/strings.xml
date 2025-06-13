@@ -90,7 +90,6 @@
     <!-- COMUNES -->
     <string name="correcto">¡Correcto!</string>
     <string name="incorrecto">Incorrecto…</string>
-    <string name="entendido">Entendido</string>
     <string name="desc_confeti">Imagen de confeti celebratorio</string>
 
     <!-- INFO USADOS EN BOTONES -->
@@ -194,12 +193,7 @@
 
 
         <!-- Desafío 3: Rompecabezas de Emoticonos -->
-    <string name="game3_title">Rompecabezas de Emoticonos</string>
-    <string name="info_game3">
-    Arrastra cada emoticón al área “Publicar” si es seguro compartir,
-    o a “Privado” si no lo es.
-    </string>
-    <string name="info_desc_game3">Información Desafío Emoticones</string>
+
 
     <!-- Etiquetas de las zonas de drop -->
     <string name="game3_drop_public">Publicar</string>
@@ -249,6 +243,26 @@ En este juego debes adivinar un PIN de 3 dígitos. Fíjate en los indicadores pa
     <string name="introduce_pin">INTRODUCE EL PIN:</string>
     <string name="detective_wifi_titulo">Detective de Redes Wi-Fi</string>
     <string name="contexto_viper_movil">Tenemos que descburir un pin secreto y clasificar redes Wi-Fi.\n !AYUDA!</string>
+
+    <!-- Para el contentDescription y tooltip -->
+    <string name="info_desc_control">Información sobre la sala de control</string>
+
+    <!-- Mensaje del diálogo -->
+    <string name="info_mensaje_control">
+  En esta Sala de Control puedes acceder a los tres desafíos de privacidad:\n
+  • Privacidad de Perfil\n
+  • Datos sobre Privacidad\n
+  • Bloqueo de Contenido\n
+  Completa cada uno para obtener una pieza de la contraseña final.
+</string>
+
+    <!-- Botón de cierre del diálogo -->
+    <string name="entendido">Entendido</string>
+
+
+    <string name="game3_title">Rompecabezas de Emoticonos</string>
+    <string name="info_desc_game3">Información del Memory</string>
+    <string name="info_game3">Encuentra y empareja todos los iconos relacionados con la privacidad para ganar la pieza de la contraseña.</string>
 
 
 </resources>

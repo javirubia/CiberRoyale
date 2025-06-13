@@ -1,0 +1,22 @@
+<!-- res/drawable/card_back_with_logo.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 1) Tu patrón de fondo -->
+    <item
+        android:drawable="@drawable/card_back_pattern" />
+
+    <!-- 2) El logo, centrado y con márgenes para no ocupar toda la carta -->
+    <item>
+        <inset
+            android:insetLeft="16dp"
+            android:insetTop="16dp"
+            android:insetRight="16dp"
+            android:insetBottom="16dp">
+            <bitmap
+                android:src="@drawable/viper"
+                android:gravity="center"
+                android:antialias="true" />
+        </inset>
+    </item>
+
+</layer-list>

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@drawable/background_gradient"
         android:padding="24dp">
 
@@ -405,7 +405,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:background="@drawable/background_gradient">
 
         <LinearLayout
@@ -414,32 +414,42 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
-            <!-- Título -->
-            <FrameLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp">
 
+                <!-- Título -->
                 <TextView
                     android:id="@+id/tvTituloWifi"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="@string/detective_wifi_titulo"
                     android:textSize="20sp"
                     android:textColor="@android:color/black"
-                    android:fontFamily="@font/orbitron_extrabold"/>
+                    android:fontFamily="@font/orbitron_extrabold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnInfoWifi"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:paddingEnd="8dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
 
+                <!-- Icono ℹ️ alineado a la derecha -->
                 <ImageButton
                     android:id="@+id/btnInfoWifi"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="end|center_vertical"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_info"
                     android:scaleType="centerInside"
-                    android:contentDescription="@string/info_desc_wifi"/>
-            </FrameLayout>
+                    android:contentDescription="@string/info_desc_wifi"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvTituloWifi"
+                    app:layout_constraintBottom_toBottomOf="@id/tvTituloWifi"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <!-- Tarjeta de SSID con detalles -->
             <com.google.android.material.card.MaterialCardView
