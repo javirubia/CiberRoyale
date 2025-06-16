@@ -186,39 +186,6 @@
     <string name="dialog_info_nivel4_wifi_mensaje">Analiza los detalles de cada red (cifrado, nº de clientes, etc.) y arrástrala a "Seguro" o "Peligrosa" según tu criterio. Las redes abiertas o con nombres sospechosos suelen ser peligrosas.</string>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Quiz -->
     <string name="quiz_titulo">Pregunta %1$d de %2$d</string>
     <string name="resultado_bien">Resultado del Quiz: %1$d/%2$d pts</string>
@@ -248,14 +215,11 @@
     <string name="info_mejora2">Continúa mejorando las contraseñas para maximizar tu puntuación.</string>
 
 
-
     <!-- Diálogos de información -->
     <string name="info_combate">Bienvenido al Combate Final. En cada turno, escribe una contraseña en el campo de texto y pulsa “Atacar”. Si la contraseña es muy segura, harás más daño al enemigo. El enemigo te devolverá el golpe con 10 puntos de daño fijo por turno. Tu puntuación de combate depende de cuánta vida te quede al final:\n• Si matas al enemigo con más de la mitad de tu vida → 60 puntos.\n• Si matas al enemigo con entre 1 y la mitad de tu vida → 30 puntos.</string>
 
     <!-- Narración Combate -->
     <string name="mensaje_escribe_pw">Escribe una contraseña para atacar</string>
-
-
 
 
     <!-- Recompensa / Derrota -->
@@ -501,9 +465,8 @@ En este juego debes adivinar un PIN de 3 dígitos. Fíjate en los indicadores pa
     <string name="game3_title">Rompecabezas de Emoticonos</string>
     <string name="info_desc_game3">Información del Memory</string>
     <string name="info_game3">Encuentra y empareja todos los iconos relacionados con la privacidad para ganar la pieza de la contraseña.</string>
-
-
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

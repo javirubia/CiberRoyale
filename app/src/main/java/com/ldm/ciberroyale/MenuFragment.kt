@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
@@ -43,7 +44,15 @@ class MenuFragment : Fragment() {
             findNavController().navigate(R.id.action_menuFragment_to_logrosFragment)
         }
 
-        // 3) Float animation para los Bytes (no cambió)
+        // AÑADIDO: Listeners para los nuevos botones de Cuenta y Ajustes
+        binding.btnCuenta.applyIconTouchFeedback {
+            findNavController().navigate(R.id.action_menuFragment_to_loginFragment)
+        }
+        binding.btnAjustes.applyIconTouchFeedback {
+            findNavController().navigate(R.id.action_menuFragment_to_ajustesFragment)
+        }
+
+        // 3) Float animation para los Bytes
         val floatAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.float_up_down)
         binding.byte1.startAnimation(floatAnim.apply { startOffset =   0 })
         binding.byte2.startAnimation(floatAnim.apply { startOffset =  400 })
@@ -67,9 +76,26 @@ class MenuFragment : Fragment() {
                     view.animate()
                         .scaleX(1f).scaleY(1f)
                         .setDuration(50)
-                        .withEndAction {
-                            action()
-                        }
+                        .withEndAction(action)
+                        .start()
+                }
+                .start()
+        }
+    }
+
+    /**
+     * AÑADIDO: Extensión similar para los ImageButton
+     */
+    private fun ImageButton.applyIconTouchFeedback(action: () -> Unit) {
+        setOnClickListener { view ->
+            view.animate()
+                .scaleX(0.85f).scaleY(0.85f)
+                .setDuration(50)
+                .withEndAction {
+                    view.animate()
+                        .scaleX(1f).scaleY(1f)
+                        .setDuration(50)
+                        .withEndAction(action)
                         .start()
                 }
                 .start()

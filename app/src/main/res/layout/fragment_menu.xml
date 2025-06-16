@@ -10,22 +10,48 @@
     android:padding="16dp"
     tools:context=".MenuFragment">
 
+    <!-- AÑADIDO: Botón para la pantalla de Cuenta/Perfil -->
+    <ImageButton
+        android:id="@+id/btnCuenta"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_account"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Gestionar Cuenta" />
+
+    <!-- AÑADIDO: Botón para la pantalla de Ajustes -->
+    <ImageButton
+        android:id="@+id/btnAjustes"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintEnd_toStartOf="@id/btnCuenta"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Ajustes" />
+
     <!-- 1) Texto de encabezado (MENU) -->
     <TextView
         android:id="@+id/tvWelcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/menu_titulo"
-    android:textSize="40sp"
-    android:fontFamily="@font/orbitron_extrabold"
-    android:textColor="@color/black"
-    android:gravity="center"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginTop="24dp" />
+        android:textSize="40sp"
+        android:fontFamily="@font/orbitron_extrabold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
 
-    <!-- 2) Botón “JUGAR” -->
+    <!-- El resto de tu layout (botones y bytes) no necesita cambios -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnJugar"
         style="@style/Widget.MaterialComponents.Button"
@@ -33,25 +59,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:minHeight="64dp"
-    android:fontFamily="@font/orbitron_extrabold"
-    android:text="@string/btn_jugar"
-    android:textAllCaps="false"
-    android:textColor="@color/white"
-    android:textSize="28sp"
-    app:backgroundTint="@null"
-    android:background="@drawable/btn_gradient"
-    app:icon="@drawable/ic_game"
-    app:iconGravity="textStart"
-    app:iconPadding="12dp"
-    app:iconSize="48dp"
-    app:cornerRadius="32dp"
-    app:layout_constraintTop_toBottomOf="@id/tvWelcome"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginStart="24dp"
-    android:layout_marginEnd="24dp" />
+        android:fontFamily="@font/orbitron_extrabold"
+        android:text="@string/btn_jugar"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:backgroundTint="@null"
+        android:background="@drawable/btn_gradient"
+        app:icon="@drawable/ic_game"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        app:iconSize="48dp"
+        app:cornerRadius="32dp"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp" />
 
-    <!-- 3) Botón “TEMARIO” -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnTemario"
         style="@style/Widget.MaterialComponents.Button"
@@ -61,23 +86,22 @@
         android:minHeight="64dp"
         android:fontFamily="@font/orbitron_extrabold"
         android:text="@string/btn_temario"
-    android:textAllCaps="false"
-    android:textColor="@color/white"
-    android:textSize="28sp"
-    app:backgroundTint="@null"
-    android:background="@drawable/btn_gradient"
-    app:icon="@drawable/ic_menu_book"
-    app:iconGravity="textStart"
-    app:iconPadding="12dp"
-    app:iconSize="48dp"
-    app:cornerRadius="32dp"
-    app:layout_constraintTop_toBottomOf="@id/btnJugar"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginStart="24dp"
-    android:layout_marginEnd="24dp" />
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:backgroundTint="@null"
+        android:background="@drawable/btn_gradient"
+        app:icon="@drawable/ic_menu_book"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        app:iconSize="48dp"
+        app:cornerRadius="32dp"
+        app:layout_constraintTop_toBottomOf="@id/btnJugar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp" />
 
-    <!-- 4) Botón “LOGROS” -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogros"
         style="@style/Widget.MaterialComponents.Button"
@@ -87,23 +111,22 @@
         android:minHeight="64dp"
         android:fontFamily="@font/orbitron_extrabold"
         android:text="@string/btn_logros"
-    android:textAllCaps="false"
-    android:textColor="@color/white"
-    android:textSize="28sp"
-    app:backgroundTint="@null"
-    android:background="@drawable/btn_gradient"
-    app:icon="@drawable/ic_achievements"
-    app:iconGravity="textStart"
-    app:iconPadding="12dp"
-    app:iconSize="48dp"
-    app:cornerRadius="32dp"
-    app:layout_constraintTop_toBottomOf="@id/btnTemario"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginStart="24dp"
-    android:layout_marginEnd="24dp" />
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:backgroundTint="@null"
+        android:background="@drawable/btn_gradient"
+        app:icon="@drawable/ic_achievements"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        app:iconSize="48dp"
+        app:cornerRadius="32dp"
+        app:layout_constraintTop_toBottomOf="@id/btnTemario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp" />
 
-    <!-- 5) Fila de “bytes” debajo de los botones -->
     <LinearLayout
         android:id="@+id/ll_bytes"
         android:layout_width="0dp"
@@ -115,7 +138,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- byte 1 -->
         <ImageView
             android:id="@+id/byte1"
             android:layout_width="0dp"
@@ -124,9 +146,9 @@
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:src="@drawable/byte_frame1"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:contentDescription="@string/byte1_desc"/>
 
-        <!-- byte 2 -->
         <ImageView
             android:id="@+id/byte2"
             android:layout_width="0dp"
@@ -135,9 +157,9 @@
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:src="@drawable/byte_frame2"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:contentDescription="@string/byte2_desc"/>
 
-        <!-- byte 3 -->
         <ImageView
             android:id="@+id/byte3"
             android:layout_width="0dp"
@@ -146,8 +168,8 @@
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:src="@drawable/byte_frame3"
-            android:layout_margin="8dp" />
-
+            android:layout_margin="8dp"
+            android:contentDescription="@string/byte3_desc"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

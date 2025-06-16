@@ -37,6 +37,12 @@
         <action
             android:id="@+id/action_menuFragment_to_logrosFragment"
             app:destination="@id/logrosFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_ajustesFragment"
+            app:destination="@id/ajustesFragment" />
     </fragment>
     <fragment
         android:id="@+id/juegoFragment"
@@ -163,5 +169,23 @@
         <action
             android:id="@+id/action_nivel4Fragment_to_juegoFragment"
             app:destination="@id/juegoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.ldm.ciberroyale.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ajustesFragment"
+        android:name="com.ldm.ciberroyale.AjustesFragment"
+        android:label="fragment_ajustes"
+        tools:layout="@layout/fragment_ajustes" >
+        <action
+            android:id="@+id/action_ajustesFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
     </fragment>
 </navigation>
