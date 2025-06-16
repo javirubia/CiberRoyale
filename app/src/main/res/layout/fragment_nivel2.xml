@@ -2,7 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/contenedor_phishing"
+    android:id="@+id/contenedor_nivel2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -640,7 +640,7 @@
          Pantalla 5: RECOMPENSA / DERROTA (unificada)
          ======================================== -->
     <ScrollView
-        android:id="@+id/scroll_pantalla_recomp"
+        android:id="@+id/scrollPantallaRecomp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"

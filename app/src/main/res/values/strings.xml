@@ -5,6 +5,39 @@
     <string name="titulo_ataque">¡Atención!</string>
     <string name="subtitulo_ataque">¡El mundo ha sido infectado por ViperWare!</string>
     <string name="btn_continuar">CONTINUAR</string>
+    <string name="toast_necesario">¡El mundo te necesita!</string>
+    <string name="puntuacion_total">Puntuación total: %1$d puntos</string>
+
+    <!-- Quiz -->
+    <string name="quiz_titulo">Pregunta %1$d de %2$d</string>
+    <string name="resultado_bien">Resultado del Quiz: %1$d/%2$d pts</string>
+
+
+    <!-- Diálogos de información -->
+    <string name="info_quiz">Aquí debes seleccionar la contraseña más segura de las opciones. Cada pregunta vale 5 puntos y el Quiz consta de 4 preguntas. Elige con cuidado: pulsa tu opción para habilitar “Siguiente”.</string>
+    <string name="info_mejora1">En esta sección (Mejora – Bloque 1) verás dos contraseñas escritas arriba de cada Spinner. Elige la versión más segura de cada contraseña. Cada respuesta correcta suma 5 puntos. Cuando selecciones ambas opciones, el botón “Siguiente” se habilitará.</string>
+    <string name="info_mejora2">Ahora estás en la parte Mejora – Bloque 2. Nuevamente, elige la opción más segura de cada contraseña mostrada arriba. Cada respuesta correcta suma 5 puntos adicionales. Al completar ambas, pulsa “Siguiente” para pasar al combate.</string>
+    <string name="info_combate">Bienvenido al Combate Final. En cada turno, escribe una contraseña en el campo de texto y pulsa “Atacar”. Si la contraseña es muy segura, harás más daño al enemigo. El enemigo te devolverá el golpe con 10 puntos de daño fijo por turno. Tu puntuación de combate depende de cuánta vida te quede al final:\n• Si matas al enemigo con más de la mitad de tu vida → 60 puntos.\n• Si matas al enemigo con entre 1 y la mitad de tu vida → 30 puntos.</string>
+
+    <!-- Narración Combate -->
+    <string name="empiezas">¡Empiezas tú!</string>
+    <string name="enemigo_primero">CobraX ataca primero...</string>
+    <string name="mensaje_escribe_pw">Escribe una contraseña para atacar</string>
+    <string name="mensaje_pw_repetida">Ya has usado esa contraseña</string>
+    <string name="mensaje_demasiado_debil">Tu contraseña es demasiado débil</string>
+    <string name="mensaje_enemigo_ataca">El enemigo ataca y te quita %1$d puntos de vida</string>
+
+    <!-- Recompensa / Derrota -->
+    <string name="derrota_general">Has sido derrotado</string>
+    <string name="resultado_mal">Mejor suerte la próxima vez</string>
+    <string name="victoria_general">¡Victoria!</string>
+    <string name="resultado_bien_subtitulo">Buen trabajo</string>
+    <string name="resultado_muy_bien">¡Excelente!</string>
+    <string name="resultado_perfecto">¡Perfecto!</string>
+
+    <!-- Botones finales -->
+    <string name="btn_reintentar">Reintentar</string>
+    <string name="btn_continuar_final">Continuar</string>
 
     <!-- Pantalla 2: Byte -->
     <string name="intro_byte">Soy Byte, robot de asistencia. Necesitamos tu ayuda: el planeta ha sido atacado por Viper, un hacker malvado. ¡Únete a los Cyber Defensores!</string>
@@ -16,7 +49,6 @@
     <string name="contexto_viper">ViperWare está robando contraseñas débiles. ¡Debemos detenerlo!</string>
 
     <!-- Pantalla 4: Quiz -->
-    <string name="quiz_titulo">Pregunta %1$d de %2$d</string>
     <string name="btn_siguiente">Siguiente</string>
 
     <!-- Pantalla 5: Mejora -->
@@ -26,22 +58,11 @@
     <!-- Pantalla 6: Combate -->
     <string name="btn_ataque">¡Atacar!</string>
     <string name="hint_contrasena">Escribe una contraseña segura...</string>
-    <string name="mensaje_escribe_pw">Escribe una contraseña antes</string>
-    <string name="mensaje_pw_repetida">No repitas contraseñas</string>
-    <string name="mensaje_demasiado_debil">¡Demasiado débil! La contraseña no hace daño.</string>
+
     <string name="mensaje_damage">Le haces %1$d pts</string>
-    <string name="mensaje_enemigo_ataca">CobraX inflige %1$d pts</string>
 
     <!-- Pantalla 7: Recompensa/Derrota -->
-    <string name="victoria_general">🎉 ¡Enhorabuena!</string>
-    <string name="derrota_general">💀 ¡Has sido derrotado!</string>
-    <string name="resultado_mal">Lo siento, has perdido. Repite el nivel.</string>
-    <string name="resultado_bien">Bien</string>
-    <string name="resultado_muy_bien">Muy bien</string>
-    <string name="resultado_perfecto">¡Perfecto!</string>
-    <string name="puntuacion_total">Has obtenido %1$d puntos de 100</string>
-    <string name="btn_reintentar">Reintentar</string>
-    <string name="btn_continuar_final">Continuar</string>
+
 
     <string name="info_desc_quiz">Información sobre el Quiz</string>
     <string name="info_desc_mejora1">Información sobre Mejora - Bloque 1</string>
