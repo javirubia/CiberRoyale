@@ -1,31 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Cyber Royale</string>
-    <!-- Pantalla 1: Ataque -->
-    <string name="titulo_ataque">¡Atención!</string>
-    <string name="subtitulo_ataque">¡El mundo ha sido infectado por ViperWare!</string>
-    <string name="btn_continuar">CONTINUAR</string>
-    <string name="toast_necesario">¡El mundo te necesita!</string>
-    <string name="puntuacion_total">Puntuación total: %1$d puntos</string>
+    <string name="common_button_continuar">Continuar</string>
+    <string name="common_button_siguiente">Siguiente</string>
+    <string name="common_button_listo">¡Estoy listo!</string>
+    <string name="common_button_reintentar">Reintentar</string>
+    <string name="common_button_finalizar_nivel">Finalizar Nivel</string>
+    <string name="common_button_volver">Volver</string>
+    <string name="common_dialog_entendido">Entendido</string>
+    <string name="common_respuesta_correcta">¡Correcto!</string>
+    <string name="common_respuesta_incorrecta">Incorrecto…</string>
+
+    <string name="menu_titulo">MENU</string>
+    <string name="menu_button_jugar">JUGAR</string>
+    <string name="menu_button_temario">TEMARIO</string>
+    <string name="menu_button_logros">LOGROS</string>
+    <string name="menu_selecciona_nivel">Selecciona un nivel</string>
+    <string name="temario_titulo_repasar">¿Qué quieres repasar?</string>
+    <string name="temario_titulo_contrasenas">🔐 CONTRASEÑAS SEGURAS</string>
+    <string name="temario_titulo_phishing">🎣 PHISHING E INGENIERÍA SOCIAL</string>
+    <string name="temario_titulo_privacidad">🔒 PRIVACIDAD EN REDES SOCIALES</string>
+    <string name="temario_titulo_seguridad_movil">📱 SEGURIDAD EN DISPOSITIVOS MÓVILES</string>
+    <string name="desc_img_nivel1">Imagen Nivel 1: Contraseñas Seguras</string>
+    <string name="desc_img_nivel2">Imagen Nivel 2: Phishing e Ingeniería Social</string>
+    <string name="desc_img_nivel3">Imagen Nivel 3: Privacidad en Redes Sociales</string>
+    <string name="desc_img_nivel4">Imagen Nivel 4: Seguridad en Dispositivos Móviles</string>
+
+    <string name="nivel1_intro_titulo">¡ALERTA DE INTRUSIÓN!</string>
+    <string name="nivel1_intro_subtitulo">ViperWare ha roto nuestras defensas…</string>
+    <string name="nivel1_byte_intro">¡Hola! Soy Byte. Necesito tu ayuda para detener a ViperWare. ¿Te unes a la resistencia?</string>
+    <string name="nivel1_byte_pregunta">¿Me ayudarás a proteger la red?</string>
+    <string name="nivel1_byte_button_unirse">¡Unirme a Byte!</string>
+    <string name="nivel1_byte_button_rechazar">Rechazar</string>
+    <string name="nivel1_toast_necesario">¡Debes unirte para continuar!</string>
+    <string name="nivel1_contexto_texto">ViperWare está robando las contraseñas más débiles de la red. ¡Debemos fortalecerlas antes de que sea tarde!</string>
+
+    <string name="nivel1_quiz_titulo">Pregunta %1$d de %2$d</string>
+    <string name="nivel1_quiz_pregunta_default">¿Pregunta?</string>
+    <string name="nivel1_quiz_resultado_toast">¡Bien hecho! Puntuación del Quiz: %1$d / %2$d</string>
+
+    <string name="nivel1_mejora_titulo1">Mejora las contraseñas (1/2)</string>
+    <string name="nivel1_mejora_titulo2">Mejora las contraseñas (2/2)</string>
+    <string name="nivel1_mejora_pass_1">1. juanito2009</string>
+    <string name="nivel1_mejora_pass_2">2. contraseña</string>
+    <string name="nivel1_mejora_pass_3">3. pepe123</string>
+    <string name="nivel1_mejora_pass_4">4. primavera</string>
+    <string name="nivel1_mejora_spinner_prompt">-- Elige opción --</string>
+
+    <string name="nivel1_combate_hint">Introduce una contraseña fuerte...</string>
+    <string name="nivel1_combate_button_atacar">¡Atacar!</string>
+    <string name="nivel1_combate_narracion_inicio">El combate comienza...</string>
+    <string name="nivel1_combate_narracion_turno_jugador">¡Empiezas tú! Lanza tu mejor contraseña.</string>
+    <string name="nivel1_combate_narracion_turno_enemigo">ViperWare ataca primero. ¡Prepárate!</string>
+    <string name="nivel1_combate_narracion_pw_repetida">¡Contraseña ya utilizada! Prueba con otra.</string>
+    <string name="nivel1_combate_narracion_damage_hecho">¡Ataque exitoso! Infliges %d de daño.</string>
+    <string name="nivel1_combate_narracion_damage_fallido">La contraseña es demasiado débil. ¡El ataque falla!</string>
+    <string name="nivel1_combate_narracion_damage_recibido">ViperWare contraataca. Recibes %d de daño.</string>
+
+    <string name="nivel1_recompensa_puntuacion">Puntuación Final: %d</string>
+
+    <string name="desc_info_nivel1_quiz">Información sobre el quiz</string>
+    <string name="desc_info_nivel1_mejora1">Información sobre la mejora de contraseñas</string>
+    <string name="desc_info_nivel1_mejora2">Información sobre la mejora de contraseñas</string>
+    <string name="desc_info_nivel1_combate">Información sobre el combate</string>
+    <string name="dialog_info_nivel1_quiz">Selecciona la contraseña que creas más segura en cada pregunta para ganar puntos.</string>
+    <string name="dialog_info_nivel1_mejora1">Elige la mejor versión para cada contraseña débil. ¡Cada acierto suma puntos!</string>
+    <string name="dialog_info_nivel1_mejora2">Continúa mejorando las contraseñas para maximizar tu puntuación.</string>
+    <string name="dialog_info_nivel1_combate">Escribe contraseñas fuertes para atacar. Cuanto más compleja (longitud, mayúsculas, números, símbolos), más daño harás.</string>
+
+    <string name="nivel2_intro_contexto">¡ViperWare ha evolucionado! Ahora usa técnicas de Phishing para engañarte y robar tus datos. ¡Aprende a identificar sus trampas!</string>
+
+    <string name="nivel2_detect_titulo">Arrastra el mensaje a la categoría correcta</string>
+    <string name="nivel2_detect_label_seguro">Seguro</string>
+    <string name="nivel2_detect_label_phishing">Phishing</string>
+
+    <string name="nivel2_url_titulo">Inspecciona la URL y decide si es segura</string>
+    <string name="nivel2_url_label_valida">Válida</string>
+    <string name="nivel2_url_label_invalida">Inválida</string>
+
+    <string name="nivel2_batalla_intro_texto">¡Has acorralado a ViperWare! Lanza tu anzuelo y pesca todos los datos maliciosos (Vipers) que puedas antes de que se acabe el tiempo.</string>
+    <string name="nivel2_batalla_button_comenzar">¡A pescar!</string>
+    <string name="nivel2_batalla_score">Puntuación: %d</string>
+    <string name="nivel2_batalla_tiempo">Tiempo: %d</string>
+
+    <string name="nivel2_recompensa_puntuacion_final">Puntuación Final: %1$d / %2$d</string>
+    <string name="nivel2_recompensa_titulo_victoria">¡Victoria!</string>
+    <string name="nivel2_recompensa_titulo_derrota">Derrota</string>
+    <string name="nivel2_recompensa_subtitulo_mal">ViperWare te ha engañado. ¡Necesitas practicar más!</string>
+    <string name="nivel2_recompensa_subtitulo_bien">¡Buen trabajo! Has aprendido a identificar las trampas básicas.</string>
+    <string name="nivel2_recompensa_subtitulo_muy_bien">¡Excelente! Eres un experto detectando el phishing.</string>
+    <string name="nivel2_recompensa_subtitulo_perfecto">¡Maestría total! Ninguna trampa de ViperWare se te escapa.</string>
+
+    <string name="desc_info_nivel2_detect">Información sobre la detección de phishing</string>
+    <string name="desc_info_nivel2_url">Información sobre la inspección de URLs</string>
+    <string name="desc_info_nivel2_batalla">Información sobre la batalla de pesca</string>
+    <string name="dialog_info_nivel2_detect_titulo">¿Cómo funciona la Detección?</string>
+    <string name="dialog_info_nivel2_detect_mensaje">Lee cada mensaje y decide si es legítimo (Seguro) o un intento de engaño (Phishing). Arrastra la tarjeta a la caja correspondiente para ganar puntos.</string>
+    <string name="dialog_info_nivel2_url_titulo">¿Cómo funciona la Inspección de URL?</string>
+    <string name="dialog_info_nivel2_url_mensaje">Fíjate bien en la dirección web. ¿Parece oficial o tiene algo sospechoso (letras cambiadas, dominio extraño)? Arrastra la URL a \"Válida\" o \"Inválida\".</string>
+    <string name="dialog_info_nivel2_batalla_titulo">¿Cómo funciona la Batalla?</string>
+    <string name="dialog_info_nivel2_batalla_mensaje">Es un juego de reflejos. Toca sobre los \'Vipers\' en cuanto aparezcan para \'pescarlos\' y sumar puntos. ¡Ten cuidado de no tocar a los \'Bytes\' amigos o perderás puntos!</string>
+
+    <string name="desc_nivel2_viper_phishing">Viper explicando el phishing</string>
+    <string name="desc_nivel2_robot">Robot ayudante Byte</string>
+    <string name="desc_nivel2_candado">Icono de candado seguro</string>
+    <string name="desc_nivel2_alerta">Icono de alerta de phishing</string>
+    <string name="desc_nivel2_url_segura">Icono de URL válida</string>
+    <string name="desc_nivel2_url_invalida">Icono de URL inválida</string>
+    <string name="desc_nivel2_cana">Caña de pescar</string>
+    <string name="desc_nivel2_hoyo">Agujero para pescar</string>
+    <string name="desc_hoyo">Hoyo vacío </string>
+
+    <string name="nivel3_intro_texto">En este nivel aprenderás a proteger tu privacidad en redes sociales y a no compartir más de la cuenta.</string>
+    <string name="desc_nivel3_viper_rrss">Viper en un entorno de redes sociales</string>
+
+    <string name="nivel3_control_titulo">Sala de Control</string>
+    <string name="nivel3_control_game1_label">1. Privacidad de Perfil</string>
+    <string name="nivel3_control_game2_label">2. Datos sobre Privacidad</string>
+    <string name="nivel3_control_game3_label">3. Memory de Privacidad</string>
+    <string name="nivel3_control_password_hint">Introduce la contraseña final</string>
+    <string name="nivel3_control_button_confirmar">Confirmar</string>
+    <string name="common_error_password">Contraseña incorrecta. Intenta de nuevo.</string>
+
+    <string name="nivel3_game1_titulo">Privacidad de Perfil</string>
+    <string name="nivel3_game1_item_photo">Foto de perfil</string>
+    <string name="nivel3_game1_item_birthdate">Fecha de nacimiento</string>
+    <string name="nivel3_game1_item_friends">Lista de amigos</string>
+    <string name="nivel3_game1_item_posts">Publicaciones</string>
+    <string name="nivel3_game1_publico">Público</string>
+    <string name="nivel3_game1_privado">Privado</string>
+    <string name="nivel3_game1_button_completar">Completar Desafío</string>
+    <string name="nivel3_game1_pieza_obtenida">Pieza de contraseña obtenida: BYTE</string>
+
+    <string name="nivel3_game2_titulo">¿Verdadero o Falso?</string>
+    <string name="nivel3_game2_button_verdadero">Verdadero</string>
+    <string name="nivel3_game2_button_falso">Falso</string>
+    <string name="nivel3_game2_pieza_obtenida">Pieza de contraseña obtenida: SEGURA</string>
+    <string name="nivel3_game2_completado_toast">¡Afirmaciones completadas!</string>
+
+    <string name="nivel3_game3_titulo">Memory de Privacidad</string>
+    <string name="nivel3_game3_pieza_obtenida">Pieza de contraseña obtenida: 2025</string>
+
+    <string name="nivel3_recompensa_titulo">¡Nivel Completado!</string>
+    <string name="nivel3_recompensa_subtitulo">Has construido la contraseña final:</string>
+
+    <string name="desc_info_nivel3_control">Información sobre la sala de control</string>
+    <string name="dialog_info_nivel3_control_titulo">Sala de Control</string>
+    <string name="dialog_info_nivel3_control_mensaje">Completa los tres desafíos para obtener las piezas de la contraseña final. Cuando los tengas todos, introduce la contraseña para ganar. \n El formato de la contraseña tiene que ser:\n PARTE1-PARTE2-PARTE3 \n\n Todo en mayusculas, sin espacios, solo separado por guiones -.  </string>
+    <string name="desc_info_nivel3_game1">Información sobre el desafío de perfil</string>
+    <string name="dialog_info_nivel3_game1_titulo">¿Cómo Jugar? (Perfil)</string>
+    <string name="dialog_info_nivel3_game1_mensaje">Ajusta la visibilidad de cada elemento. No toda la información debería ser pública. Piensa qué es seguro compartir y qué no.</string>
+    <string name="desc_info_nivel3_game2">Información sobre el desafío de verdadero o falso</string>
+    <string name="dialog_info_nivel3_game2_titulo">¿Cómo Jugar? (V/F)</string>
+    <string name="dialog_info_nivel3_game2_mensaje">Lee cada afirmación y decide si es verdadera o falsa. Si fallas, la pregunta volverá a aparecer más tarde.</string>
+    <string name="desc_info_nivel3_game3">Información sobre el desafío de memory</string>
+    <string name="dialog_info_nivel3_game3_titulo">¿Cómo Jugar? (Memory)</string>
+    <string name="dialog_info_nivel3_game3_mensaje">Encuentra todas las parejas de iconos iguales para completar el desafío y obtener la última pieza de la contraseña.</string>
+
+    <string name="nivel4_intro_contexto">ViperWare ahora ataca dispositivos móviles. ¡Aprende a proteger tu PIN y a identificar redes Wi-Fi peligrosas!</string>
+    <string name="desc_nivel4_viper_movil">Viper atacando un dispositivo móvil</string>
+
+    <string name="nivel4_pin_titulo">Descifra el PIN Secreto</string>
+    <string name="nivel4_pin_introduce">INTRODUCE EL PIN:</string>
+    <string name="nivel4_pin_button_comprobar">Comprobar</string>
+    <string name="nivel4_pin_feedback">En su sitio: %1$d | En otro sitio: %2$d</string>
+    <string name="nivel4_pin_error_repetidos">El PIN no contiene dígitos repetidos</string>
+    <string name="nivel4_pin_derrota_toast">¡Se acabaron los intentos! El PIN era: %s</string>
+
+    <string name="nivel4_pin_pista1_desc">Dos dígitos correctos en la posición incorrecta.</string>
+    <string name="nivel4_pin_pista2_desc">Un dígito correcto en su sitio y otro en el lugar equivocado.</string>
+    <string name="nivel4_pin_pista3_desc">Ninguno de estos dígitos está en el PIN secreto.</string>
+    <string name="nivel4_pin_pista4_suma">La suma de los 3 dígitos del PIN es: %1$d</string>
+
+    <string name="nivel4_wifi_titulo">Detective de Redes Wi-Fi</string>
+    <string name="nivel4_wifi_label_peligroso">Peligrosa</string>
+
+    <string name="nivel4_recompensa_subtitulo_derrota">Viper ha accedido al dispositivo. ¡Inténtalo de nuevo!</string>
+    <string name="nivel4_recompensa_subtitulo_victoria">¡Dispositivo asegurado! Has protegido los datos.</string>
+
+    <string name="desc_info_nivel4_pin">Información sobre el puzzle del PIN</string>
+    <string name="dialog_info_nivel4_pin_titulo">¿Cómo descifrar el PIN?</string>
+    <string name="dialog_info_nivel4_pin_mensaje">Usa la lógica para adivinar el PIN secreto de 3 dígitos. Cada intento te dará pistas sobre cuántos números has acertado en su posición correcta y cuántos son correctos pero están en la posición equivocada. ¡Tienes 7 intentos!</string>
+    <string name="desc_info_nivel4_wifi">Información sobre el detective de Wi-Fi</string>
+    <string name="dialog_info_nivel4_wifi_titulo">¿Cómo detectar redes Wi-Fi?</string>
+    <string name="dialog_info_nivel4_wifi_mensaje">Analiza los detalles de cada red (cifrado, nº de clientes, etc.) y arrástrala a "Seguro" o "Peligrosa" según tu criterio. Las redes abiertas o con nombres sospechosos suelen ser peligrosas.</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- Quiz -->
     <string name="quiz_titulo">Pregunta %1$d de %2$d</string>
     <string name="resultado_bien">Resultado del Quiz: %1$d/%2$d pts</string>
 
+    <string name="quiz_pregunta_default">¿Pregunta?</string>
+    <string name="mejora_pass_1">1. juanito2009</string>
+    <string name="mejora_pass_2">2. contraseña</string>
+    <string name="mejora_pass_3">3. pepe123</string>
+    <string name="mejora_pass_4">4. primavera</string>
+    <string name="spinner_prompt">-- Elige opción --</string>
+    <string name="combate_narracion_inicio">El combate comienza...</string>
+    <string name="empiezas">¡Empiezas tú! Lanza tu mejor contraseña.</string>
+    <string name="enemigo_primero">ViperWare ataca primero. ¡Prepárate!</string>
+    <string name="mensaje_pw_repetida">¡Contraseña ya utilizada! Prueba con otra.</string>
+    <string name="mensaje_damage">¡Ataque exitoso! Infliges %d de daño.</string>
+    <string name="mensaje_demasiado_debil">La contraseña es demasiado débil. ¡El ataque falla!</string>
+    <string name="mensaje_enemigo_ataca">ViperWare contraataca. Recibes %d de daño.</string>
+
+    <string name="puntuacion_total">Puntuación Final: %d</string>
+
+    <string name="info_desc_quiz">Información sobre el quiz</string>
+    <string name="info_desc_mejora1">Información sobre la mejora de contraseñas</string>
+    <string name="info_desc_mejora2">Información sobre la mejora de contraseñas</string>
+    <string name="info_desc_combate">Información sobre el combate</string>
+    <string name="info_quiz">Selecciona la contraseña que creas más segura en cada pregunta para ganar puntos.</string>
+    <string name="info_mejora1">Elige la mejor versión para cada contraseña débil. ¡Cada acierto suma puntos!</string>
+    <string name="info_mejora2">Continúa mejorando las contraseñas para maximizar tu puntuación.</string>
+
+
 
     <!-- Diálogos de información -->
-    <string name="info_quiz">Aquí debes seleccionar la contraseña más segura de las opciones. Cada pregunta vale 5 puntos y el Quiz consta de 4 preguntas. Elige con cuidado: pulsa tu opción para habilitar “Siguiente”.</string>
-    <string name="info_mejora1">En esta sección (Mejora – Bloque 1) verás dos contraseñas escritas arriba de cada Spinner. Elige la versión más segura de cada contraseña. Cada respuesta correcta suma 5 puntos. Cuando selecciones ambas opciones, el botón “Siguiente” se habilitará.</string>
-    <string name="info_mejora2">Ahora estás en la parte Mejora – Bloque 2. Nuevamente, elige la opción más segura de cada contraseña mostrada arriba. Cada respuesta correcta suma 5 puntos adicionales. Al completar ambas, pulsa “Siguiente” para pasar al combate.</string>
     <string name="info_combate">Bienvenido al Combate Final. En cada turno, escribe una contraseña en el campo de texto y pulsa “Atacar”. Si la contraseña es muy segura, harás más daño al enemigo. El enemigo te devolverá el golpe con 10 puntos de daño fijo por turno. Tu puntuación de combate depende de cuánta vida te quede al final:\n• Si matas al enemigo con más de la mitad de tu vida → 60 puntos.\n• Si matas al enemigo con entre 1 y la mitad de tu vida → 30 puntos.</string>
 
     <!-- Narración Combate -->
-    <string name="empiezas">¡Empiezas tú!</string>
-    <string name="enemigo_primero">CobraX ataca primero...</string>
     <string name="mensaje_escribe_pw">Escribe una contraseña para atacar</string>
-    <string name="mensaje_pw_repetida">Ya has usado esa contraseña</string>
-    <string name="mensaje_demasiado_debil">Tu contraseña es demasiado débil</string>
-    <string name="mensaje_enemigo_ataca">El enemigo ataca y te quita %1$d puntos de vida</string>
+
+
+
 
     <!-- Recompensa / Derrota -->
     <string name="derrota_general">Has sido derrotado</string>
@@ -59,15 +290,10 @@
     <string name="btn_ataque">¡Atacar!</string>
     <string name="hint_contrasena">Escribe una contraseña segura...</string>
 
-    <string name="mensaje_damage">Le haces %1$d pts</string>
 
     <!-- Pantalla 7: Recompensa/Derrota -->
 
 
-    <string name="info_desc_quiz">Información sobre el Quiz</string>
-    <string name="info_desc_mejora1">Información sobre Mejora - Bloque 1</string>
-    <string name="info_desc_mejora2">Información sobre Mejora - Bloque 2</string>
-    <string name="info_desc_combate">Información sobre el Combate</string>
     <!-- INTRO -->
     <string name="btn_listo">¡Estoy listo!</string>
     <string name="contexto_viper_phs">Estamos sufriendo ataques de phising. Vamos a ver como trarar con ellos.</string>
@@ -100,7 +326,7 @@
     <string name="info_titulo_batalla">Cómo jugar (Whack-a-Phishing)</string>
     <string name="info_mensaje_batalla">Durante 30 segundos, aparecerán “phishings” en distintos hoyos. Tócalos antes de que desaparezcan para obtener puntos.</string>
     <string name="batalla_terminada">¡Batalla terminada!</string>
-    <string name="desc_hoyo">Hoyo vacío o con phish</string>
+
 
     <!-- RECOMPENSA / DERROTA -->
 
@@ -117,17 +343,9 @@
     <string name="info_desc_detect">Información Detect</string>
     <string name="info_desc_url">Información URL</string>
     <string name="info_desc_batalla">Información Batalla</string>
-
-
-
     <string name="batalla_intro_texto">En esta etapa vas a “pescar”  que emergen de los charcos. Toca cada Viper antes de que se hunda para sumar puntos. Tienes 30 segundos para pescar tantos como puedas.</string>
     <string name="btn_comenzar_batalla">Comenzar</string>
-
     <string name="desc_cana">Caña de pescar</string>
-
-
-
-
     <string name="puntuacion_obtenida">Puntuación obtenida: %1$d / 100</string>
     <string name="achievement_icon">ICONO LOGRO</string>
     <string name="que_quieres_repasar">¿Qué quieres repasar?</string>
@@ -153,7 +371,6 @@
     <string name="nivel2_titulo">🎣 Nivel 2: Phishing e Ingeniería Social</string>
     <string name="nivel3_titulo">🔒 Nivel 3: Privacidad en Redes Sociales</string>
     <string name="nivel4_titulo">📱 Nivel 4: Seguridad en Dispositivos Móviles</string>
-    <string name="menu_titulo">MENU</string>
     <string name="btn_jugar">JUGAR</string>
     <string name="btn_temario">TEMARIO</string>
     <string name="btn_logros">LOGROS</string>
@@ -213,7 +430,7 @@
     <string name="info_desc_game2">"Info verdadero o falso "</string>
 
 
-        <!-- Desafío 3: Rompecabezas de Emoticonos -->
+    <!-- Desafío 3: Rompecabezas de Emoticonos -->
 
 
     <!-- Etiquetas de las zonas de drop -->
@@ -284,6 +501,9 @@ En este juego debes adivinar un PIN de 3 dígitos. Fíjate en los indicadores pa
     <string name="game3_title">Rompecabezas de Emoticonos</string>
     <string name="info_desc_game3">Información del Memory</string>
     <string name="info_game3">Encuentra y empareja todos los iconos relacionados con la privacidad para ganar la pieza de la contraseña.</string>
+
+
+
 
 
 </resources>

@@ -2,14 +2,12 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/contenedor_nivel2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- ==============================
-         Pantalla 1: INTRODUCCIÓN (Viper + Byte)
-         ============================== -->
     <ScrollView
         android:id="@+id/pantallaIntro"
         android:layout_width="match_parent"
@@ -17,22 +15,15 @@
         android:fillViewport="true"
         android:visibility="visible"
         android:background="@drawable/background_gradient"
-        android:padding="24dp">
+        android:padding="@dimen/spacing_large">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:background="@drawable/background_gradient">
+            android:layout_height="wrap_content">
 
-            <!-- Imagen de Viper explicando phishing -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardViperRobando"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
+                style="@style/CiberRoyale.Card"
                 app:cardBackgroundColor="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -42,21 +33,20 @@
 
                 <ImageView
                     android:id="@+id/imgViperRobando"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:adjustViewBounds="true"
-                    android:contentDescription="@string/desc_viper_phishing"
+                    android:contentDescription="@string/desc_nivel2_viper_phishing"
                     android:scaleType="centerCrop"
                     android:src="@drawable/viper_phising" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Robot Byte a la izquierda -->
             <ImageView
                 android:id="@+id/imgByteContexto"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/desc_robot"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:contentDescription="@string/desc_nivel2_robot"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/robot"
@@ -65,25 +55,21 @@
                 app:layout_constraintWidth_percent="0.4"
                 app:layout_constraintDimensionRatio="1:1" />
 
-            <!-- Texto de contexto a la derecha -->
             <TextView
                 android:id="@+id/tvContexto"
+                style="@style/CiberRoyale.Text.Body.White"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:padding="12dp"
-                android:text="@string/contexto_viper_phs"
-                android:textColor="@android:color/white"
+                android:text="@string/nivel2_intro_contexto"
                 android:textSize="18sp"
-                android:fontFamily="@font/orbitron_regular"
-                android:gravity="center"
                 android:background="@drawable/bg_texto_translucido"
                 app:layout_constraintStart_toEndOf="@id/imgByteContexto"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/imgByteContexto"
                 app:layout_constraintWidth_percent="0.55" />
 
-            <!-- Barrier para la fila robot + texto -->
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrierBottom"
                 android:layout_width="0dp"
@@ -91,19 +77,13 @@
                 app:barrierDirection="bottom"
                 app:constraint_referenced_ids="imgByteContexto,tvContexto" />
 
-            <!-- Botón “Estoy listo” -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnIntroSiguiente"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/CiberRoyale.Button.Primary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="32dp"
-                android:backgroundTint="@color/purple_700"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:text="@string/btn_listo"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/common_button_listo"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -111,9 +91,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <!-- =========================================
-         Pantalla 2: DETECT (Drag‐and‐Drop)
-         ========================================= -->
     <ScrollView
         android:id="@+id/pantallaDetec"
         android:layout_width="match_parent"
@@ -122,122 +99,96 @@
         android:fillViewport="true"
         android:background="@drawable/background_gradient"
         android:paddingTop="56dp"
-        android:paddingHorizontal="24dp"
-        android:paddingBottom="24dp">
+        android:paddingHorizontal="@dimen/spacing_large"
+        android:paddingBottom="@dimen/spacing_large">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Título DEL DETECT -->
             <TextView
                 android:id="@+id/tvTituloDetec"
+                style="@style/CiberRoyale.Text.Title.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                android:text="@string/detect_titulo"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:gravity="center" />
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:gravity="center"
+                android:text="@string/nivel2_detect_titulo"
+                android:textSize="20sp" />
 
-            <!-- Tarjeta con el mensaje a clasificar -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardMensaje"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp"
+                style="@style/CiberRoyale.Card"
+                android:layout_marginBottom="@dimen/spacing_xlarge"
                 app:cardBackgroundColor="@android:color/white">
 
                 <TextView
                     android:id="@+id/tvMensaje"
+                    style="@style/CiberRoyale.Text.Body.Black.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="@string/detect_ejemplo"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/orbitron_bold" />
-            </androidx.cardview.widget.CardView>
+                    android:padding="@dimen/spacing_medium"
+                    tools:text="Ejemplo de mensaje a clasificar"
+                    android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Zona de targets “Seguro” / “Phishing” -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/targetSeguro"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_drop_target"
-                    android:layout_marginEnd="8dp">
+                    style="@style/CiberRoyale.DropTarget"
+                    android:layout_marginEnd="@dimen/spacing_small">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/ic_candado"
-                        android:contentDescription="@string/desc_seguro" />
+                        android:contentDescription="@string/desc_nivel2_candado" />
                     <TextView
+                        style="@style/CiberRoyale.Text.Body.Black.Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/seguro_label"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/orbitron_bold" />
+                        android:text="@string/nivel2_detect_label_seguro"
+                        android:textSize="16sp"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/targetPhishing"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_drop_target"
-                    android:layout_marginStart="8dp">
+                    style="@style/CiberRoyale.DropTarget"
+                    android:layout_marginStart="@dimen/spacing_small">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/ic_alerta"
-                        android:contentDescription="@string/desc_phishing" />
+                        android:contentDescription="@string/desc_nivel2_alerta" />
                     <TextView
+                        style="@style/CiberRoyale.Text.Body.Black.Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/phishing_label"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/orbitron_bold" />
+                        android:text="@string/nivel2_detect_label_phishing"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <!-- Botón de INFO para DETECT (superpuesto) -->
     <ImageButton
         android:id="@+id/btnInfoDetect"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
+        android:layout_width="@dimen/info_button_size"
+        android:layout_height="@dimen/info_button_size"
+        android:layout_margin="@dimen/spacing_medium"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/info_desc_detect"
+        android:contentDescription="@string/desc_info_nivel2_detect"
         android:src="@drawable/ic_info"
         android:scaleType="centerInside"
         android:visibility="gone"
         android:layout_gravity="top|end" />
 
-    <!-- =========================================
-         Pantalla 3: URL (Drag‐and‐Drop)
-         ========================================= -->
     <ScrollView
         android:id="@+id/pantallaUrl"
         android:layout_width="match_parent"
@@ -246,399 +197,221 @@
         android:fillViewport="true"
         android:background="@drawable/background_gradient"
         android:paddingTop="56dp"
-        android:paddingHorizontal="24dp"
-        android:paddingBottom="24dp">
+        android:paddingHorizontal="@dimen/spacing_large"
+        android:paddingBottom="@dimen/spacing_large">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Título DEL URL -->
             <TextView
                 android:id="@+id/tvTituloUrl"
+                style="@style/CiberRoyale.Text.Title.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                android:text="@string/url_titulo"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:gravity="center" />
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:gravity="center"
+                android:text="@string/nivel2_url_titulo"
+                android:textSize="20sp" />
 
-            <!-- Tarjeta con la URL a inspeccionar -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardUrl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp"
+                style="@style/CiberRoyale.Card"
+                android:layout_marginBottom="@dimen/spacing_xlarge"
                 app:cardBackgroundColor="@android:color/white">
 
                 <TextView
                     android:id="@+id/tvUrl"
+                    style="@style/CiberRoyale.Text.Body.Black.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="@string/url_ejemplo"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/orbitron_medium" />
-            </androidx.cardview.widget.CardView>
+                    android:padding="@dimen/spacing_medium"
+                    tools:text="https://ejemplo.de/url"
+                    android:fontFamily="@font/orbitron_medium"
+                    android:textSize="16sp"/>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Zona de targets “Válida” / “Inválida” -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/targetValida"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_drop_target"
-                    android:layout_marginEnd="8dp">
+                    style="@style/CiberRoyale.DropTarget"
+                    android:layout_marginEnd="@dimen/spacing_small">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/ic_url_secure"
-                        android:contentDescription="@string/desc_valida" />
+                        android:contentDescription="@string/desc_nivel2_url_segura" />
                     <TextView
+                        style="@style/CiberRoyale.Text.Body.Black.Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/valida_label"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/orbitron_bold" />
+                        android:text="@string/nivel2_url_label_valida"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/targetInvalida"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_drop_target"
-                    android:layout_marginStart="8dp">
+                    style="@style/CiberRoyale.DropTarget"
+                    android:layout_marginStart="@dimen/spacing_small">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/ic_url_warning"
-                        android:contentDescription="@string/desc_invalida" />
+                        android:contentDescription="@string/desc_nivel2_url_invalida" />
                     <TextView
+                        style="@style/CiberRoyale.Text.Body.Black.Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/invalida_label"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/orbitron_bold" />
+                        android:text="@string/nivel2_url_label_invalida"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <!-- Botón de INFO para URL (superpuesto) -->
     <ImageButton
         android:id="@+id/btnInfoUrl"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
+        android:layout_width="@dimen/info_button_size"
+        android:layout_height="@dimen/info_button_size"
+        android:layout_margin="@dimen/spacing_medium"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/info_desc_url"
+        android:contentDescription="@string/desc_info_nivel2_url"
         android:src="@drawable/ic_info"
         android:scaleType="centerInside"
         android:visibility="gone"
         android:layout_gravity="top|end" />
 
-    <!-- =========================================
-     Pantalla 4: BATALLA (modo PESCA)
-     ========================================= -->
-    <ScrollView
+    <FrameLayout
         android:id="@+id/pantallaCombate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:fillViewport="true"
         android:background="@drawable/background_gradient"
         android:paddingTop="56dp"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="24dp">
+        android:paddingHorizontal="@dimen/spacing_medium"
+        android:paddingBottom="@dimen/spacing_large">
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/imgCana"
+            android:layout_width="80dp"
+            android:layout_height="200dp"
+            android:layout_gravity="top|center_horizontal"
+            android:src="@drawable/ic_cana"
+            android:contentDescription="@string/desc_nivel2_cana"
+            android:translationY="-50dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/layoutInfoBatalla"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingTop="150dp"
+            android:visibility="gone">
 
-            <!-- —— Contenido real del juego (oculto hasta pulsar “Comenzar”) —— -->
-            <ImageView
-                android:id="@+id/imgCana"
-                android:layout_width="80dp"
-                android:layout_height="200dp"
-                android:layout_gravity="top|center_horizontal"
-                android:src="@drawable/ic_cana"
-                android:contentDescription="@string/desc_cana"
-                android:translationY="-50dp"
-                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tvScore"
+                style="@style/CiberRoyale.Text.Body.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/orbitron_bold"
+                tools:text="Puntuación: 0" />
+
+            <TextView
+                android:id="@+id/tvTimer"
+                style="@style/CiberRoyale.Text.Body.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:fontFamily="@font/orbitron_bold"
+                tools:text="Tiempo: 30" />
+        </LinearLayout>
+
+
+        <GridLayout
+            android:id="@+id/gridMoles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:rowCount="4"
+            android:columnCount="3"
+            android:layout_marginTop="200dp"
+            android:background="@android:color/transparent"
+            android:alignmentMode="alignMargins"
+            android:useDefaultMargins="true"
+            android:visibility="gone">
+            <ImageButton android:id="@+id/hoyo0" style="@style/CiberRoyale.HoleButton" android:layout_row="0" android:layout_column="0" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo1" style="@style/CiberRoyale.HoleButton" android:layout_row="0" android:layout_column="1" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo2" style="@style/CiberRoyale.HoleButton" android:layout_row="0" android:layout_column="2" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo3" style="@style/CiberRoyale.HoleButton" android:layout_row="1" android:layout_column="0" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo4" style="@style/CiberRoyale.HoleButton" android:layout_row="1" android:layout_column="1" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo5" style="@style/CiberRoyale.HoleButton" android:layout_row="1" android:layout_column="2" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo6" style="@style/CiberRoyale.HoleButton" android:layout_row="2" android:layout_column="0" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo7" style="@style/CiberRoyale.HoleButton" android:layout_row="2" android:layout_column="1" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo8" style="@style/CiberRoyale.HoleButton" android:layout_row="2" android:layout_column="2" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo9" style="@style/CiberRoyale.HoleButton" android:layout_row="3" android:layout_column="0" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo10" style="@style/CiberRoyale.HoleButton" android:layout_row="3" android:layout_column="1" tools:ignore="RedundantDescriptionCheck"/>
+            <ImageButton android:id="@+id/hoyo11" style="@style/CiberRoyale.HoleButton" android:layout_row="3" android:layout_column="2" tools:ignore="RedundantDescriptionCheck"/>
+        </GridLayout>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/battleIntroLayout"
+            style="@style/CiberRoyale.Card"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/spacing_medium"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@android:color/white">
 
             <LinearLayout
-                android:id="@+id/layoutInfoBatalla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="center"
-                android:paddingTop="150dp"
-                android:visibility="gone">
+                android:padding="@dimen/spacing_medium">
 
                 <TextView
-                    android:id="@+id/tvScore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/score_label"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/orbitron_bold" />
-
-                <TextView
-                    android:id="@+id/tvTimer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tiempo_label"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/orbitron_bold" />
-            </LinearLayout>
-
-
-            <GridLayout
-                android:id="@+id/gridMoles"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:rowCount="4"
-                android:columnCount="3"
-                android:layout_marginTop="200dp"
-                android:background="@android:color/transparent"
-                android:alignmentMode="alignMargins"
-                android:useDefaultMargins="true"
-                android:visibility="gone">
-
-                <ImageButton
-                    android:id="@+id/hoyo0"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="0"
-                    android:layout_column="0"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo1"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="0"
-                    android:layout_column="1"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="0"
-                    android:layout_column="2"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo3"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="1"
-                    android:layout_column="0"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo4"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="1"
-                    android:layout_column="1"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo5"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="1"
-                    android:layout_column="2"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo6"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="2"
-                    android:layout_column="0"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo7"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="2"
-                    android:layout_column="1"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo8"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="2"
-                    android:layout_column="2"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo9"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="3"
-                    android:layout_column="0"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo10"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="3"
-                    android:layout_column="1"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-
-                <ImageButton
-                    android:id="@+id/hoyo11"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_row="3"
-                    android:layout_column="2"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/ic_hole"
-                    android:contentDescription="@string/desc_hoyo" />
-            </GridLayout>
-
-
-            <!-- —— Subpantalla de introducción a la batalla (debe quedar encima) —— -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/battleIntroLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="16dp"
-                android:padding="24dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@android:color/white">
-
-                <LinearLayout
+                    style="@style/CiberRoyale.Text.Body.Black.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:text="@string/nivel2_batalla_intro_texto"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/orbitron_medium"
+                    android:gravity="center"
+                    android:layout_marginBottom="@dimen/spacing_large"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/batalla_intro_texto"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/orbitron_medium"
-                        android:gravity="center"
-                        android:padding="32dp"
-                        android:layout_marginBottom="10dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStartBattle"
+                    style="@style/CiberRoyale.Button.Primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nivel2_batalla_button_comenzar"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-                    <Button
-                        android:id="@+id/btnStartBattle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/btn_comenzar_batalla"
-                        android:backgroundTint="@color/purple_700"
-                        android:textColor="@android:color/white"
-                        android:fontFamily="@font/orbitron_extrabold"
-                        android:layout_marginBottom="10dp" />
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Botón de INFO para BATALLA -->
-            <ImageButton
-                android:id="@+id/btnInfoBatalla"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/info_desc_batalla"
-                android:src="@drawable/ic_info"
-                android:scaleType="centerInside"
-                android:visibility="gone"
-                android:layout_gravity="top|end" />
-        </FrameLayout>
-    </ScrollView>
+        <ImageButton
+            android:id="@+id/btnInfoBatalla"
+            android:layout_width="@dimen/info_button_size"
+            android:layout_height="@dimen/info_button_size"
+            android:layout_margin="@dimen/spacing_medium"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/desc_info_nivel2_batalla"
+            android:src="@drawable/ic_info"
+            android:scaleType="centerInside"
+            android:visibility="gone"
+            android:layout_gravity="top|end" />
+    </FrameLayout>
 
 
 
-    <!-- ========================================
-         Pantalla 5: RECOMPENSA / DERROTA (unificada)
-         ======================================== -->
     <ScrollView
         android:id="@+id/scrollPantallaRecomp"
         android:layout_width="match_parent"
@@ -649,63 +422,58 @@
         <LinearLayout
             android:id="@+id/pantalla_recomp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="24dp"
+            android:padding="@dimen/spacing_large"
             android:background="@drawable/background_gradient">
 
-            <!-- Título (“Derrota” o “Victoria”) -->
             <TextView
                 android:id="@+id/tvRecompensaTitulo"
+                style="@style/CiberRoyale.Text.Title.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text=""
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:textColor="@android:color/black"
                 android:textSize="24sp"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:textStyle="bold"
-                android:textColor="@android:color/black" />
+                tools:text="¡Victoria!"/>
 
-            <!-- Subtítulo: mensaje según rango de puntuación -->
             <TextView
                 android:id="@+id/tvRecompensaSubtitulo"
+                style="@style/CiberRoyale.Text.Body.White"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text=""
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                android:fontFamily="@font/orbitron_regular" />
+                tools:text="Has aprendido a defenderte." />
 
-            <!-- Aquí se mostrará “Puntuación: XX / 100” -->
             <TextView
                 android:id="@+id/tvPuntuacionFinal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:text=""
+                android:layout_marginBottom="@dimen/spacing_xlarge"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:fontFamily="@font/orbitron_bold" />
+                android:fontFamily="@font/orbitron_bold"
+                tools:text="Puntuación Final: 85"/>
 
-            <!-- Imagen de confeti o icono de derrota -->
             <ImageView
                 android:id="@+id/imgConfeti"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="@dimen/spacing_xlarge"
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
-                android:src="@drawable/robot" />
+                tools:src="@drawable/byte_frame1" />
 
-            <!-- Botón “Continuar” o “Reintentar” según corresponda -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRecompContinuar"
+                style="@style/CiberRoyale.Button.Primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:textAllCaps="false" />
+                android:textSize="18sp"
+                tools:text="Finalizar Nivel" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

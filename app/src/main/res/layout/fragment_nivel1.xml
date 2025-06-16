@@ -7,9 +7,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- ================================================
-         Pantalla 1: Animación ViperWare (sin botón “info”)
-         ================================================ -->
     <ScrollView
         android:id="@+id/scroll_pantalla_ataque"
         android:layout_width="match_parent"
@@ -21,69 +18,54 @@
             android:id="@+id/pantalla_ataque"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:padding="@dimen/spacing_medium"
             android:background="@drawable/background_gradient">
 
-            <!-- Título grande centrado -->
             <TextView
                 android:id="@+id/tvTituloAtaque"
+                style="@style/CiberRoyale.Text.Title.Large"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"
-                android:text="@string/titulo_ataque"
-                android:textColor="@android:color/white"
-                android:textSize="35sp"
-                android:fontFamily="@font/orbitron_extrabold"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:text="@string/nivel1_intro_titulo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Vídeo 16:9 que ocupa todo el ancho menos márgenes -->
             <VideoView
                 android:id="@+id/videoViper"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:importantForAccessibility="no"
                 app:layout_constraintDimensionRatio="16:9"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTituloAtaque" />
 
-            <!-- Texto secundario centrado -->
             <TextView
                 android:id="@+id/tvSubtituloAtaque"
+                style="@style/CiberRoyale.Text.Body.White"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"
-                android:text="@string/subtitulo_ataque"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
                 android:fontFamily="@font/orbitron_regular"
+                android:text="@string/nivel1_intro_subtitulo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/videoViper" />
 
-            <!-- Botón “Continuar” -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSiguienteAtaque"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/CiberRoyale.Button.Primary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/purple_700"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:text="@string/btn_continuar"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:textSize="30sp"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_xlarge"
+                android:text="@string/common_button_continuar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvSubtituloAtaque" />
@@ -91,49 +73,38 @@
     </ScrollView>
 
 
-    <!-- =========================================
-         Pantalla 2: Byte se presenta (sin info)
-         ========================================= -->
     <ScrollView
         android:id="@+id/scroll_pantalla_byte"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pantalla_byte"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="32dp"
+            android:padding="@dimen/spacing_medium"
             android:background="@drawable/background_gradient">
 
-            <!-- Texto introductorio con fondo semitranslúcido -->
             <TextView
                 android:id="@+id/tvIntroByte"
+                style="@style/CiberRoyale.Text.Body.White"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:background="@drawable/bg_texto_translucido"
-                android:gravity="center"
                 android:padding="12dp"
-                android:text="@string/intro_byte"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:fontFamily="@font/orbitron_regular"
+                android:text="@string/nivel1_byte_intro"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Robot “enmarcado” -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardRobot"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/spacing_large"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="@android:color/transparent"
@@ -153,26 +124,22 @@
                     android:src="@drawable/robot_presentacion" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Tarjeta con texto y botones -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardOpciones"
+                style="@style/CiberRoyale.Card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp"
+                android:layout_marginTop="@dimen/spacing_xlarge"
                 app:cardBackgroundColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardRobot"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/cardRobot">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp"
+                    android:padding="@dimen/spacing_medium"
                     android:gravity="center">
 
                     <TextView
@@ -180,66 +147,49 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
-                        android:text="@string/byte_pregunta"
+                        android:text="@string/nivel1_byte_pregunta"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:fontFamily="@font/orbitron_extrabold" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnUnirse"
-                        style="@style/Widget.MaterialComponents.Button"
+                        style="@style/CiberRoyale.Button.Accept"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:backgroundTint="@color/green_700"
-                        android:fontFamily="@font/orbitron_extrabold"
-                        android:text="@string/btn_unirse"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        app:rippleColor="@color/green_200" />
+                        android:layout_marginBottom="@dimen/spacing_small"
+                        android:text="@string/nivel1_byte_button_unirse" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnRechazar"
-                        style="@style/Widget.MaterialComponents.Button"
+                        style="@style/CiberRoyale.Button.Reject"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/red_700"
-                        android:fontFamily="@font/orbitron_extrabold"
-                        android:text="@string/btn_rechazar"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        app:rippleColor="@color/red_200" />
+                        android:text="@string/nivel1_byte_button_rechazar" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 
-    <!-- ==============================================
-         Pantalla 3: Contexto (sin botón “info”)
-         ============================================== -->
     <ScrollView
         android:id="@+id/scroll_pantalla_contexto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pantalla_contexto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="@dimen/spacing_medium"
             android:background="@drawable/background_gradient">
 
-            <!-- Imagen de Viper robando contraseñas -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardViperRobando"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
+                style="@style/CiberRoyale.Card"
+                android:layout_marginTop="@dimen/spacing_medium"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -248,20 +198,19 @@
 
                 <ImageView
                     android:id="@+id/imgViperRobando"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:contentDescription="@null"
                     android:scaleType="centerCrop"
                     android:src="@drawable/viper_contras" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Robot Byte a la izquierda -->
             <ImageView
                 android:id="@+id/imgByteContexto"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:contentDescription="@null"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
@@ -271,17 +220,15 @@
                 app:layout_constraintWidth_percent="0.4"
                 app:layout_constraintDimensionRatio="1:1" />
 
-            <!-- Texto de contexto a la derecha -->
             <TextView
                 android:id="@+id/tvContexto"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:padding="12dp"
-                android:text="@string/contexto_viper"
+                android:text="@string/nivel1_contexto_texto"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:fontFamily="@font/orbitron_regular"
                 android:gravity="center"
                 android:background="@drawable/bg_texto_translucido"
                 app:layout_constraintStart_toEndOf="@id/imgByteContexto"
@@ -289,7 +236,6 @@
                 app:layout_constraintTop_toTopOf="@id/imgByteContexto"
                 app:layout_constraintWidth_percent="0.55" />
 
-            <!-- Barrier para la “fila” de robot+texto -->
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrierBottom"
                 android:layout_width="0dp"
@@ -297,19 +243,14 @@
                 app:barrierDirection="bottom"
                 app:constraint_referenced_ids="imgByteContexto,tvContexto" />
 
-            <!-- Botón “Estoy listo” -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnContextoListo"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/CiberRoyale.Button.Primary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="32dp"
-                android:backgroundTint="@color/purple_700"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:text="@string/btn_listo"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_xlarge"
+                android:text="@string/common_button_listo"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -318,10 +259,6 @@
     </ScrollView>
 
 
-    <!-- ==================================================
-         Pantalla 4: Quiz de contraseñas seguras
-         (ScrollView + botón info FUERA del ScrollView)
-         ================================================== -->
     <ScrollView
         android:id="@+id/scroll_pantalla_quiz"
         android:layout_width="match_parent"
@@ -329,102 +266,74 @@
         android:visibility="gone"
         android:fillViewport="true"
         android:background="@drawable/background_gradient"
-        android:paddingTop="56dp">  <!-- Aquí desplazamos TODO el contenido  -->
+        android:paddingTop="56dp">
 
-        <!-- Contenido desplazable (introducimos un paddingTop grande para que baje) -->
         <LinearLayout
             android:id="@+id/pantalla_quiz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingBottom="24dp">
+            android:paddingHorizontal="@dimen/spacing_large"
+            android:paddingBottom="@dimen/spacing_large">
 
-            <!-- Cabecera con número de pregunta -->
             <TextView
                 android:id="@+id/tvQuizTitle"
+                style="@style/CiberRoyale.Text.Title.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@string/quiz_titulo"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:fontFamily="@font/orbitron_extrabold" />
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:text="@string/nivel1_quiz_titulo" />
 
-            <!-- Barra de progreso -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressQuiz"
+                style="@style/CiberRoyale.ProgressBar"
                 android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_marginBottom="24dp"
-                app:indicatorColor="@color/purple_700"
-                app:trackColor="@android:color/white" />
+                android:layout_marginBottom="@dimen/spacing_large" />
 
-            <!-- Card con la pregunta -->
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="8dp">
+                style="@style/CiberRoyale.Card"
+                android:layout_marginBottom="@dimen/spacing_large"
+                app:cardBackgroundColor="@android:color/white">
 
                 <TextView
                     android:id="@+id/tvPregunta"
+                    style="@style/CiberRoyale.Text.Body.Black.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="¿Pregunta?"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/orbitron_bold" />
+                    android:padding="@dimen/spacing_medium"
+                    android:text="@string/nivel1_quiz_pregunta_default" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Opciones generadas dinámicamente -->
             <RadioGroup
                 android:id="@+id/rgOpciones"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="@dimen/spacing_xlarge"
                 android:orientation="vertical" />
 
-            <!-- Botón “Siguiente” -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSiguiente"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/CiberRoyale.Button.Next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/purple_700"
                 android:enabled="false"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:text="@string/btn_siguiente"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                app:cornerRadius="24dp"
-                app:icon="@drawable/ic_arrow_fw"
-                app:iconGravity="textEnd"
-                app:iconSize="30dp" />
+                android:text="@string/common_button_siguiente" />
         </LinearLayout>
     </ScrollView>
 
-    <!-- Botón de info “Quiz” fijo en la esquina superior derecha -->
     <ImageButton
         android:id="@+id/btnInfoQuiz"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
+        android:layout_width="@dimen/info_button_size"
+        android:layout_height="@dimen/info_button_size"
+        android:layout_margin="@dimen/spacing_medium"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/info_desc_quiz"
+        android:contentDescription="@string/desc_info_nivel1_quiz"
         android:src="@drawable/ic_info"
         android:scaleType="centerInside"
         android:layout_gravity="top|end" />
 
 
-    <!-- ======================================================
-         Pantalla 5.1: Mejora contraseñas — Bloque 1
-         (ScrollView + botón info FUERA del ScrollView)
-         ====================================================== -->
     <ScrollView
         android:id="@+id/scroll_pantalla_mejora1"
         android:layout_width="match_parent"
@@ -432,60 +341,48 @@
         android:visibility="gone"
         android:fillViewport="true"
         android:background="@drawable/background_gradient"
-        android:paddingTop="56dp">  <!-- Aquí desplazamos TODO el contenido -->
+        android:paddingTop="56dp">
 
-        <!-- Contenido desplazable -->
         <LinearLayout
             android:id="@+id/pantalla_mejora1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingBottom="24dp">
+            android:paddingHorizontal="@dimen/spacing_large"
+            android:paddingBottom="@dimen/spacing_large">
 
-            <!-- Cabecera -->
             <TextView
                 android:id="@+id/tvMejoraTitle1"
+                style="@style/CiberRoyale.Text.Title.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@string/mejora_title1"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:fontFamily="@font/orbitron_extrabold" />
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:text="@string/nivel1_mejora_titulo1" />
 
-            <!-- Barra de progreso al 50% -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressMejora1"
+                style="@style/CiberRoyale.ProgressBar"
                 android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_marginBottom="24dp"
-                app:indicatorColor="@color/purple_700"
-                app:trackColor="@android:color/white" />
+                android:layout_marginBottom="@dimen/spacing_large" />
 
-            <!-- Card para primera contraseña -->
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                style="@style/CiberRoyale.Card"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                app:cardBackgroundColor="@android:color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="@dimen/spacing_medium">
 
                     <TextView
+                        style="@style/CiberRoyale.Text.Body.Black.Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="1. juanito2009"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/orbitron_bold" />
+                        android:layout_marginBottom="@dimen/spacing_small"
+                        android:text="@string/nivel1_mejora_pass_1"
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/spinner_m1_p1"
@@ -495,29 +392,24 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Card para segunda contraseña -->
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                style="@style/CiberRoyale.Card"
+                android:layout_marginBottom="@dimen/spacing_xlarge"
+                app:cardBackgroundColor="@android:color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="@dimen/spacing_medium">
 
                     <TextView
+                        style="@style/CiberRoyale.Text.Body.Black.Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="2. contraseña"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/orbitron_bold" />
+                        android:layout_marginBottom="@dimen/spacing_small"
+                        android:text="@string/nivel1_mejora_pass_2"
+                        android:textSize="16sp"/>
 
                     <Spinner
                         android:id="@+id/spinner_m1_p2"
@@ -527,43 +419,29 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Botón siguiente -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMejora1Next"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/CiberRoyale.Button.Next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/purple_700"
                 android:enabled="false"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:text="@string/btn_siguiente"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                app:cornerRadius="24dp"
-                app:icon="@drawable/ic_arrow_fw"
-                app:iconGravity="textEnd"
-                app:iconSize="30dp" />
+                android:text="@string/common_button_siguiente" />
         </LinearLayout>
     </ScrollView>
 
-    <!-- Botón de info “Mejora 1” fijo en la esquina superior derecha -->
     <ImageButton
         android:id="@+id/btnInfoMejora1"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
+        android:layout_width="@dimen/info_button_size"
+        android:layout_height="@dimen/info_button_size"
+        android:layout_margin="@dimen/spacing_medium"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/info_desc_mejora1"
+        android:contentDescription="@string/desc_info_nivel1_mejora1"
         android:src="@drawable/ic_info"
         android:scaleType="centerInside"
         android:layout_gravity="top|end" />
 
 
-    <!-- ======================================================
-         Pantalla 5.2: Mejora contraseñas — Bloque 2
-         (ScrollView + botón info FUERA del ScrollView)
-         ====================================================== -->
     <ScrollView
         android:id="@+id/scroll_pantalla_mejora2"
         android:layout_width="match_parent"
@@ -571,60 +449,48 @@
         android:visibility="gone"
         android:fillViewport="true"
         android:background="@drawable/background_gradient"
-        android:paddingTop="56dp">  <!-- Aquí desplazamos TODO el contenido -->
+        android:paddingTop="56dp">
 
-        <!-- Contenido desplazable -->
         <LinearLayout
             android:id="@+id/pantalla_mejora2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingBottom="24dp">
+            android:paddingHorizontal="@dimen/spacing_large"
+            android:paddingBottom="@dimen/spacing_large">
 
-            <!-- Cabecera -->
             <TextView
                 android:id="@+id/tvMejoraTitle2"
+                style="@style/CiberRoyale.Text.Title.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@string/mejora_title2"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:fontFamily="@font/orbitron_extrabold" />
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:text="@string/nivel1_mejora_titulo2" />
 
-            <!-- Barra de progreso al 100% -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressMejora2"
+                style="@style/CiberRoyale.ProgressBar"
                 android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_marginBottom="24dp"
-                app:indicatorColor="@color/purple_700"
-                app:trackColor="@android:color/white" />
+                android:layout_marginBottom="@dimen/spacing_large" />
 
-            <!-- Card para tercera contraseña -->
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                style="@style/CiberRoyale.Card"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                app:cardBackgroundColor="@android:color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="@dimen/spacing_medium">
 
                     <TextView
+                        style="@style/CiberRoyale.Text.Body.Black.Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="3. pepe123"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/orbitron_bold" />
+                        android:layout_marginBottom="@dimen/spacing_small"
+                        android:text="@string/nivel1_mejora_pass_3"
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/spinner_m2_p1"
@@ -634,29 +500,24 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Card para cuarta contraseña -->
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                style="@style/CiberRoyale.Card"
+                android:layout_marginBottom="@dimen/spacing_xlarge"
+                app:cardBackgroundColor="@android:color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="@dimen/spacing_medium">
 
                     <TextView
+                        style="@style/CiberRoyale.Text.Body.Black.Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="4. primavera"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/orbitron_bold" />
+                        android:layout_marginBottom="@dimen/spacing_small"
+                        android:text="@string/nivel1_mejora_pass_4"
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/spinner_m2_p2"
@@ -666,43 +527,29 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Botón “Siguiente” -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMejora2Next"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/CiberRoyale.Button.Next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/purple_700"
                 android:enabled="false"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:text="@string/btn_siguiente"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                app:cornerRadius="24dp"
-                app:icon="@drawable/ic_arrow_fw"
-                app:iconGravity="textEnd"
-                app:iconSize="30dp" />
+                android:text="@string/common_button_siguiente" />
         </LinearLayout>
     </ScrollView>
 
-    <!-- Botón de info “Mejora 2” fijo en la esquina superior derecha -->
     <ImageButton
         android:id="@+id/btnInfoMejora2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
+        android:layout_width="@dimen/info_button_size"
+        android:layout_height="@dimen/info_button_size"
+        android:layout_margin="@dimen/spacing_medium"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/info_desc_mejora2"
+        android:contentDescription="@string/desc_info_nivel1_mejora2"
         android:src="@drawable/ic_info"
         android:scaleType="centerInside"
         android:layout_gravity="top|end" />
 
 
-    <!-- ==============================================
-         Pantalla 6: Combate final
-         (ScrollView + botón info FUERA del ScrollView)
-         ============================================== -->
     <ScrollView
         android:id="@+id/scroll_pantalla_combate"
         android:layout_width="match_parent"
@@ -711,88 +558,74 @@
         android:fillViewport="true"
         android:overScrollMode="ifContentScrolls"
         android:background="@drawable/background_gradient"
-        android:paddingTop="80dp">  <!-- Aquí desplazamos TODO el contenido -->
+        android:paddingTop="80dp">
 
-        <!-- Contenido desplazable -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingBottom="24dp">
+            android:paddingHorizontal="@dimen/spacing_medium"
+            android:paddingBottom="@dimen/spacing_large">
 
-            <!-- Sprite del enemigo centrado arriba -->
             <ImageView
                 android:id="@+id/imgEnemigo"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="@dimen/combat_sprite_size"
+                android:layout_height="@dimen/combat_sprite_size"
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/viper"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="@dimen/spacing_small" />
 
-            <!-- Barra de vida del enemigo -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/barraVidaEnemigo"
+                style="@style/CiberRoyale.ProgressBar"
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:layout_marginTop="4dp"
-                app:indicatorColor="@color/red_700"
-                app:trackColor="@android:color/darker_gray" />
+                app:indicatorColor="@color/red_700"/>
 
-            <!-- Caja de narración un poco más abajo, centrada -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardNarracion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp"
+                style="@style/CiberRoyale.Card"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 app:cardBackgroundColor="@android:color/white">
 
                 <TextView
                     android:id="@+id/textoNarracion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="El combate comienza..."
+                    android:padding="@dimen/spacing_medium"
+                    android:text="@string/nivel1_combate_narracion_inicio"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/orbitron_regular" />
+                    android:textSize="16sp" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Sprite del jugador centrado debajo de la narración -->
             <ImageView
                 android:id="@+id/imgJugador"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="@dimen/combat_sprite_size"
+                android:layout_height="@dimen/combat_sprite_size"
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/robot"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="@dimen/spacing_small" />
 
-            <!-- Barra de vida del jugador justo debajo de imgJugador -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/barraVidaJugador"
+                style="@style/CiberRoyale.ProgressBar"
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:layout_marginTop="4dp"
-                app:indicatorColor="@color/green_700"
-                app:trackColor="@android:color/darker_gray" />
+                app:indicatorColor="@color/green_700"/>
 
-            <!-- Panel de ataque en la parte inferior, semitransparente -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/panelAtaque"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
+                style="@style/CiberRoyale.Card"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 app:cardBackgroundColor="#CCFFFFFF">
 
                 <LinearLayout
@@ -802,7 +635,6 @@
                     android:padding="12dp"
                     android:gravity="center_vertical">
 
-                    <!-- EditText para contraseña -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -818,46 +650,36 @@
                             android:id="@+id/inputContrasena"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/hint_contrasena"
+                            android:hint="@string/nivel1_combate_hint"
                             android:inputType="textPassword"
-                            android:padding="8dp"
+                            android:padding="@dimen/spacing_small"
                             android:fontFamily="@font/orbitron_regular" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Botón “Atacar!” a la derecha -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAtacar"
-                        style="@style/Widget.MaterialComponents.Button"
+                        style="@style/CiberRoyale.Button.Next"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:backgroundTint="@color/purple_700"
-                        android:fontFamily="@font/orbitron_extrabold"
-                        android:text="@string/btn_ataque"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        app:cornerRadius="24dp" />
+                        android:layout_marginStart="@dimen/spacing_small"
+                        android:text="@string/nivel1_combate_button_atacar" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
 
-    <!-- Botón de info “Combate” fijo en la esquina superior derecha -->
     <ImageButton
         android:id="@+id/btnInfoCombate"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
+        android:layout_width="@dimen/info_button_size"
+        android:layout_height="@dimen/info_button_size"
+        android:layout_margin="@dimen/spacing_medium"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/info_desc_combate"
+        android:contentDescription="@string/desc_info_nivel1_combate"
         android:src="@drawable/ic_info"
         android:scaleType="centerInside"
         android:layout_gravity="top|end" />
 
 
-    <!-- =========================================
-         Pantalla 7: Recompensa / Derrota (sin info)
-         ========================================= -->
     <ScrollView
         android:id="@+id/scroll_pantalla_recomp"
         android:layout_width="match_parent"
@@ -868,63 +690,53 @@
         <LinearLayout
             android:id="@+id/pantalla_recomp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="24dp"
+            android:padding="@dimen/spacing_large"
             android:background="@drawable/background_gradient">
 
-            <!-- Título (victoria o derrota) -->
             <TextView
                 android:id="@+id/tvRecompensaTitulo"
+                style="@style/CiberRoyale.Text.Title.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text=""
-                android:textSize="24sp"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:textStyle="bold"
-                android:textColor="@android:color/black" />
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:textColor="@android:color/black"
+                android:textSize="24sp" />
 
-            <!-- Subtítulo: mensaje de rango -->
             <TextView
                 android:id="@+id/tvRecompensaSubtitulo"
+                style="@style/CiberRoyale.Text.Body.White"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text=""
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:fontFamily="@font/orbitron_regular" />
+                android:textSize="16sp" />
 
-            <!-- Mostrar la puntuación total -->
             <TextView
                 android:id="@+id/tvPuntuacionFinal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:text=""
+                android:layout_marginBottom="@dimen/spacing_xlarge"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:fontFamily="@font/orbitron_bold" />
 
-            <!-- Imagen de confeti / alerta -->
             <ImageView
                 android:id="@+id/imgConfeti"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="@dimen/spacing_xlarge"
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/robot" />
 
-            <!-- Botón “Continuar” o “Reintentar” -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRecompContinuar"
+                style="@style/CiberRoyale.Button.Primary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/orbitron_extrabold"
-                android:textAllCaps="false" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 

@@ -9,7 +9,6 @@
     android:background="@drawable/background_gradient"
     tools:context=".JuegoFragment">
 
-    <!-- Encabezado fijo con fondo primario y botón de volver -->
     <LinearLayout
         android:id="@+id/llHeader"
         android:layout_width="match_parent"
@@ -19,10 +18,8 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingTop="16dp"
-        android:paddingBottom="12dp"
-       >
+        android:paddingBottom="12dp">
 
-        <!-- Botón volver -->
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="40dp"
@@ -34,7 +31,6 @@
             android:src="@drawable/return_icon"
             tools:ignore="TouchTargetSizeCheck" />
 
-        <!-- Título del encabezado -->
         <TextView
             android:id="@+id/tvHeaderTitle"
             android:layout_width="wrap_content"
@@ -49,7 +45,6 @@
             android:ellipsize="end"/>
     </LinearLayout>
 
-    <!-- Contenido scrollable: lista de niveles -->
     <ScrollView
         android:id="@+id/scrollNiveles"
         android:layout_width="match_parent"
@@ -65,7 +60,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Nivel 1 -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/nivel1_card"
                 android:layout_width="match_parent"
@@ -107,7 +101,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Nivel 2 -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/nivel2_card"
                 android:layout_width="match_parent"
@@ -120,36 +113,59 @@
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:gravity="center_horizontal">
+                    android:layout_height="wrap_content">
 
-                    <ImageView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/img_nivl_psh"
-                        android:scaleType="centerCrop"
-                        android:contentDescription="@string/img_nivel2_desc" />
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:gravity="center_horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/nivel2_titulo"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="@font/orbitron_bold"
-                        android:maxLines="2"
-                        android:ellipsize="end" />
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/img_nivl_psh"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/img_nivel2_desc" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/nivel2_titulo"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/orbitron_bold"
+                            android:maxLines="2"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/overlay_bloqueo_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#80000000"
+                        android:visibility="gone"
+                        tools:visibility="visible"/>
+
+                    <ImageView
+                        android:id="@+id/lock_icon_2"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_candado"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:tint="@android:color/white"
+                        tools:visibility="visible"/>
+
+                </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Nivel 3 -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/nivel3_card"
                 android:layout_width="match_parent"
@@ -162,36 +178,59 @@
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:gravity="center_horizontal">
+                    android:layout_height="wrap_content">
 
-                    <ImageView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/img_nvl_rrss"
-                        android:scaleType="centerCrop"
-                        android:contentDescription="@string/img_nivel3_desc" />
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:gravity="center_horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/nivel3_titulo"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="@font/orbitron_bold"
-                        android:maxLines="2"
-                        android:ellipsize="end" />
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/img_nvl_rrss"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/img_nivel3_desc" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/nivel3_titulo"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/orbitron_bold"
+                            android:maxLines="2"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/overlay_bloqueo_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#80000000"
+                        android:visibility="gone"
+                        tools:visibility="visible"/>
+
+                    <ImageView
+                        android:id="@+id/lock_icon_3"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_candado"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:tint="@android:color/white"
+                        tools:visibility="visible"/>
+
+                </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Nivel 4 -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/nivel4_card"
                 android:layout_width="match_parent"
@@ -204,33 +243,57 @@
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:gravity="center_horizontal">
+                    android:layout_height="wrap_content">
 
-                    <ImageView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/img_nvl_mvl"
-                        android:scaleType="centerCrop"
-                        android:contentDescription="@string/img_nivel4_desc" />
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:gravity="center_horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/nivel4_titulo"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="@font/orbitron_bold"
-                        android:maxLines="2"
-                        android:ellipsize="end" />
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/img_nvl_mvl"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/img_nivel4_desc" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/nivel4_titulo"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/orbitron_bold"
+                            android:maxLines="2"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/overlay_bloqueo_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#80000000"
+                        android:visibility="gone"
+                        tools:visibility="visible"/>
+
+                    <ImageView
+                        android:id="@+id/lock_icon_4"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_candado"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:tint="@android:color/white"
+                        tools:visibility="visible"/>
+
+                </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>

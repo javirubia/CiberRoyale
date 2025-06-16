@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.ldm.ciberroyale.AchievementRepository
+import com.ldm.ciberroyale.ProgresoManager
 import com.ldm.ciberroyale.R
 
 class TemaContraFragment : Fragment() {
@@ -56,7 +56,7 @@ class TemaContraFragment : Fragment() {
         val btnMarcarLeido: Button = view.findViewById(R.id.btnMarcarLeido)
         btnMarcarLeido.setOnClickListener {
             // Desbloquear el logro correspondiente (TEMA1_LEIDO)
-            AchievementRepository.unlock("TEMA1_LEIDO")
+            ProgresoManager.unlockAchievement("TEMA1_LEIDO")
             // Opcional: mostrar un Toast de confirmación
             Toast.makeText(requireContext(),
                 "¡Has desbloqueado el logro Tema 1 completado!",

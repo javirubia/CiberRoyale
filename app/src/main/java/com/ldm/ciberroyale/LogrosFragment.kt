@@ -1,59 +1,40 @@
 package com.ldm.ciberroyale
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.ldm.ciberroyale.databinding.FragmentLogrosBinding
 
-class LogrosFragment : Fragment() {
+class LogrosFragment : Fragment(R.layout.fragment_logros) {
 
-    private lateinit var rvLogros: RecyclerView
-    private lateinit var adapter: LogrosAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflamos el layout sin Toolbar
-        return inflater.inflate(R.layout.fragment_logros, container, false)
-    }
+    private var _binding: FragmentLogrosBinding? = null
+    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentLogrosBinding.bind(view)
 
-        // 0. Inicializar el botón “Volver” con findViewById, no con binding
-        val btnBack: ImageButton = view.findViewById(R.id.btnBack)
-        btnBack.setOnClickListener {
-            // Cambia esta línea según tu acción de navegación:
-            // Si quieres simplemente volver al fragmento anterior:
+        binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
-            // O si quieres navegar a un destino concreto (ej. menuFragment):
-            // findNavController().navigate(R.id.action_logrosFragment_to_menuFragment)
         }
 
-        // 1. Inicializar RecyclerView
-        rvLogros = view.findViewById(R.id.rvLogros)
-        rvLogros.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvLogros.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvLogros.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
 
-        // 2. (Opcional) Divider entre tarjetas
-        val divider = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-        // Si tienes un drawable personalizado para el divider, úsalo así:
-        // divider.setDrawable(resources.getDrawable(R.drawable.divider_gray, null))
-        rvLogros.addItemDecoration(divider)
-
-        // 3. Ordenar logros y pasar al adaptador
-        val sortedLogros = AchievementRepository.allAchievements.sortedWith(
-            compareBy<Achievement> { it.type }
-                .thenBy { it.themeNumber ?: it.levelNumber ?: Int.MAX_VALUE }
-                .thenBy { it.scoreCategory?.ordinal ?: -1 }
+        // Ahora esta línea es correcta porque el tipo de 'sortedLogros' es List<Achievement>
+        val sortedLogros = ProgresoManager.allAchievements.sortedWith(
+            compareBy<Achievement> { it.type.ordinal } // Ordenar por tipo primero
+                .thenBy { it.levelNumber ?: Int.MAX_VALUE } // Luego por número de nivel
+                .thenBy { it.scoreCategory?.ordinal ?: -1 } // Finalmente por categoría
         )
-        adapter = LogrosAdapter(sortedLogros)
-        rvLogros.adapter = adapter
+        binding.rvLogros.adapter = LogrosAdapter(sortedLogros)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

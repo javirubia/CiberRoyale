@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import com.ldm.ciberroyale.AchievementRepository
+import com.ldm.ciberroyale.ProgresoManager
 import com.ldm.ciberroyale.R
 
 class TemaSeguridadmovFragment : Fragment() {
@@ -57,7 +57,7 @@ class TemaSeguridadmovFragment : Fragment() {
         val btnMarcarLeido: Button = view.findViewById(R.id.btnMarcarLeido)
         btnMarcarLeido.setOnClickListener {
             // Desbloquea el logro del Tema 4
-            AchievementRepository.unlock("TEMA4_LEIDO")
+            ProgresoManager.unlockAchievement("TEMA4_LEIDO")
 
             // Feedback visual
             Toast.makeText(
