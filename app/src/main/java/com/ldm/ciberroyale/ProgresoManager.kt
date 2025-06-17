@@ -2,19 +2,23 @@ package com.ldm.ciberroyale
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
 
 
 object ProgresoManager {
 
     private const val PREFS_NAME = "CiberRoyaleProgreso"
     private lateinit var prefs: SharedPreferences
-
-    // --- CLAVE PARA GUARDAR DATOS LOCALES ---
+    private val db = Firebase.firestore
     private const val KEY_NIVEL_DESBLOQUEADO = "nivel_desbloqueado"
+    private var progressListener: ListenerRegistration? = null
 
-    // La lista de logros se mantiene igual
     val allAchievements: List<Achievement> by lazy {
-        // ... tu lista completa de logros ...
+        // Tu lista completa de logros aquí
         listOf(
             Achievement("TEMA1_LEIDO", "Tema 1 completado", "Has leído todo lo relativo a Contraseñas Seguras", AchievementType.TEMA, 1, null, R.drawable.ic_locked, R.drawable.ic_unlocked),
             Achievement("TEMA2_LEIDO", "Tema 2 completado", "Has leído todo lo relativo a Phishing", AchievementType.TEMA, 2, null, R.drawable.ic_locked, R.drawable.ic_unlocked),
@@ -36,12 +40,63 @@ object ProgresoManager {
 
     fun init(context: Context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        loadProgressFromPrefs()
+    }
+
+    fun attachProgressListener(onUpdate: () -> Unit) {
+        detachProgressListener()
+        val user = Firebase.auth.currentUser
+        if (user == null || user.isAnonymous) {
+            loadProgressFromPrefs()
+            onUpdate()
+            return
+        }
+
+        progressListener = db.collection("usuarios").document(user.uid)
+            .addSnapshotListener { document, _ ->
+                if (document != null && document.exists()) {
+                    val nivel = document.getLong("nivelDesbloqueado")?.toInt() ?: 1
+                    val logrosIds = document.get("logrosDesbloqueados") as? List<String> ?: emptyList()
+
+                    clearLocalProgress() // Limpia para no mezclar datos de usuarios
+
+                    prefs.edit().putInt(KEY_NIVEL_DESBLOQUEADO, nivel).apply()
+                    logrosIds.forEach { prefs.edit().putBoolean(it, true).apply() }
+                }
+                loadProgressFromPrefs()
+                onUpdate()
+            }
+    }
+
+    fun detachProgressListener() {
+        progressListener?.remove()
+        progressListener = null
+    }
+
+    fun saveProgressToFirestore() {
+        val user = Firebase.auth.currentUser
+        if (user == null || user.isAnonymous) return
+
+        val unlockedAchievementsIds = allAchievements.filter { it.unlocked }.map { it.id }
+        val progressData = hashMapOf(
+            "nivelDesbloqueado" to getNivelDesbloqueado(),
+            "logrosDesbloqueados" to unlockedAchievementsIds
+        )
+        db.collection("usuarios").document(user.uid).set(progressData)
+    }
+
+    private fun loadProgressFromPrefs() {
         allAchievements.forEach { ach ->
             ach.unlocked = prefs.getBoolean(ach.id, false)
         }
     }
 
-    // --- MÉTODOS DE PROGRESIÓN DE NIVELES ---
+    fun clearLocalProgress() {
+        val unlockedBefore = allAchievements.filter { it.unlocked }
+        prefs.edit().clear().apply()
+        unlockedBefore.forEach { it.unlocked = false }
+    }
+
     fun getNivelDesbloqueado(): Int {
         return prefs.getInt(KEY_NIVEL_DESBLOQUEADO, 1)
     }
@@ -50,15 +105,16 @@ object ProgresoManager {
         val nivelMasAlto = getNivelDesbloqueado()
         if (nivelActualCompletado >= nivelMasAlto) {
             prefs.edit().putInt(KEY_NIVEL_DESBLOQUEADO, nivelActualCompletado + 1).apply()
+            saveProgressToFirestore()
         }
     }
 
-    // --- MÉTODOS DE GESTIÓN DE LOGROS ---
     fun unlockAchievement(achievementId: String) {
-        val ach = allAchievements.find { it.id == achievementId } ?: return
-        if (!ach.unlocked) {
+        val ach = allAchievements.find { it.id == achievementId }
+        if (ach != null && !ach.unlocked) {
             ach.unlocked = true
             prefs.edit().putBoolean(achievementId, true).apply()
+            saveProgressToFirestore()
         }
     }
 }

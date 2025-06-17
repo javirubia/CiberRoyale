@@ -67,13 +67,20 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnVincularGoogle"
-                style="@style/CiberRoyale.Button.Primary"
+                style="@style/CiberRoyale.Button.Secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Proteger con Google"
-                android:textSize="18sp"
+                android:text="Proteger Progreso Actual (Vincular)"
                 app:icon="@drawable/ic_google" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnIniciarSesionGoogle"
+                style="@style/CiberRoyale.Button.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Ya tengo cuenta (Iniciar Sesión)" />
         </LinearLayout>
 
         <LinearLayout
@@ -112,5 +119,14 @@
                 android:text="Cerrar Sesión"
                 android:textColor="@android:color/white"/>
         </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"/>
+
     </LinearLayout>
+
 </ScrollView>
