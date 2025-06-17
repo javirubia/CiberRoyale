@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.ldm.ciberroyale" />
+                  <option name="mobileSdkAppId" value="1:1000905358806:android:5749d8eb1bbc57454ef877" />
+                  <option name="projectId" value="ciberroyale-tfg" />
+                  <option name="projectNumber" value="1000905358806" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
