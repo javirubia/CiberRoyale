@@ -93,6 +93,10 @@ object ProgresoManager {
         db.collection("usuarios").document(user.uid)
             .set(data, SetOptions.merge())
     }
+    fun isGameCompleted(): Boolean {
+        val gameCompletedAchievement = allAchievements.find { it.id == "JUEGO_COMPLETADO" }
+        return gameCompletedAchievement?.unlocked ?: false
+    }
 
     private fun applySnapshotToPrefs(snapshot: DocumentSnapshot) {
         val nivelCloud = snapshot.getLong(KEY_NIVEL_DESBLOQUEADO)?.toInt() ?: 1

@@ -1,18 +1,30 @@
 package com.ldm.ciberroyale
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+
 import com.ldm.ciberroyale.databinding.FragmentJuegoBinding
+import android.Manifest
+import android.net.Uri
+import android.os.Build
+import java.io.IOException
 
 class JuegoFragment : Fragment() {
 
     private var _binding: FragmentJuegoBinding? = null
     private val binding get() = _binding!!
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +74,39 @@ class JuegoFragment : Fragment() {
             SoundManager.playSfx(R.raw.sfx_level_start) // <-- AÑADIDO
             findNavController().navigate(R.id.action_juegoFragment_to_nivel4Fragment)
         }
+        binding.btnDescargarCertificado.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click)
+            checkAndSaveCertificate()
+        }
     }
+    private val createDocumentLauncher =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { uri ->
+            if (uri != null) copyPdfToUri(uri)
+            else Toast.makeText(requireContext(), "Guardado cancelado", Toast.LENGTH_SHORT).show()
+        }
+
+    private fun checkAndSaveCertificate() {
+        // Le pedimos al sistema que nos dé una URI donde escribir el PDF.
+        createDocumentLauncher.launch("Certificado-CiberRoyale.pdf")
+    }
+    private fun copyPdfToUri(uri: Uri) {
+        try {
+            requireContext().contentResolver.openOutputStream(uri).use { out ->
+                requireContext().resources.openRawResource(R.raw.certificado_ciberroyale)
+                    .copyTo(out!!)
+            }
+            Toast.makeText(requireContext(),
+                "¡Certificado guardado correctamente!", Toast.LENGTH_LONG).show()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(),
+                "Error al guardar el certificado.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
+
 
     /**
      * Esta función comprueba el progreso del jugador y actualiza la UI para
@@ -89,6 +133,8 @@ class JuegoFragment : Fragment() {
         binding.nivel4Card.isEnabled = !nivel4Bloqueado
         binding.overlayBloqueo4.isVisible = nivel4Bloqueado
         binding.lockIcon4.isVisible = nivel4Bloqueado
+        binding.btnDescargarCertificado.isVisible = ProgresoManager.isGameCompleted()
+
     }
 
     override fun onDestroyView() {
