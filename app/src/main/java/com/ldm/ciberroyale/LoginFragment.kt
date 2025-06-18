@@ -20,6 +20,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -49,6 +50,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         setupGoogleSignInLaunchers()
         setupListeners()
         actualizarUI()
+    }
+    override fun onResume() {
+        super.onResume()
+        // Mantenemos la música del menú
+        SoundManager.playMusic(requireContext(), R.raw.music_menu)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        SoundManager.stopMusic()
     }
 
     private fun setupGoogleSignInLaunchers() {
@@ -98,19 +109,22 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun setupListeners() {
         binding.btnBack.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             findNavController().navigate(R.id.action_loginFragment_to_menuFragment)
         }
         binding.btnVincularGoogle.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             linkLauncher.launch(googleSignInClient.signInIntent)
         }
         binding.btnIniciarSesionGoogle.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             signInLauncher.launch(googleSignInClient.signInIntent)
         }
         binding.btnCerrarSesion.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             mostrarDialogoDeCierreDeSesion()
         }
     }
-
     private fun actualizarUI() {
         val user = auth.currentUser ?: return
         if (user.isAnonymous) {
@@ -123,26 +137,40 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    /**
-     * Vincula la cuenta anónima actual con una credencial de Google de forma asíncrona y segura.
-     */
+
+
     private fun linkFirebaseWithGoogle(credential: AuthCredential) {
         lifecycleScope.launch {
             setLoading(true)
             try {
-                // Intenta vincular la cuenta y ESPERA a que la operación termine
+                // Intenta vincular la cuenta anónima actual
                 auth.currentUser?.linkWithCredential(credential)?.await()
 
-                // Si la línea anterior no lanza una excepción, la vinculación fue exitosa
+                // Si llegamos aquí, la vinculación fue un éxito (era una cuenta de Google nueva)
                 Toast.makeText(requireContext(), "¡Progreso protegido con éxito!", Toast.LENGTH_SHORT).show()
-                ProgresoManager.saveProgressToFirestore() // Guarda el progreso local en la nueva cuenta vinculada
+                ProgresoManager.saveProgressToFirestore() // Guardamos el progreso del invitado en la nueva cuenta
                 actualizarUI()
 
             } catch (e: Exception) {
-                // Captura cualquier error, como "la cuenta ya existe"
-                Toast.makeText(requireContext(), "Error: esta cuenta de Google ya está en uso.", Toast.LENGTH_LONG).show()
+                // AQUÍ ESTÁ LA MAGIA: Comprobamos si el error es porque la cuenta ya existe
+                if (e is FirebaseAuthUserCollisionException) {
+                    // La cuenta de Google ya está en uso. Preguntamos al usuario qué hacer.
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Cuenta ya existente")
+                        .setMessage("Esa cuenta de Google ya tiene progreso guardado. ¿Quieres abandonar el progreso de invitado actual y cargar tu partida guardada?")
+                        .setPositiveButton("Sí, cargar mi cuenta") { _, _ ->
+                            // El usuario quiere iniciar sesión. Llamamos a la función de signIn.
+                            // Esto descartará al usuario anónimo y cargará el progreso de la nube.
+                            signInWithGoogle(credential)
+                        }
+                        .setNegativeButton("Cancelar", null) // El usuario cancela, no se hace nada.
+                        .show()
+                } else {
+                    // Otro tipo de error (red, etc.)
+                    Toast.makeText(requireContext(), "Ha ocurrido un error inesperado al vincular la cuenta.", Toast.LENGTH_LONG).show()
+                }
             } finally {
-                // Se asegura de que el ProgressBar siempre se oculte, incluso si hay un error
+                // El ProgressBar siempre se oculta, pase lo que pase.
                 setLoading(false)
             }
         }
@@ -157,9 +185,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             try {
                 // Intenta iniciar sesión y ESPERA a que la operación termine
                 auth.signInWithCredential(credential).await()
-
-                // Si tiene éxito, limpia el progreso del usuario anónimo y vuelve al menú
-                ProgresoManager.clearLocalProgress() // Limpiamos el progreso del invitado
                 Toast.makeText(requireContext(), "¡Bienvenido/a de vuelta!", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
 

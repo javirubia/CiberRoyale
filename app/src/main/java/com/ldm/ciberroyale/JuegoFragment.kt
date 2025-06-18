@@ -19,9 +19,6 @@ class JuegoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentJuegoBinding.inflate(inflater, container, false)
-        // Inicializamos el gestor de progreso aquí. Es crucial hacerlo
-        // antes de que cualquier otra parte del fragmento intente usarlo.
-        ProgresoManager.init(requireContext())
         return binding.root
     }
 
@@ -30,26 +27,39 @@ class JuegoFragment : Fragment() {
 
         // Organizamos el código para más claridad
         setupNavigationListeners()
+    }
+    override fun onResume() {
+        super.onResume()
+        SoundManager.playMusic(requireContext(), R.raw.music_ingame)
         actualizarEstadoNiveles()
     }
-
+    override fun onPause() {
+        super.onPause()
+        // Paramos la música al salir de esta pantalla
+        SoundManager.stopMusic()
+    }
     private fun setupNavigationListeners() {
         // Botón volver del encabezado
         binding.btnBack.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             findNavController().navigate(R.id.action_juegoFragment_to_menuFragment)
         }
 
         // Navegación a cada nivel
         binding.nivel1Card.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_level_start) // <-- AÑADIDO
             findNavController().navigate(R.id.action_juegoFragment_to_nivel1Fragment)
         }
         binding.nivel2Card.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_level_start) // <-- AÑADIDO
             findNavController().navigate(R.id.action_juegoFragment_to_nivel2Fragment)
         }
         binding.nivel3Card.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_level_start) // <-- AÑADIDO
             findNavController().navigate(R.id.action_juegoFragment_to_nivel3Fragment)
         }
         binding.nivel4Card.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_level_start) // <-- AÑADIDO
             findNavController().navigate(R.id.action_juegoFragment_to_nivel4Fragment)
         }
     }
@@ -59,6 +69,7 @@ class JuegoFragment : Fragment() {
      * bloquear o desbloquear los niveles correspondientes.
      */
     private fun actualizarEstadoNiveles() {
+
         val nivelMasAltoDesbloqueado = ProgresoManager.getNivelDesbloqueado()
 
         // Nivel 2: Se desbloquea si el progreso es 2 o más.

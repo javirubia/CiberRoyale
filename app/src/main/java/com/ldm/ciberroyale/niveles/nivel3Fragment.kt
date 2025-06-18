@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.ldm.ciberroyale.ProgresoManager
 import com.ldm.ciberroyale.R
+import com.ldm.ciberroyale.SoundManager
 import com.ldm.ciberroyale.databinding.FragmentNivel3Binding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -75,6 +76,17 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
         out.putInt("mistakesGame2", mistakesGame2)
         out.putString("screen", currentScreen.name)
     }
+    override fun onResume() {
+        super.onResume()
+        // Ponemos la música de juego
+        SoundManager.playMusic(requireContext(), R.raw.music_ingame) // <-- AÑADIDO
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Paramos la música al salir
+        SoundManager.stopMusic() // <-- AÑADIDO
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -84,33 +96,34 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
 
     //region Setup y Navegación
     private fun setupListeners() = with(binding) {
-        btnIntroSiguiente.setOnClickListener { switchTo(Screen.CONTROL) }
-        btnGame1.setOnClickListener { switchTo(Screen.GAME1) }
-        btnGame2.setOnClickListener { switchTo(Screen.GAME2) }
-        btnGame3.setOnClickListener { switchTo(Screen.GAME3) }
+        btnIntroSiguiente.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); switchTo(Screen.CONTROL) }
+        btnGame1.setOnClickListener { SoundManager.playSfx(R.raw.sfx_navigate); switchTo(Screen.GAME1) }
+        btnGame2.setOnClickListener { SoundManager.playSfx(R.raw.sfx_navigate); switchTo(Screen.GAME2) }
+        btnGame3.setOnClickListener { SoundManager.playSfx(R.raw.sfx_navigate); switchTo(Screen.GAME3) }
 
-        btnInfoSala.setOnClickListener { showInfoDialog(R.string.dialog_info_nivel3_control_titulo, R.string.dialog_info_nivel3_control_mensaje) }
-        btnInfoGame1.setOnClickListener { showInfoDialog(R.string.dialog_info_nivel3_game1_titulo, R.string.dialog_info_nivel3_game1_mensaje) }
-        btnInfoGame2.setOnClickListener { showInfoDialog(R.string.dialog_info_nivel3_game2_titulo, R.string.dialog_info_nivel3_game2_mensaje) }
-        btnInfoGame3.setOnClickListener { showInfoDialog(R.string.dialog_info_nivel3_game3_titulo, R.string.dialog_info_nivel3_game3_mensaje) }
+        btnInfoSala.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); showInfoDialog(R.string.dialog_info_nivel3_control_titulo, R.string.dialog_info_nivel3_control_mensaje) }
+        btnInfoGame1.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); showInfoDialog(R.string.dialog_info_nivel3_game1_titulo, R.string.dialog_info_nivel3_game1_mensaje) }
+        btnInfoGame2.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); showInfoDialog(R.string.dialog_info_nivel3_game2_titulo, R.string.dialog_info_nivel3_game2_mensaje) }
+        btnInfoGame3.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); showInfoDialog(R.string.dialog_info_nivel3_game3_titulo, R.string.dialog_info_nivel3_game3_mensaje) }
 
-        btnCheckPassword.setOnClickListener { checkFinalPassword() }
+        btnCheckPassword.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); checkFinalPassword() }
 
         listOf(togglePhoto, toggleBirthdate, toggleFriends, togglePosts).forEach { tg ->
-            tg.addOnButtonCheckedListener { _, _, _ ->
-                firstTryGame1 = false // En cuanto el usuario toca algo, ya no es el primer intento
+            tg.addOnButtonCheckedListener { _, _, isChecked ->
+                if(isChecked) SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
+                firstTryGame1 = false
                 refreshGame1State()
             }
         }
         btnCompleteGame1.setOnClickListener { completeGame1() }
-        btnBackGame1.setOnClickListener { switchTo(Screen.CONTROL) }
+        btnBackGame1.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); switchTo(Screen.CONTROL) }
 
-        btnTrue.setOnClickListener { processAnswer2(true) }
-        btnFalse.setOnClickListener { processAnswer2(false) }
-        btnBackGame2.setOnClickListener { switchTo(Screen.CONTROL) }
+        btnTrue.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); processAnswer2(true) }
+        btnFalse.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); processAnswer2(false) }
+        btnBackGame2.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); switchTo(Screen.CONTROL) }
 
-        btnBackGame3.setOnClickListener { switchTo(Screen.CONTROL) }
-        btnFinish.setOnClickListener { findNavController().navigate(R.id.action_nivel3Fragment_to_juegoFragment) }
+        btnBackGame3.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); switchTo(Screen.CONTROL) }
+        btnFinish.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); findNavController().navigate(R.id.action_nivel3Fragment_to_juegoFragment) }
     }
 
     private fun switchTo(screen: Screen) {
@@ -150,8 +163,9 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
     }
 
     private fun completeGame1() {
+        SoundManager.playSfx(R.raw.sfx_correct_answer) // <-- AÑADIDO
         if (firstTryGame1) {
-            ProgresoManager.unlockAchievement("NIVEL3_ESTRATEGIA_PERFECTA")
+            ProgresoManager.unlockAchievement(requireContext(), "NIVEL3_ESTRATEGIA_PERFECTA")
         }
         doneGame1 = true
         refreshGame1State()
@@ -177,6 +191,8 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
         if (doneGame2 || pending2.isEmpty()) return
         val idx = pending2.removeAt(0)
         val correct = statements[idx].second == isTrue
+        if(correct) SoundManager.playSfx(R.raw.sfx_correct_answer) else SoundManager.playSfx(R.raw.sfx_wrong_answer) // <-- AÑADIDO
+
         val feedback = if (correct) R.string.common_respuesta_correcta else R.string.common_respuesta_incorrecta
         Snackbar.make(binding.root, feedback, Snackbar.LENGTH_SHORT).show()
         if (!correct) {
@@ -195,6 +211,7 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
 
     private fun onGame2Completed() {
         doneGame2 = true
+        SoundManager.playSfx(R.raw.sfx_correct_answer)
         binding.btnTrue.isEnabled = false
         binding.btnFalse.isEnabled = false
         binding.tvGame2Piece.isVisible = true
@@ -238,6 +255,7 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
 
             card.setOnClickListener {
                 if (matched.contains(index) || revealed.contains(index) || !it.isClickable) return@setOnClickListener
+                SoundManager.playSfx(R.raw.sfx_navigate)
 
                 flipCard(card, showEmoji = true)
                 revealed.add(index)
@@ -252,6 +270,7 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
                     lifecycleScope.launch {
                         delay(500)
                         if (isMatch) {
+                            SoundManager.playSfx(R.raw.sfx_correct_answer)
                             matched.add(firstSelected)
                             matched.add(secondSelected)
                             revealed.remove(firstSelected)
@@ -259,6 +278,7 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
                             matchedCount++
                             if (matchedCount == deck.size / 2) onGame3Completed()
                         } else {
+                            SoundManager.playSfx(R.raw.sfx_wrong_answer)
                             revealed.remove(firstSelected)
                             revealed.remove(secondSelected)
                             flipCard(cardViews[firstSelected], showEmoji = false)
@@ -290,6 +310,7 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
 
     private fun onGame3Completed() {
         doneGame3 = true
+        SoundManager.playSfx(R.raw.sfx_correct_answer)
         binding.tvGame3Piece.isVisible = true
         updateControlState()
         Snackbar.make(binding.root, R.string.nivel3_game3_pieza_obtenida, Snackbar.LENGTH_SHORT).show()
@@ -307,20 +328,19 @@ class Nivel3Fragment : Fragment(R.layout.fragment_nivel3) {
         }
     }
 
+
     private fun checkFinalPassword() = with(binding) {
         val input = etPassword.text.toString().trim()
         if (input.equals(TARGET_PASSWORD, ignoreCase = true)) {
-            // ¡AQUÍ ESTÁ LA LÓGICA DE FINALIZACIÓN!
-            // 1. Desbloqueamos el logro de completar el nivel
-            ProgresoManager.unlockAchievement("NIVEL3_COMPLETADO")
+            SoundManager.stopMusic() // <-- AÑADIDO
+            SoundManager.playJingle(requireContext(), R.raw.music_victory) // <-- AÑADIDO
 
-            // 2. Desbloqueamos el Nivel 4
+            ProgresoManager.unlockAchievement(requireContext(), "NIVEL3_COMPLETADO")
             ProgresoManager.desbloquearSiguienteNivel(3)
-
-            // 3. Mostramos la pantalla de recompensa
             tvFinalPassword.text = TARGET_PASSWORD
             switchTo(Screen.RECOMP)
         } else {
+            SoundManager.playSfx(R.raw.sfx_wrong_answer) // <-- AÑADIDO
             etPassword.error = getString(R.string.common_error_password)
         }
     }

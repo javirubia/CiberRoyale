@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ldm.ciberroyale.ProgresoManager
 import com.ldm.ciberroyale.R
+import com.ldm.ciberroyale.SoundManager
 import com.ldm.ciberroyale.databinding.FragmentNivel4Binding
 
 class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
@@ -43,6 +44,18 @@ class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
         setupListeners()
         mostrarEtapa(Etapa.INTRO)
     }
+    override fun onResume() {
+        super.onResume()
+        // Ponemos la música de juego
+        SoundManager.playMusic(requireContext(), R.raw.music_ingame) // <-- AÑADIDO
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Paramos la música al salir
+        SoundManager.stopMusic() // <-- AÑADIDO
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -53,22 +66,27 @@ class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
     //region Setup y Navegación
     private fun setupListeners() = with(binding) {
         btnIntroSiguiente.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             mostrarEtapa(Etapa.PIN_PUZZLE)
             iniciarPinPuzzle()
         }
         btnInfoPin.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             showInfoDialog(R.string.dialog_info_nivel4_pin_titulo, R.string.dialog_info_nivel4_pin_mensaje)
         }
         btnCheckPin.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             val guess = listOf(npDigit0.value, npDigit1.value, npDigit2.value)
             handlePinGuess(guess)
         }
         btnInfoWifi.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             showInfoDialog(R.string.dialog_info_nivel4_wifi_titulo, R.string.dialog_info_nivel4_wifi_mensaje)
         }
         configurarWifiDragAndDrop()
 
         btnRecompContinuar.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             val total = puntuacionPin + puntuacionWifi
             if (total < WIN_SCORE_THRESHOLD) {
                 reiniciarNivel()
@@ -101,6 +119,7 @@ class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
 
     //region Lógica PIN Puzzle
     private fun iniciarPinPuzzle() = with(binding) {
+        SoundManager.playSfx(R.raw.sfx_level_start)
         secret = (0..9).shuffled().take(3)
         clues = listOf(
             Clue(findGuess { cp, wp -> cp == 0 && wp == 2 }, getString(R.string.nivel4_pin_pista1_desc)),
@@ -156,6 +175,7 @@ class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
 
     private fun handlePinGuess(guess: List<Int>) = with(binding) {
         if (guess.toSet().size < guess.size) {
+            SoundManager.playSfx(R.raw.sfx_wrong_answer) // <-- AÑADIDO
             Toast.makeText(requireContext(), R.string.nivel4_pin_error_repetidos, Toast.LENGTH_SHORT).show()
             return
         }
@@ -164,12 +184,14 @@ class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
         tvFeedbackPin.text = getString(R.string.nivel4_pin_feedback, cp, wp)
 
         if (cp == 3) { // Victoria
+            SoundManager.playSfx(R.raw.sfx_correct_answer) // <-- AÑADIDO
             if (attemptsPin <= 3) {
-                ProgresoManager.unlockAchievement("NIVEL4_MENTE_MAESTRA")
+                ProgresoManager.unlockAchievement(requireContext(), "NIVEL4_MENTE_MAESTRA")
             }
             puntuacionPin = ((MAX_ATTEMPTS_PIN - attemptsPin + 1) * MAX_SCORE_PIN) / MAX_ATTEMPTS_PIN
             pasarAWifi()
         } else if (attemptsPin >= MAX_ATTEMPTS_PIN) { // Derrota
+            SoundManager.playSfx(R.raw.sfx_wrong_answer) // <-- AÑADIDO
             Toast.makeText(requireContext(), getString(R.string.nivel4_pin_derrota_toast, secret.joinToString("")), Toast.LENGTH_LONG).show()
             puntuacionPin = 0
             pasarAWifi()
@@ -185,6 +207,7 @@ class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
 
     //region Lógica Wi-Fi Detective
     private fun iniciarWifi() = with(binding) {
+        SoundManager.playSfx(R.raw.sfx_level_start)
         idxWifi = 0
         correctasWifi = 0
         puntuacionWifi = 0
@@ -227,9 +250,11 @@ class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
         val esAcierto = (targetId == binding.targetSeguro.id) == net.isSecure
 
         if (esAcierto) {
+            SoundManager.playSfx(R.raw.sfx_correct_answer) // <-- AÑADIDO
             correctasWifi++
             Toast.makeText(requireContext(), R.string.common_respuesta_correcta, Toast.LENGTH_SHORT).show()
         } else {
+            SoundManager.playSfx(R.raw.sfx_wrong_answer) // <-- AÑADIDO
             Toast.makeText(requireContext(), R.string.common_respuesta_incorrecta, Toast.LENGTH_SHORT).show()
         }
 
@@ -247,10 +272,12 @@ class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
 
     //region Recompensa y UI Helpers
     private fun mostrarRecompensa() = with(binding) {
+        SoundManager.stopMusic()
         val totalScore = puntuacionPin + puntuacionWifi
         tvPuntuacionFinal.text = getString(R.string.nivel1_recompensa_puntuacion, totalScore)
 
         if (totalScore < WIN_SCORE_THRESHOLD) {
+            SoundManager.playJingle(requireContext(), R.raw.music_defeat) // <-- AÑADIDO
             tvRecompensaTitulo.text = getString(R.string.nivel2_recompensa_titulo_derrota)
             tvRecompensaSubtitulo.text = getString(R.string.nivel4_recompensa_subtitulo_derrota)
             imgConfeti.setImageResource(R.drawable.byte_triste)
@@ -258,11 +285,12 @@ class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
         } else {
             // ¡AQUÍ ESTÁ LA LÓGICA COMPLETA DE VICTORIA!
             // 1. Desbloqueamos el siguiente paso (el final del juego)
+            SoundManager.playJingle(requireContext(), R.raw.music_victory)
             ProgresoManager.desbloquearSiguienteNivel(4)
 
             // 2. Desbloqueamos los logros correspondientes
-            ProgresoManager.unlockAchievement("NIVEL4_COMPLETADO")
-            ProgresoManager.unlockAchievement("JUEGO_COMPLETADO")
+            ProgresoManager.unlockAchievement(requireContext(), "NIVEL4_COMPLETADO")
+            ProgresoManager.unlockAchievement(requireContext(), "JUEGO_COMPLETADO")
 
             // 3. Mostramos la UI de victoria
             tvRecompensaTitulo.text = getString(R.string.nivel2_recompensa_titulo_victoria)
@@ -273,6 +301,7 @@ class Nivel4Fragment : Fragment(R.layout.fragment_nivel4) {
     }
 
     private fun reiniciarNivel() {
+        SoundManager.playSfx(R.raw.sfx_button_click)
         puntuacionPin = 0
         puntuacionWifi = 0
         mostrarEtapa(Etapa.INTRO)

@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.ldm.ciberroyale.ProgresoManager
 import com.ldm.ciberroyale.R
+import com.ldm.ciberroyale.SoundManager
 
 class TemaSeguridadmovFragment : Fragment() {
 
@@ -22,6 +23,15 @@ class TemaSeguridadmovFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_tema_seguridadmov, container, false)
     }
+    override fun onResume() {
+        super.onResume()
+        SoundManager.playMusic(requireContext(), R.raw.music_menu)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        SoundManager.stopMusic()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,6 +39,8 @@ class TemaSeguridadmovFragment : Fragment() {
         val containerLayout = view.findViewById<LinearLayout>(R.id.containerLayout)
         val btnVolver = view.findViewById<ImageButton>(R.id.btnBack)
         btnVolver.setOnClickListener {
+
+            SoundManager.playSfx(R.raw.sfx_button_click) // Sonido al pulsar el botón
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
@@ -56,18 +68,8 @@ class TemaSeguridadmovFragment : Fragment() {
         )
         val btnMarcarLeido: Button = view.findViewById(R.id.btnMarcarLeido)
         btnMarcarLeido.setOnClickListener {
-            // Desbloquea el logro del Tema 4
-            ProgresoManager.unlockAchievement("TEMA4_LEIDO")
-
-            // Feedback visual
-            Toast.makeText(
-                requireContext(),
-                "¡Logro desbloqueado: Tema 4 completado!",
-                Toast.LENGTH_SHORT
-            ).show()
-
-            // Opcional: volver a la pantalla de logros
-            // findNavController().popBackStack()
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
+            ProgresoManager.unlockAchievement(requireContext(), "TEMA4_LEIDO") // <-- MODIFICADO
         }
 
         for ((titulo, descripcion, icono) in temas) {

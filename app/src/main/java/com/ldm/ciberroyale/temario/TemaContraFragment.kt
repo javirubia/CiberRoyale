@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.ldm.ciberroyale.ProgresoManager
 import com.ldm.ciberroyale.R
+import com.ldm.ciberroyale.SoundManager
 
 class TemaContraFragment : Fragment() {
 
@@ -23,13 +24,23 @@ class TemaContraFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_tema_contra, container, false)
     }
+    override fun onResume() {
+        super.onResume()
+        SoundManager.playMusic(requireContext(), R.raw.music_menu)
+    }
 
+    override fun onPause() {
+        super.onPause()
+        SoundManager.stopMusic()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val containerLayout = view.findViewById<LinearLayout>(R.id.containerLayout)
         val btnVolver = view.findViewById<ImageButton>(R.id.btnBack)
         btnVolver.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
+
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
@@ -55,14 +66,11 @@ class TemaContraFragment : Fragment() {
         )
         val btnMarcarLeido: Button = view.findViewById(R.id.btnMarcarLeido)
         btnMarcarLeido.setOnClickListener {
-            // Desbloquear el logro correspondiente (TEMA1_LEIDO)
-            ProgresoManager.unlockAchievement("TEMA1_LEIDO")
-            // Opcional: mostrar un Toast de confirmación
-            Toast.makeText(requireContext(),
-                "¡Has desbloqueado el logro Tema 1 completado!",
-                Toast.LENGTH_SHORT).show()
-
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
+            // Llamamos a la nueva función que ya incluye el sonido y el Toast
+            ProgresoManager.unlockAchievement(requireContext(), "TEMA1_LEIDO") // <-- MODIFICADO
         }
+
 
         for ((titulo, descripcion, icono) in temas) {
             val cardView = layoutInflater.inflate(R.layout.item_tarjeta_tema, containerLayout, false)
@@ -75,6 +83,8 @@ class TemaContraFragment : Fragment() {
                 lineaExtra.visibility = View.VISIBLE
                 lineaExtra.text = "🛡️ Activa la verificación en dos pasos (2FA)"
                 lineaExtra.setOnClickListener {
+                    SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
+
                     AlertDialog.Builder(requireContext())
                         .setTitle("¿Qué es 2FA?")
                         .setMessage("La verificación en dos pasos es como una doble cerradura.\n\nPrimero pones tu contraseña, y luego un código que te llega al móvil o correo. ¡Así es mucho más difícil que alguien entre sin permiso!")

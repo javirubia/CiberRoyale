@@ -26,9 +26,22 @@ class BienvenidaFragment : Fragment() {
 
         // Navegación al menú principal
         binding.btnContinuar.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click)
             findNavController().navigate(R.id.action_bienvenidaFragment_to_menuFragment)
         }
     }
+    override fun onResume() {
+        super.onResume()
+        // La música del menú continúa o empieza aquí
+        SoundManager.playMusic(requireContext(), R.raw.music_menu)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Paramos la música solo si el usuario sale de la app
+        SoundManager.stopMusic()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

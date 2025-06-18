@@ -25,24 +25,40 @@ class TemarioFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnBack.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             findNavController().navigate(R.id.action_temarioFragment_to_menuFragment)
         }
 
         binding.opcionContrasenas.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             findNavController().navigate(R.id.action_temarioFragment_to_temaContraFragment)
         }
 
         binding.opcionPhishing.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             findNavController().navigate(R.id.action_temarioFragment_to_temaPhishingFragment)
         }
 
         binding.opcionPrivacidad.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             findNavController().navigate(R.id.action_temarioFragment_to_temaRRSSFragment)
         }
 
         binding.opcionSeguridadMov.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             findNavController().navigate(R.id.action_temarioFragment_to_temaSeguridadmovFragment)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Mantenemos la música del menú
+        SoundManager.playMusic(requireContext(), R.raw.music_menu)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        SoundManager.stopMusic()
     }
 
     override fun onDestroyView() {

@@ -17,6 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
         ProgresoManager.init(applicationContext)
+        AjustesManager.init(applicationContext)
+        SoundManager.init(applicationContext)
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

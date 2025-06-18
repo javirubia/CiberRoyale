@@ -26,8 +26,20 @@ class InicioFragment : Fragment() {
 
         // Navegación al fragmento de bienvenida
         binding.btnComenzar.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click)
             findNavController().navigate(R.id.action_inicioFragment_to_bienvenidaFragment)
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        // La música empieza a sonar cuando esta pantalla se muestra
+        SoundManager.playMusic(requireContext(), R.raw.music_menu)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Paramos la música si el usuario sale de la app desde esta pantalla
+        SoundManager.stopMusic()
     }
 
     override fun onDestroyView() {

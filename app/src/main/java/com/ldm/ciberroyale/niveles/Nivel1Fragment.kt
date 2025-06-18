@@ -24,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.ldm.ciberroyale.ProgresoManager
 import com.ldm.ciberroyale.R
+import com.ldm.ciberroyale.SoundManager
 import com.ldm.ciberroyale.databinding.FragmentNivel1Binding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -71,11 +72,15 @@ class Nivel1Fragment : Fragment() {
     override fun onResume() {
         super.onResume()
         binding.videoViper.start()
+        // Ponemos la música del juego
+        SoundManager.playMusic(requireContext(), R.raw.music_ingame)
     }
 
     override fun onPause() {
         super.onPause()
         binding.videoViper.pause()
+        // Paramos la música al salir
+        SoundManager.stopMusic()
     }
 
     override fun onDestroyView() {
@@ -95,18 +100,19 @@ class Nivel1Fragment : Fragment() {
     }
 
     private fun setupNavigation() = binding.run {
-        btnSiguienteAtaque.setOnClickListener { mostrarPantalla(Paso.BYTE) }
-        btnUnirse.setOnClickListener { mostrarPantalla(Paso.CONTEXTO) }
+        btnSiguienteAtaque.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); mostrarPantalla(Paso.BYTE) }
+        btnUnirse.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); mostrarPantalla(Paso.CONTEXTO) }
         btnRechazar.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_wrong_answer)
             Toast.makeText(context, getString(R.string.nivel1_toast_necesario), Toast.LENGTH_SHORT).show()
         }
         btnContextoListo.setOnClickListener {
-            resetLevelState() // Reinicia las puntuaciones antes de empezar el quiz
+            SoundManager.playSfx(R.raw.sfx_level_start)
+            resetLevelState()
             cargarPregunta()
             mostrarPantalla(Paso.QUIZ)
         }
-        // El botón de la pantalla de recompensa llama a onFinalizarNivel
-        btnRecompContinuar.setOnClickListener { onFinalizarNivel() }
+        btnRecompContinuar.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); onFinalizarNivel() }
     }
 
     private fun setupAnimations() {
@@ -117,20 +123,25 @@ class Nivel1Fragment : Fragment() {
     }
     //endregion
 
-    //region Lógica del Quiz
     private fun setupQuiz() = binding.run {
         rgOpciones.setOnCheckedChangeListener { _, _ -> btnSiguiente.isEnabled = true }
         btnSiguiente.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click)
             val radioButton = rgOpciones.findViewById<MaterialRadioButton>(rgOpciones.checkedRadioButtonId)
-            if (radioButton != null && radioButton.tag as Boolean) {
-                puntuacionQuiz += PUNTOS_PREGUNTA
+            if (radioButton != null) {
+                if (radioButton.tag as Boolean) {
+                    SoundManager.playSfx(R.raw.sfx_correct_answer)
+                    puntuacionQuiz += PUNTOS_PREGUNTA
+                } else {
+                    SoundManager.playSfx(R.raw.sfx_wrong_answer)
+                }
             }
 
             idxPregunta++
             if (idxPregunta < preguntas.size) {
                 cargarPregunta()
             } else {
-                showQuizResult()
+                lifecycleScope.launch { delay(500); showQuizResult() }
             }
         }
     }
@@ -186,8 +197,17 @@ class Nivel1Fragment : Fragment() {
         spinnerM2P1.init(MEJORA_OPCIONES[2]) { btnMejora2Next.isEnabled = spinnerM2P1.selectedItemPosition > 0 && spinnerM2P2.selectedItemPosition > 0 }
         spinnerM2P2.init(MEJORA_OPCIONES[3]) { btnMejora2Next.isEnabled = spinnerM2P1.selectedItemPosition > 0 && spinnerM2P2.selectedItemPosition > 0 }
 
-        btnMejora1Next.setOnClickListener { checkMejora(spinnerM1P1, spinnerM1P2, 0, 1); mostrarPantalla(Paso.MEJ2) }
-        btnMejora2Next.setOnClickListener { checkMejora(spinnerM2P1, spinnerM2P2, 2, 3); iniciarCombate(); mostrarPantalla(Paso.COMBATE) }
+        btnMejora1Next.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click)
+            checkMejora(spinnerM1P1, spinnerM1P2, 0, 1)
+            mostrarPantalla(Paso.MEJ2)
+        }
+        btnMejora2Next.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click)
+            checkMejora(spinnerM2P1, spinnerM2P2, 2, 3)
+            iniciarCombate()
+            mostrarPantalla(Paso.COMBATE)
+        }
     }
 
     private fun checkMejora(spinner1: Spinner, spinner2: Spinner, correctIndex1: Int, correctIndex2: Int) {
@@ -232,10 +252,12 @@ class Nivel1Fragment : Fragment() {
 
             val damage = calcularDano(password)
             if (damage > 0) {
+                SoundManager.playSfx(R.raw.sfx_correct_answer) // Sonido de golpe exitoso
                 vidaEnemigo -= damage
                 barraVidaEnemigo.setProgressCompat(vidaEnemigo.coerceAtLeast(0), true)
                 textoNarracion.text = getString(R.string.nivel1_combate_narracion_damage_hecho, damage)
             } else {
+                SoundManager.playSfx(R.raw.sfx_wrong_answer)
                 textoNarracion.text = getString(R.string.nivel1_combate_narracion_damage_fallido)
             }
             inputContrasena.text?.clear()
@@ -252,6 +274,7 @@ class Nivel1Fragment : Fragment() {
     }
 
     private fun enemyTurn() = binding.run {
+        SoundManager.playSfx(R.raw.punch)
         vidaJugador -= DANIO_ENEMIGO
         barraVidaJugador.setProgressCompat(vidaJugador.coerceAtLeast(0), true)
         textoNarracion.text = getString(R.string.nivel1_combate_narracion_damage_recibido, DANIO_ENEMIGO)
@@ -288,17 +311,25 @@ class Nivel1Fragment : Fragment() {
         handleLevelCompletion(finalScore)
     }
 
+    data class Result(
+        val icon: Int,
+        val title: String,
+        val subtitle: String,
+        val jingle: Int
+    )
+
     private fun handleLevelCompletion(finalScore: Int) = binding.run {
+        SoundManager.stopMusic() // Paramos la música de fondo
         mostrarPantalla(Paso.RECOMP)
         tvPuntuacionFinal.text = getString(R.string.nivel1_recompensa_puntuacion, finalScore)
 
-        val (icon, title, subtitle) = when {
-            finalScore < SCORE_MIN_APROBADO -> Triple(R.drawable.byte_triste, "Derrota", "ViperWare ha ganado...")
-            finalScore < SCORE_NOTABLE -> Triple(R.drawable.byte_frame2, "¡Victoria!", "¡Buen trabajo!")
-            finalScore < SCORE_EXCELENTE -> Triple(R.drawable.byte_frame3, "¡VICTORIA ÉPICA!", "¡Gran puntuación!")
-            else -> Triple(R.drawable.byte_frame1, "¡VICTORIA PERFECTA!", "¡Has dominado el nivel!")
+        val (icon, title, subtitle, jingle) = when {
+            finalScore < SCORE_MIN_APROBADO -> Result(R.drawable.byte_triste, "Derrota", "ViperWare ha ganado...", R.raw.music_defeat)
+            finalScore < SCORE_NOTABLE -> Result(R.drawable.byte_frame2, "¡Victoria!", "¡Buen trabajo!", R.raw.music_victory)
+            finalScore < SCORE_EXCELENTE -> Result(R.drawable.byte_frame3, "¡VICTORIA ÉPICA!", "¡Gran puntuación!", R.raw.music_victory)
+            else -> Result(R.drawable.byte_frame1, "¡VICTORIA PERFECTA!", "¡Has dominado el nivel!", R.raw.music_victory)
         }
-
+        SoundManager.playJingle(requireContext(), jingle)
         imgConfeti.setImageResource(icon)
         imgConfeti.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.float_up_down))
         tvRecompensaTitulo.text = title
@@ -320,12 +351,12 @@ class Nivel1Fragment : Fragment() {
     }
 
     private fun checkLevel1Achievements(score: Int, vida: Int) {
-        ProgresoManager.unlockAchievement("NIVEL1_COMPLETADO")
+        ProgresoManager.unlockAchievement(requireContext(), "NIVEL1_COMPLETADO")
         if (score > 90) {
-            ProgresoManager.unlockAchievement("NIVEL1_EXCELENTE")
+            ProgresoManager.unlockAchievement(requireContext(), "NIVEL1_EXCELENTE")
         }
         if (vida == VIDA_INICIAL) {
-            ProgresoManager.unlockAchievement("NIVEL1_INTACTO")
+            ProgresoManager.unlockAchievement(requireContext(), "NIVEL1_INTACTO")
         }
     }
 

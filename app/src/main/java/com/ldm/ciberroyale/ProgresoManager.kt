@@ -1,22 +1,24 @@
 package com.ldm.ciberroyale
 
+
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-
-
-
+import android.widget.Toast   // <-- AÑADE ESTA IMPORTACIÓN
 object ProgresoManager {
-
     private const val PREFS_NAME = "CiberRoyaleProgreso"
     private lateinit var prefs: SharedPreferences
     private val db = Firebase.firestore
-    private const val KEY_NIVEL_DESBLOQUEADO = "nivel_desbloqueado"
-    private var progressListener: ListenerRegistration? = null
 
+    private const val KEY_NIVEL_DESBLOQUEADO = "nivelDesbloqueado"
+    private const val KEY_LOGROS_DESBLOQUEADOS = "logrosDesbloqueados"
+
+    private var progressListener: ListenerRegistration? = null
     val allAchievements: List<Achievement> by lazy {
         // Tu lista completa de logros aquí
         listOf(
@@ -52,20 +54,26 @@ object ProgresoManager {
             return
         }
 
-        progressListener = db.collection("usuarios").document(user.uid)
-            .addSnapshotListener { document, _ ->
-                if (document != null && document.exists()) {
-                    val nivel = document.getLong("nivelDesbloqueado")?.toInt() ?: 1
-                    val logrosIds = document.get("logrosDesbloqueados") as? List<String> ?: emptyList()
+        val docRef = db.collection("usuarios").document(user.uid)
+        // 1) Fetch inicial
+        docRef.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                applySnapshotToPrefs(snapshot)
+            } else {
+                // No existía: guardamos el progreso local en la nube
+                saveProgressToFirestore()
+            }
+            loadProgressFromPrefs()
+            onUpdate()
 
-                    clearLocalProgress() // Limpia para no mezclar datos de usuarios
-
-                    prefs.edit().putInt(KEY_NIVEL_DESBLOQUEADO, nivel).apply()
-                    logrosIds.forEach { prefs.edit().putBoolean(it, true).apply() }
-                }
+            // 2) Listener continuo para futuras actualizaciones
+            progressListener = docRef.addSnapshotListener { snap, err ->
+                if (err != null || snap == null || !snap.exists()) return@addSnapshotListener
+                applySnapshotToPrefs(snap)
                 loadProgressFromPrefs()
                 onUpdate()
             }
+        }
     }
 
     fun detachProgressListener() {
@@ -77,12 +85,26 @@ object ProgresoManager {
         val user = Firebase.auth.currentUser
         if (user == null || user.isAnonymous) return
 
-        val unlockedAchievementsIds = allAchievements.filter { it.unlocked }.map { it.id }
-        val progressData = hashMapOf(
-            "nivelDesbloqueado" to getNivelDesbloqueado(),
-            "logrosDesbloqueados" to unlockedAchievementsIds
+        val unlockedIds = allAchievements.filter { it.unlocked }.map { it.id }
+        val data = mapOf(
+            KEY_NIVEL_DESBLOQUEADO to getNivelDesbloqueado(),
+            KEY_LOGROS_DESBLOQUEADOS to unlockedIds
         )
-        db.collection("usuarios").document(user.uid).set(progressData)
+        db.collection("usuarios").document(user.uid)
+            .set(data, SetOptions.merge())
+    }
+
+    private fun applySnapshotToPrefs(snapshot: DocumentSnapshot) {
+        val nivelCloud = snapshot.getLong(KEY_NIVEL_DESBLOQUEADO)?.toInt() ?: 1
+        val logrosCloud = snapshot.get(KEY_LOGROS_DESBLOQUEADOS) as? List<String> ?: emptyList()
+
+        val editor = prefs.edit()
+        editor.putInt(KEY_NIVEL_DESBLOQUEADO, nivelCloud)
+        // Limpiar antiguos flags de logros
+        allAchievements.forEach { editor.remove(it.id) }
+        // Marcar los logros actuales
+        logrosCloud.forEach { id -> editor.putBoolean(id, true) }
+        editor.apply()
     }
 
     private fun loadProgressFromPrefs() {
@@ -92,29 +114,35 @@ object ProgresoManager {
     }
 
     fun clearLocalProgress() {
-        val unlockedBefore = allAchievements.filter { it.unlocked }
         prefs.edit().clear().apply()
-        unlockedBefore.forEach { it.unlocked = false }
+        allAchievements.forEach { it.unlocked = false }
     }
 
     fun getNivelDesbloqueado(): Int {
         return prefs.getInt(KEY_NIVEL_DESBLOQUEADO, 1)
     }
 
-    fun desbloquearSiguienteNivel(nivelActualCompletado: Int) {
-        val nivelMasAlto = getNivelDesbloqueado()
-        if (nivelActualCompletado >= nivelMasAlto) {
-            prefs.edit().putInt(KEY_NIVEL_DESBLOQUEADO, nivelActualCompletado + 1).apply()
+    fun desbloquearSiguienteNivel(nivelActual: Int) {
+        if (nivelActual >= getNivelDesbloqueado()) {
+            prefs.edit().putInt(KEY_NIVEL_DESBLOQUEADO, nivelActual + 1).apply()
             saveProgressToFirestore()
         }
     }
 
-    fun unlockAchievement(achievementId: String) {
-        val ach = allAchievements.find { it.id == achievementId }
-        if (ach != null && !ach.unlocked) {
+    fun unlockAchievement(context: Context, achievementId: String) {
+        val ach = allAchievements.find { it.id == achievementId } ?: return
+        if (!ach.unlocked) {
             ach.unlocked = true
             prefs.edit().putBoolean(achievementId, true).apply()
             saveProgressToFirestore()
+
+            // ¡AQUÍ ESTÁ LA NUEVA LÓGICA DE FEEDBACK!
+            // 1. Reproducimos el sonido especial
+            SoundManager.playSfx(R.raw.sfx_achievement_unlocked)
+            // 2. Mostramos el Toast con el nombre del logro
+            val message = "¡Logro Desbloqueado: ${ach.title}!"
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
     }
+
 }

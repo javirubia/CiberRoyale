@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ldm.ciberroyale.ProgresoManager
 import com.ldm.ciberroyale.R
+import com.ldm.ciberroyale.SoundManager
 import com.ldm.ciberroyale.databinding.FragmentNivel2Binding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -70,22 +71,34 @@ class Nivel2Fragment : Fragment() {
     }
     //endregion
 
+    override fun onResume() {
+        super.onResume()
+        // Cuando entramos al nivel, ponemos la música de juego
+        SoundManager.playMusic(requireContext(), R.raw.music_ingame) // <-- AÑADIDO
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Paramos toda la música al salir
+        SoundManager.stopMusic() // <-- AÑADIDO
+    }
     //region Configuración Inicial y Navegación
     private fun setupListeners() = binding.run {
         btnIntroSiguiente.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_button_click) // <-- AÑADIDO
             mostrarEtapa(Etapa.DETECT)
             comenzarDetect()
         }
-        btnInfoDetect.setOnClickListener { showInfo(R.string.dialog_info_nivel2_detect_titulo, R.string.dialog_info_nivel2_detect_mensaje) }
-        btnInfoUrl.setOnClickListener { showInfo(R.string.dialog_info_nivel2_url_titulo, R.string.dialog_info_nivel2_url_mensaje) }
-        btnInfoBatalla.setOnClickListener { showInfo(R.string.dialog_info_nivel2_batalla_titulo, R.string.dialog_info_nivel2_batalla_mensaje) }
+        btnInfoDetect.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); showInfo(R.string.dialog_info_nivel2_detect_titulo, R.string.dialog_info_nivel2_detect_mensaje) }
+        btnInfoUrl.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); showInfo(R.string.dialog_info_nivel2_url_titulo, R.string.dialog_info_nivel2_url_mensaje) }
+        btnInfoBatalla.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); showInfo(R.string.dialog_info_nivel2_batalla_titulo, R.string.dialog_info_nivel2_batalla_mensaje) }
 
         btnStartBattle.setOnClickListener {
+            SoundManager.playSfx(R.raw.sfx_level_start) // <-- AÑADIDO
             mostrarEtapa(Etapa.BAT_JUGANDO)
             iniciarBatalla()
         }
-        // Este botón ahora llamará a onFinalizarNivel
-        btnRecompContinuar.setOnClickListener { onFinalizarNivel() }
+        btnRecompContinuar.setOnClickListener { SoundManager.playSfx(R.raw.sfx_button_click); onFinalizarNivel() }
     }
 
     private fun mostrarEtapa(et: Etapa) {
@@ -124,7 +137,12 @@ class Nivel2Fragment : Fragment() {
     private fun procesarDetect(targetId: Int) {
         val esPhishingCorrecto = EJEMPLOS_DETECT[idxDetect].second
         val usuarioAcierta = (targetId == binding.targetPhishing.id) == esPhishingCorrecto
-        if (usuarioAcierta) aciertosDetect++
+        if (usuarioAcierta) {
+            SoundManager.playSfx(R.raw.sfx_correct_answer) // <-- AÑADIDO
+            aciertosDetect++
+        } else {
+            SoundManager.playSfx(R.raw.sfx_wrong_answer) // <-- AÑADIDO
+        }
 
         val feedbackToast = if (usuarioAcierta) R.string.common_respuesta_correcta else R.string.common_respuesta_incorrecta
         Toast.makeText(requireContext(), feedbackToast, Toast.LENGTH_SHORT).show()
@@ -149,8 +167,12 @@ class Nivel2Fragment : Fragment() {
     private fun procesarUrl(targetId: Int) {
         val esValidaCorrecta = LISTA_URLS[idxUrl].second
         val usuarioAcierta = (targetId == binding.targetValida.id) == esValidaCorrecta
-        if (usuarioAcierta) aciertosUrl++
-
+        if (usuarioAcierta) {
+            SoundManager.playSfx(R.raw.sfx_correct_answer) // <-- AÑADIDO
+            aciertosUrl++
+        } else {
+            SoundManager.playSfx(R.raw.sfx_wrong_answer) // <-- AÑADIDO
+        }
         val feedbackToast = if (usuarioAcierta) R.string.common_respuesta_correcta else R.string.common_respuesta_incorrecta
         Toast.makeText(requireContext(), feedbackToast, Toast.LENGTH_SHORT).show()
 
@@ -236,6 +258,7 @@ class Nivel2Fragment : Fragment() {
     }
 
     private fun atraparPez(idx: Int) {
+        SoundManager.playSfx(R.raw.punch)
         scoreBatalla++
         binding.tvScore.text = getString(R.string.nivel2_batalla_score, scoreBatalla)
         animarSubida(holes[idx])
@@ -265,6 +288,7 @@ class Nivel2Fragment : Fragment() {
 
     //region Fin del Nivel y UI Helpers
     private fun terminarBatalla() {
+        SoundManager.stopMusic()
         moleJob?.cancel()
         timerJob?.cancel()
 
@@ -284,24 +308,27 @@ class Nivel2Fragment : Fragment() {
     }
 
     private fun checkLevel2Achievements() {
-        ProgresoManager.unlockAchievement("NIVEL2_COMPLETADO")
+        // Llamamos a la nueva función que incluye el context
+        ProgresoManager.unlockAchievement(requireContext(), "NIVEL2_COMPLETADO")
         if (aciertosDetect == EJEMPLOS_DETECT.size && aciertosUrl == LISTA_URLS.size) {
-            ProgresoManager.unlockAchievement("NIVEL2_PERFECCIONISTA")
+            ProgresoManager.unlockAchievement(requireContext(), "NIVEL2_PERFECCIONISTA")
         }
         if (scoreBatalla > 15) {
-            ProgresoManager.unlockAchievement("NIVEL2_PESCADOR_PRO")
+            ProgresoManager.unlockAchievement(requireContext(), "NIVEL2_PESCADOR_PRO")
         }
     }
 
     private fun mostrarResultados() = binding.run {
         tvPuntuacionFinal.text = getString(R.string.nivel2_recompensa_puntuacion_final, puntuacionTotal, 100)
 
-        val (titleId, subId, iconId) = when {
-            puntuacionTotal < SCORE_MIN_APROBADO -> Triple(R.string.nivel2_recompensa_titulo_derrota, R.string.nivel2_recompensa_subtitulo_mal, R.drawable.byte_triste)
-            puntuacionTotal < SCORE_NOTABLE -> Triple(R.string.nivel2_recompensa_titulo_victoria, R.string.nivel2_recompensa_subtitulo_bien, R.drawable.byte_frame2)
-            puntuacionTotal < SCORE_EXCELENTE -> Triple(R.string.nivel2_recompensa_titulo_victoria, R.string.nivel2_recompensa_subtitulo_muy_bien, R.drawable.byte_frame3)
-            else -> Triple(R.string.nivel2_recompensa_titulo_victoria, R.string.nivel2_recompensa_subtitulo_perfecto, R.drawable.byte_frame1)
+        val (titleId, subId, iconId, jingle) = when {
+            puntuacionTotal < SCORE_MIN_APROBADO -> Result(R.string.nivel2_recompensa_titulo_derrota, R.string.nivel2_recompensa_subtitulo_mal, R.drawable.byte_triste, R.raw.music_defeat)
+            puntuacionTotal < SCORE_NOTABLE -> Result(R.string.nivel2_recompensa_titulo_victoria, R.string.nivel2_recompensa_subtitulo_bien, R.drawable.byte_frame2, R.raw.music_victory)
+            puntuacionTotal < SCORE_EXCELENTE -> Result(R.string.nivel2_recompensa_titulo_victoria, R.string.nivel2_recompensa_subtitulo_muy_bien, R.drawable.byte_frame3, R.raw.music_victory)
+            else -> Result(R.string.nivel2_recompensa_titulo_victoria, R.string.nivel2_recompensa_subtitulo_perfecto, R.drawable.byte_frame1, R.raw.music_victory)
         }
+
+        SoundManager.playJingle(requireContext(), jingle)
 
         val buttonText = if (puntuacionTotal < SCORE_MIN_APROBADO) R.string.common_button_reintentar else R.string.common_button_finalizar_nivel
 
@@ -374,3 +401,9 @@ class Nivel2Fragment : Fragment() {
     }
     //endregion
 }
+data class Result(
+    val titleId: Int,
+    val subId: Int,
+    val iconId: Int,
+    val jingle: Int
+)
