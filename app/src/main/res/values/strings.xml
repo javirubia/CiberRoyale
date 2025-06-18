@@ -468,6 +468,11 @@ En este juego debes adivinar un PIN de 3 dígitos. Fíjate en los indicadores pa
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_web_client_id">1000905358806-o168p2i25fq95tu1lc555o76d5kgcgcr.apps.googleusercontent.com</string>
+    <string name="mi_cuenta">Mi Cuenta</string>
+    <string name="sesion_iniciada_como">
+    Sesión iniciada como:&#10;%1$s
+</string>
+
 
 
 </resources>
