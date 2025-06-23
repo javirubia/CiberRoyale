@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1000905358806",
+    "project_id": "ciberroyale-tfg",
+    "storage_bucket": "ciberroyale-tfg.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000905358806:android:5749d8eb1bbc57454ef877",
+        "android_client_info": {
+          "package_name": "com.ldm.ciberroyale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1000905358806-68c7172nnvq1vgrg9i3k1pg7mi6uqb5l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ldm.ciberroyale",
+            "certificate_hash": "38eccd71825c0f40d3ba361c37a945b2493b92ed"
+          }
+        },
+        {
+          "client_id": "1000905358806-o168p2i25fq95tu1lc555o76d5kgcgcr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVIl5zhFZKwji7EXnsIq7ZqaMYED9f0VM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1000905358806-o168p2i25fq95tu1lc555o76d5kgcgcr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
